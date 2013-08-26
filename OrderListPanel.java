@@ -226,7 +226,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
 			panel.add(component, constraints);
 	}
 	
-	public void resetTextFields() {
+	public void resetTextFields() { //clear all textfields
 		productField1.setText("");
 		quantityField1.setText("");
 		priceField1.setText("");
