@@ -24,11 +24,6 @@ public class OrderListPanel extends JPanel implements ActionListener{
 	
 	private Database database;
 	
-	private String[] ordersID;
-	private String[] ordersDate;
-	private String[] ordersCost;
-	private String[] ordersSupplier;
-	
 	private DefaultTableModel orderTableModel;
 	
 	private JTable tableOfOrders;
@@ -37,7 +32,6 @@ public class OrderListPanel extends JPanel implements ActionListener{
 	
 	private JLabel orderListLabel;
 	private JLabel newOrderListLabel;
-	private JLabel blankLabel;
 	
 	private JButton newOrderButton;
 	
@@ -89,7 +83,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
 								quantityField1.setText(order.getProducts().get(productInOrder).getProductQuantity());
 								priceField1.setText(order.getProducts().get(productInOrder).getProductPrice());
 							}
-							if(productInOrder == 1){
+							if(productInOrder == 4){
 								productField2.setText(order.getProducts().get(productInOrder).getProductName());
 								quantityField2.setText(order.getProducts().get(productInOrder).getProductQuantity());
 								priceField2.setText(order.getProducts().get(productInOrder).getProductPrice());
@@ -121,9 +115,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
 		newOrderListLabel.setBackground(new Color(0,51,102));
 		newOrderListLabel.setForeground(Color.WHITE);
 		newOrderListLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
-		
-		blankLabel = new JLabel();
-		
+				
 		newOrderButton = new JButton("Create new order");
 		newOrderButton.addActionListener(this);
 		
@@ -249,8 +241,11 @@ public class OrderListPanel extends JPanel implements ActionListener{
 			
 			//go to create order view
 			tablePanel.setVisible(false);
-			newOrderPanel.setVisible(true);
+			newOrderPanel.setVisible(true); 
 			System.out.println("order panel invisible");
+			
+			//update the comboBox lists
+			newOrderPane.updateComboBoxData();
 		}
 		
 	}
