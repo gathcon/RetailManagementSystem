@@ -76,14 +76,13 @@ public class OrderListPanel extends JPanel implements ActionListener{
 				for(Order order : database.getOrders()){
 					if(order.getOrderID().equals(tableOfOrders.getValueAt(tableOfOrders.getSelectedRow(), 0).toString())){
 						resetTextFields();
-						System.out.println(order.getProducts().size());
 						for(int productInOrder=0; productInOrder < order.getProducts().size(); productInOrder++){
 							if(productInOrder == 0){
 								productField1.setText(order.getProducts().get(productInOrder).getProductName());
 								quantityField1.setText(order.getProducts().get(productInOrder).getProductQuantity());
 								priceField1.setText(order.getProducts().get(productInOrder).getProductPrice());
 							}
-							if(productInOrder == 4){
+							if(productInOrder == 1){
 								productField2.setText(order.getProducts().get(productInOrder).getProductName());
 								quantityField2.setText(order.getProducts().get(productInOrder).getProductQuantity());
 								priceField2.setText(order.getProducts().get(productInOrder).getProductPrice());
@@ -218,7 +217,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
 			panel.add(component, constraints);
 	}
 	
-	public void resetTextFields() { //clear all textfields
+	public void resetTextFields() {
 		productField1.setText("");
 		quantityField1.setText("");
 		priceField1.setText("");
