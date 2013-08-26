@@ -82,6 +82,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
 				for(Order order : database.getOrders()){
 					if(order.getOrderID().equals(tableOfOrders.getValueAt(tableOfOrders.getSelectedRow(), 0).toString())){
 						resetTextFields();
+						System.out.println(order.getProducts().size());
 						for(int productInOrder=0; productInOrder < order.getProducts().size(); productInOrder++){
 							if(productInOrder == 0){
 								productField1.setText(order.getProducts().get(productInOrder).getProductName());

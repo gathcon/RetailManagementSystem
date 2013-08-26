@@ -617,35 +617,35 @@ public class CreateNewOrderUI {
 						String productType = database.getProductTypeByName(productName);
 						String productQuantity = (String) quantityComboBox1.getSelectedItem();
 						String productPrice = priceField1.getText();
-						Product product1 = new Product(productName, productType, productQuantity, productPrice);
+						Product product1 = new Product(productName, productType, productPrice, productQuantity);
 						orderedproducts.add(product1);
 						
 					}
-					else if(productComboBox2.getSelectedItem().equals("Please Select") == false||quantityComboBox2.getSelectedItem().equals("0") == false){
+					if(productComboBox2.getSelectedItem().equals("Please Select") == false||quantityComboBox2.getSelectedItem().equals("0") == false){
 						
 						String productName = (String)productComboBox2.getSelectedItem();
 						String productType = database.getProductTypeByName(productName);
 						String productQuantity = (String) quantityComboBox2.getSelectedItem();
 						String productPrice = priceField2.getText();
-						Product product2 = new Product(productName, productType, productQuantity, productPrice);
+						Product product2 = new Product(productName, productType, productPrice, productQuantity);
 						orderedproducts.add(product2);
 					}
-					else if(productComboBox3.getSelectedItem().equals("Please Select") == false||quantityComboBox3.getSelectedItem().equals("0") == false){
+					if(productComboBox3.getSelectedItem().equals("Please Select") == false||quantityComboBox3.getSelectedItem().equals("0") == false){
 						
 						String productName = (String)productComboBox3.getSelectedItem();
 						String productType = database.getProductTypeByName(productName);
 						String productQuantity = (String) quantityComboBox3.getSelectedItem();
 						String productPrice = priceField3.getText();
-						Product product3 = new Product(productName, productType, productQuantity, productPrice);
+						Product product3 = new Product(productName, productType, productPrice, productQuantity);
 						orderedproducts.add(product3);
 					}
-					else if(productComboBox4.getSelectedItem().equals("Please Select") == false||quantityComboBox4.getSelectedItem().equals("0") == false){
+					if(productComboBox4.getSelectedItem().equals("Please Select") == false||quantityComboBox4.getSelectedItem().equals("0") == false){
 						
 						String productName = (String)productComboBox4.getSelectedItem();
 						String productType = database.getProductTypeByName(productName);
 						String productQuantity = (String) quantityComboBox4.getSelectedItem();
 						String productPrice = priceField4.getText();
-						Product product4 = new Product(productName, productType, productQuantity, productPrice);
+						Product product4 = new Product(productName, productType, productPrice, productQuantity);
 						orderedproducts.add(product4);
 					}
 					
