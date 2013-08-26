@@ -1,4 +1,4 @@
-RetailManagementSystem
-======================
+Retail Management System
+========================
 
-Management system for a retail environment.
+A Management system for a retail environment.
