@@ -1,13 +1,14 @@
 package retailManagementSystem;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -18,7 +19,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 public class OrderListPanel extends JPanel implements ActionListener{
 	
@@ -56,7 +56,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
 		System.out.println("OrderListPanel created");
 	}
 		
-	public void buildPanel(JPanel panel, Database database) {
+	public void buildPanel(JPanel panel, final Database database) {
 		
 		this.mainPanel = panel;
 		this.database = database;
@@ -76,6 +76,38 @@ public class OrderListPanel extends JPanel implements ActionListener{
 			row++;
 		}
 		tableOfOrders.setVisible(true);
+		
+		tableOfOrders.addMouseListener(new MouseAdapter(){
+			public void mouseClicked(MouseEvent e){
+				for(Order order : database.getOrders()){
+					if(order.getOrderID().equals(tableOfOrders.getValueAt(tableOfOrders.getSelectedRow(), 0).toString())){
+						resetTextFields();
+						for(int productInOrder=0; productInOrder < order.getProducts().size(); productInOrder++){
+							if(productInOrder == 0){
+								productField1.setText(order.getProducts().get(productInOrder).getProductName());
+								quantityField1.setText(order.getProducts().get(productInOrder).getProductQuantity());
+								priceField1.setText(order.getProducts().get(productInOrder).getProductPrice());
+							}
+							if(productInOrder == 1){
+								productField2.setText(order.getProducts().get(productInOrder).getProductName());
+								quantityField2.setText(order.getProducts().get(productInOrder).getProductQuantity());
+								priceField2.setText(order.getProducts().get(productInOrder).getProductPrice());
+							}
+							if(productInOrder == 2){
+								productField3.setText(order.getProducts().get(productInOrder).getProductName());
+								quantityField3.setText(order.getProducts().get(productInOrder).getProductQuantity());
+								priceField3.setText(order.getProducts().get(productInOrder).getProductPrice());
+							}
+							if(productInOrder == 3){
+								productField4.setText(order.getProducts().get(productInOrder).getProductName());
+								quantityField4.setText(order.getProducts().get(productInOrder).getProductQuantity());
+								priceField4.setText(order.getProducts().get(productInOrder).getProductPrice());
+							}
+						}
+					}
+				}
+			}
+		});
 				
 		orderListLabel = new JLabel("Order Control", SwingConstants.CENTER);
 		orderListLabel.setOpaque(true);
@@ -191,6 +223,21 @@ public class OrderListPanel extends JPanel implements ActionListener{
 			constraints.anchor = anchor;
 			constraints.fill = fill;
 			panel.add(component, constraints);
+	}
+	
+	public void resetTextFields() {
+		productField1.setText("");
+		quantityField1.setText("");
+		priceField1.setText("");
+		productField2.setText("");
+		quantityField2.setText("");
+		priceField2.setText("");
+		productField3.setText("");
+		quantityField3.setText("");
+		priceField3.setText("");
+		productField4.setText("");
+		quantityField4.setText("");
+		priceField4.setText("");
 	}
 	
 	public void actionPerformed(ActionEvent e) {
