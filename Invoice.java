@@ -9,14 +9,19 @@ public class Invoice {
 	private String invoiceCost;
 	private String isInvoiceOutstanding;
 	private String invoiceQuantity;
+	
 	private ArrayList<Product> products = new ArrayList<Product>();
 	
-	public Invoice(String invoiceID, String invoiceDeliveryDate, String invoiceCost, String isInvoiceOutstanding, String invoiceQuantity){
+	private Customer customer;
+	
+	public Invoice(String invoiceID, String invoiceDeliveryDate, String invoiceCost, String isInvoiceOutstanding, String invoiceQuantity,
+			Customer customer){
 		this.invoiceID = invoiceID;
 		this.invoiceDeliveryDate = invoiceDeliveryDate;
 		this.invoiceCost = invoiceCost;
 		this.isInvoiceOutstanding = isInvoiceOutstanding;
 		this.invoiceQuantity = invoiceQuantity;
+		this.customer = customer;
 	}
 	
 public String calculateInvoiceCost(){

@@ -172,7 +172,6 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 			panel.add(component, constraints);
 	}
 	
-
 	public void updateSupplierLists() {
 		
 		//update the list of names etc

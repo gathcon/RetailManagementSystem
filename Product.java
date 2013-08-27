@@ -8,13 +8,13 @@ public class Product {
     private String productPrice;
     private String productID;
     
-    public Product(String productName, String productType, String productPrice, String productQuantity){
+    public Product(String productName, String productType, String productPrice, String productBarcode){
     	
         this.productName = productName;
         this.productType = productType;
-        this.productQuantity = productQuantity;
+        this.productQuantity = null;
         this.productPrice = productPrice;
-        this.productID = null;
+        this.productID = productBarcode;
     }
     
     public Product(String productName, String productType, String productQuantity, String productPrice, String productBarcode){

@@ -11,7 +11,7 @@ public class Database {
     private ArrayList<Supplier> suppliers = new ArrayList<Supplier>(); 
     private ArrayList<Product> products = new ArrayList<Product>();
     private ArrayList<Order> orders = new ArrayList<Order>();
-	//private ArrayList<Invoice> invoices = new ArrayList<Invoice>();
+	private ArrayList<Invoice> invoices = new ArrayList<Invoice>();
     private ArrayList<UserAccount> userAccounts = new ArrayList<UserAccount>();
      
     /*
@@ -428,6 +428,18 @@ public class Database {
      * invoice methods
      */
 	
+	public ArrayList<Invoice> getInvoices(){
+		return invoices;
+	}
+	
+	public String calculateInvoiceCost(ArrayList<Product> products){
+		double cost = 0;
+		for(Product product : products){
+			cost = cost + Double.parseDouble(product.getProductPrice());
+		}
+		cost = cost*1.2;
+		return String.format("%.2f", cost); //Double.toString(cost);
+	}
     
     
     /*
