@@ -7,6 +7,7 @@ public class Product {
     private String productQuantity;
     private double productPrice;
     private String productID;
+    private int[] stockLevels;
     
     public Product(String productName, String productType, double productPrice, String productBarcode){
     	
@@ -64,6 +65,13 @@ public class Product {
  
     public void setProductID(String productID) {
         this.productID = productID;
-    }   
+    }
+    
+    public int[] getStockLevels() {
+    	return stockLevels;
+    }
  
+    public void setStockLevels(int[] stockLevels) {
+    	this.stockLevels = stockLevels;
+    }
 }
