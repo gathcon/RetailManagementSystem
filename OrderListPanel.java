@@ -11,7 +11,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,13 +18,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.RowFilter;
 import javax.swing.SwingConstants;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 public class OrderListPanel extends JPanel implements ActionListener{
 	
@@ -55,14 +49,6 @@ public class OrderListPanel extends JPanel implements ActionListener{
 	private JTextField quantityField1, quantityField2, quantityField3, quantityField4;
 	private JTextField priceField1,  priceField2,  priceField3,  priceField4;
 	
-	private JLabel filterLabel;
-	private JComboBox filteredSelection;
-	private JTextField filterField;
-	private TableRowSorter<TableModel> sorter;
-	private String [] columnNames = {"Order ID", "Delivery Date","Cost","Outstanding"};
-
-	private int filterIndex = 0;
-	
 	public OrderListPanel() {
 		System.out.println("OrderListPanel created");
 	}
@@ -76,11 +62,11 @@ public class OrderListPanel extends JPanel implements ActionListener{
 		this.mainPanel = panel;
 		this.database = database;
 				
+		tableOfOrders = new JTable();// JTABLE code
 		orderTableModel =  new DefaultTableModel();
-		tableOfOrders = new JTable(orderTableModel);// JTABLE code
 		tableOfOrders.setModel(orderTableModel);
 		orderScrollPane = new JScrollPane(tableOfOrders);
-		orderTableModel.setColumnIdentifiers(columnNames);
+		orderTableModel.setColumnIdentifiers(new String [] {"Order ID", "Delivery Date","Cost","Outstanding"});
 		int row = 0;
 		for(Order order : database.getOrders()){
 			orderTableModel.addRow(new String[] {
@@ -138,49 +124,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
 				
 		newOrderButton = new JButton("Create new order");
 		newOrderButton.addActionListener(this);
-		filterLabel = new JLabel("Filter by:");
-		filteredSelection = new JComboBox(columnNames);
-		filteredSelection.setSelectedIndex(0); //default setting is InvoiceID
-		filteredSelection.addActionListener(this);
-		filterField = new JTextField();
 		
-		filterField.getDocument().addDocumentListener(new DocumentListener() {
-		    	public void changedUpdate(DocumentEvent e) {
-			    		sorter = new TableRowSorter<TableModel>(tableOfOrders.getModel());
-			    		tableOfOrders.setRowSorter(sorter);
-			    		newFilter();
-		            }
-		            public void insertUpdate(DocumentEvent e) {
-		            	sorter = new TableRowSorter<TableModel>(tableOfOrders.getModel());
-		            	tableOfOrders.setRowSorter(sorter);
-		            	newFilter();
-		            }
-		            public void removeUpdate(DocumentEvent e) {
-		            	sorter = new TableRowSorter<TableModel>(tableOfOrders.getModel());
-		            	tableOfOrders.setRowSorter(sorter);
-		                newFilter();
-		            }
-		 });
-		
-		filteredSelection.addActionListener(new ActionListener(){ // code when drop down menu is changed
-
-			public void actionPerformed(ActionEvent e) {
-				int i = filteredSelection.getSelectedIndex();
-				if(i == 0 ){
-					filterIndex = 0;
-				}
-				else if(i == 1){
-					filterIndex = 1;
-				}
-				else if(i == 2){
-					filterIndex = 2;
-				}
-				else{
-					filterIndex = 3;
-				}
-			}
-			
-		});
 		productLabel = new JLabel("Product: ");
 		quantityLabel = new JLabel("Quantity: ");
 		priceLabel = new JLabel("Price: ");
@@ -236,10 +180,6 @@ public class OrderListPanel extends JPanel implements ActionListener{
 		createConstraint(tablePanel, orderListLabel,	0, 0, 3, 1, 0, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(tablePanel, newOrderButton, 	0, 1, 1, 1, 0, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE);
 		createConstraint(tablePanel, orderScrollPane, 	0, 2, 3, 1, 0, 0, 2, 20, 2, 20, 1, 0.5, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(tablePanel, filterLabel, 		1, 1, 1, 4, 0, 0, 7, 45, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE);
-		createConstraint(tablePanel, filteredSelection, 1, 1, 1, 1, 0, 0, 2, 100, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE);
-		createConstraint(tablePanel, filterField, 		1, 1, 1, 1, 100, 6, 2, 210, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE);
-
 		
 		createConstraint(tablePanel, productLabel, 		0, 3, 1, 1, 0, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(tablePanel, quantityLabel, 	1, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
@@ -298,20 +238,6 @@ public class OrderListPanel extends JPanel implements ActionListener{
 		quantityField4.setText("");
 		priceField4.setText("");
 	}
-	
-	private void newFilter() {
-	       // RowFilter<? super TableModel, ? super Integer> rf = null;
-			RowFilter<TableModel, Object> rf = null;
-	        //If current expression doesn't parse, don't update.
-	        try {
-	        	 resetTextFields();
-	            rf = RowFilter.regexFilter(filterField.getText(), filterIndex );
-	            System.out.println("filtering   " + filterIndex + filterField.getText());
-	        } catch (java.util.regex.PatternSyntaxException e) {
-	            return;
-	        }
-	        sorter.setRowFilter(rf);
-	    }
 	
 	public void actionPerformed(ActionEvent e) {
 		
