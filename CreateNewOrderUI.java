@@ -23,6 +23,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -65,8 +66,14 @@ public class CreateNewOrderUI {
 	private String[] supplierNames;
 	private String[] productNames;
 	
+	private JTabbedPane tabbedPane;
+	
 	public CreateNewOrderUI(){
 		
+	}
+	
+	public void setTabbedPane(JTabbedPane tabbedPane) {
+		this.tabbedPane = tabbedPane;
 	}
 	
 	public void updateComboBoxData() {
@@ -698,7 +705,9 @@ public class CreateNewOrderUI {
 					orderPanel.setVisible(false);
 					System.out.println("order panel visible");
 					
-					
+					//enable tabs
+					tabbedPane.setEnabled(true);
+					System.out.println("tabs enabled");					
 				} 
 			}
 			else if(e.getSource() == orderCancelButton){
@@ -707,6 +716,10 @@ public class CreateNewOrderUI {
 				tablePanel.setVisible(true);
 				orderPanel.setVisible(false);
 				System.out.println("order panel visible");
+				
+				//enable tabs
+				tabbedPane.setEnabled(true);
+				System.out.println("tabs enabled");
 			}
 			else if(e.getSource() == orderClearButton){
 				

@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -23,6 +24,8 @@ import javax.swing.table.DefaultTableModel;
 public class OrderListPanel extends JPanel implements ActionListener{
 	
 	private Database database;
+	
+	private JTabbedPane tabbedPane;
 	
 	private DefaultTableModel orderTableModel;
 	
@@ -48,6 +51,10 @@ public class OrderListPanel extends JPanel implements ActionListener{
 	
 	public OrderListPanel() {
 		System.out.println("OrderListPanel created");
+	}
+	
+	public void setTabbedPane(JTabbedPane tabbedPane) {
+		this.tabbedPane = tabbedPane;
 	}
 		
 	public void buildPanel(JPanel panel, final Database database) {
@@ -245,6 +252,11 @@ public class OrderListPanel extends JPanel implements ActionListener{
 			
 			//update the comboBox lists
 			newOrderPane.updateComboBoxData();
+			
+			//disable tabs
+			tabbedPane.setEnabled(false);
+			newOrderPane.setTabbedPane(tabbedPane);
+			System.out.println("tabs disabled");
 		}
 		
 	}
