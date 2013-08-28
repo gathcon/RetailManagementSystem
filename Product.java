@@ -7,8 +7,9 @@ public class Product {
     private String productQuantity;
     private String productPrice;
     private String productID;
+    private int [] stockLevels;
     
-    public Product(String productName, String productType, String productPrice, String productBarcode){
+public Product(String productName, String productType, String productPrice, String productBarcode){
     	
         this.productName = productName;
         this.productType = productType;
@@ -17,14 +18,15 @@ public class Product {
         this.productID = productBarcode;
     }
     
-    public Product(String productName, String productType, String productQuantity, String productPrice, String productBarcode){
+    public Product(String productName, String productType, String productQuantity, String productPrice, String productBarcode, int [] stockLevels){
     	
         this.productName = productName;
         this.productType = productType;
         this.productQuantity = productQuantity;
         this.productPrice = productPrice;
         this.productID = productBarcode;
-    }
+        this.stockLevels = stockLevels;
+    }    
  
     public String getProductName() {
         return productName;
@@ -64,6 +66,18 @@ public class Product {
  
     public void setProductID(String productID) {
         this.productID = productID;
-    }   
+    }
+
+
+	public int[] getStockLevels() {
+		return stockLevels;
+	}
+
+
+	public void setStockLevels(int[] stockLevels) {
+		this.stockLevels = stockLevels;
+	}
+    
+    
  
 }
