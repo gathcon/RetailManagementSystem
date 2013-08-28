@@ -80,22 +80,22 @@ public class OrderListPanel extends JPanel implements ActionListener{
 							if(productInOrder == 0){
 								productField1.setText(order.getProducts().get(productInOrder).getProductName());
 								quantityField1.setText(order.getProducts().get(productInOrder).getProductQuantity());
-								priceField1.setText(order.getProducts().get(productInOrder).getProductPrice());
+								priceField1.setText(String.valueOf(order.getProducts().get(productInOrder).getProductPrice()));
 							}
 							if(productInOrder == 1){
 								productField2.setText(order.getProducts().get(productInOrder).getProductName());
 								quantityField2.setText(order.getProducts().get(productInOrder).getProductQuantity());
-								priceField2.setText(order.getProducts().get(productInOrder).getProductPrice());
+								priceField2.setText(String.valueOf(order.getProducts().get(productInOrder).getProductPrice()));
 							}
 							if(productInOrder == 2){
 								productField3.setText(order.getProducts().get(productInOrder).getProductName());
 								quantityField3.setText(order.getProducts().get(productInOrder).getProductQuantity());
-								priceField3.setText(order.getProducts().get(productInOrder).getProductPrice());
+								priceField3.setText(String.valueOf(order.getProducts().get(productInOrder).getProductPrice()));
 							}
 							if(productInOrder == 3){
 								productField4.setText(order.getProducts().get(productInOrder).getProductName());
 								quantityField4.setText(order.getProducts().get(productInOrder).getProductQuantity());
-								priceField4.setText(order.getProducts().get(productInOrder).getProductPrice());
+								priceField4.setText(String.valueOf(order.getProducts().get(productInOrder).getProductPrice()));
 							}
 						}
 					}

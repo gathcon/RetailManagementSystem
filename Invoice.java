@@ -27,8 +27,8 @@ public class Invoice {
 public String calculateInvoiceCost(){
 		
 		for(Product product: products){
-		int cost = (Integer.parseInt(invoiceQuantity))*(Integer.parseInt(product.getProductPrice()));
-		invoiceCost = Integer.parseInt(invoiceCost)  + Integer.toString(cost);
+		double cost = Double.parseDouble(invoiceQuantity)*product.getProductPrice();
+		invoiceCost = Integer.parseInt(invoiceCost)  + Double.toString(cost);
 		}
 		return invoiceCost;
 	}

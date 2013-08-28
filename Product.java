@@ -5,11 +5,10 @@ public class Product {
     private String productName;
     private String productType;
     private String productQuantity;
-    private String productPrice;
+    private double productPrice;
     private String productID;
-    private int [] stockLevels;
     
-public Product(String productName, String productType, String productPrice, String productBarcode){
+    public Product(String productName, String productType, double productPrice, String productBarcode){
     	
         this.productName = productName;
         this.productType = productType;
@@ -18,15 +17,14 @@ public Product(String productName, String productType, String productPrice, Stri
         this.productID = productBarcode;
     }
     
-    public Product(String productName, String productType, String productQuantity, String productPrice, String productBarcode, int [] stockLevels){
+    public Product(String productName, String productType, String productQuantity, double productPrice, String productBarcode){
     	
         this.productName = productName;
         this.productType = productType;
         this.productQuantity = productQuantity;
         this.productPrice = productPrice;
         this.productID = productBarcode;
-        this.stockLevels = stockLevels;
-    }    
+    }
  
     public String getProductName() {
         return productName;
@@ -52,11 +50,11 @@ public Product(String productName, String productType, String productPrice, Stri
         this.productQuantity = productQuantity;
     }
  
-    public String getProductPrice() {
+    public double getProductPrice() {
         return productPrice;
     }
  
-    public void setProductPrice(String productPrice) {
+    public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
  
@@ -66,18 +64,6 @@ public Product(String productName, String productType, String productPrice, Stri
  
     public void setProductID(String productID) {
         this.productID = productID;
-    }
-
-
-	public int[] getStockLevels() {
-		return stockLevels;
-	}
-
-
-	public void setStockLevels(int[] stockLevels) {
-		this.stockLevels = stockLevels;
-	}
-    
-    
+    }   
  
 }

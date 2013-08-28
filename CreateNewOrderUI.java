@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.UUID;
 
 import javax.swing.BorderFactory;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,7 +23,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -92,6 +90,8 @@ public class CreateNewOrderUI {
 		productComboBox2.setSelectedItem("Please Select");
 		productComboBox3.setSelectedItem("Please Select");
 		productComboBox4.setSelectedItem("Please Select");
+		
+		System.out.println("Product and supplier list updated.");
 	}
 	
 	public void buildPanel(JPanel orderPanel, JPanel tablePanel, Database database, JTable tableOfOrders) {
@@ -362,10 +362,11 @@ public class CreateNewOrderUI {
 		public void actionPerformed(ActionEvent e){
 			
 			DecimalFormat df = new DecimalFormat("####0.00");
-			
+						
 			if(e.getSource() == productComboBox1){	
 				updateCombobox1 = false;
 				quantityComboBox1.removeAllItems();
+
 				for(Product product:database.getProducts()){
 					
 					if(productComboBox1.getSelectedItem().equals(product.getProductName())){
@@ -639,7 +640,7 @@ public class CreateNewOrderUI {
 						String productName = (String)productComboBox1.getSelectedItem();
 						String productType = database.getProductTypeByName(productName);
 						String productQuantity = (String) quantityComboBox1.getSelectedItem();
-						String productPrice = priceField1.getText();
+						double productPrice = Double.parseDouble(priceField1.getText());
 						Product product1 = new Product(productName, productType, productPrice, productQuantity);
 						orderedproducts.add(product1);
 						
@@ -649,7 +650,7 @@ public class CreateNewOrderUI {
 						String productName = (String)productComboBox2.getSelectedItem();
 						String productType = database.getProductTypeByName(productName);
 						String productQuantity = (String) quantityComboBox2.getSelectedItem();
-						String productPrice = priceField2.getText();
+						double productPrice = Double.parseDouble(priceField2.getText());
 						Product product2 = new Product(productName, productType, productPrice, productQuantity);
 						orderedproducts.add(product2);
 					}
@@ -658,7 +659,7 @@ public class CreateNewOrderUI {
 						String productName = (String)productComboBox3.getSelectedItem();
 						String productType = database.getProductTypeByName(productName);
 						String productQuantity = (String) quantityComboBox3.getSelectedItem();
-						String productPrice = priceField3.getText();
+						double productPrice = Double.parseDouble(priceField3.getText());
 						Product product3 = new Product(productName, productType, productPrice, productQuantity);
 						orderedproducts.add(product3);
 					}
@@ -667,7 +668,7 @@ public class CreateNewOrderUI {
 						String productName = (String)productComboBox4.getSelectedItem();
 						String productType = database.getProductTypeByName(productName);
 						String productQuantity = (String) quantityComboBox4.getSelectedItem();
-						String productPrice = priceField4.getText();
+						double productPrice = Double.parseDouble(priceField4.getText());
 						Product product4 = new Product(productName, productType, productPrice, productQuantity);
 						orderedproducts.add(product4);
 					}
