@@ -29,6 +29,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 public class CreateNewOrderUI {
 	
@@ -60,6 +62,7 @@ public class CreateNewOrderUI {
 	private JPanel tablePanel;
 	private JTable tableOfOrders;
 	private DefaultTableModel orderTableModel;
+	private TableRowSorter<TableModel> sorter;
 	
 	private Database database;
 	
@@ -690,8 +693,11 @@ public class CreateNewOrderUI {
 					//update table
 					orderTableModel =  new DefaultTableModel();
 					tableOfOrders.setModel(orderTableModel);
+					sorter = new TableRowSorter<TableModel>(tableOfOrders.getModel());
+				    tableOfOrders.setRowSorter(sorter); //
 					//orderScrollPane = new JScrollPane(tableOfOrders);
-					orderTableModel.setColumnIdentifiers(new String [] {"Order ID", "Delivery Date","Cost","Outstanding"});
+				    String [] columnNames = {"Order ID", "Delivery Date","Cost","Outstanding"};
+					orderTableModel.setColumnIdentifiers(columnNames);
 					for(Order order : database.getOrders()){
 						orderTableModel.addRow(new String[] {
 								order.getOrderID(),
