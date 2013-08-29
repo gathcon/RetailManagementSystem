@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.DefaultListModel; 
 import javax.swing.JButton; 
@@ -69,7 +70,8 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
           
         this.database = database; 
         productNameList = database.getProductList(); //array of type String[] 
-          
+        Arrays.sort(productNameList, String.CASE_INSENSITIVE_ORDER);
+        
         productList = new JList<String>(productNameList);
         productListModel = productList.getModel();
         productList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -180,17 +182,17 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
         //update the list of names etc 
         updatedProductListModel = new DefaultListModel<String>(); 
           
-        for(Product product: database.getProducts()) { 
-              
-            updatedProductListModel.addElement(product.getProductName()); 
-              
-        } 
+        productNameList = database.getProductList();
+        Arrays.sort(productNameList, String.CASE_INSENSITIVE_ORDER);
+        for(int i = 0; i < productNameList.length; i++ ){
+        	updatedProductListModel.addElement(productNameList[i]);
+        }
   
         // update JLists 
         productList.setModel(updatedProductListModel); 
           
-        // update String[] arrays 
-        productNameList = database.getProductList(); 
+//        update String[] arrays 
+//        productNameList = database.getProductList(); 
           
         System.out.println("Product list updated"); 
     } 

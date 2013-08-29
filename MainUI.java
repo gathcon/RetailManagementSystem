@@ -41,7 +41,7 @@ public class MainUI extends JFrame implements ActionListener{
 	private SupplierListPanel supplierPane;
 	private ProductListPanel productPane;
 	private OrderListPanel orderPane;
-	private InvoiceListPanel invoicePane;
+	//private InvoiceListPanel invoicePane;
 	private AccountingPanel accountingPane;
 	private UserAccountListPanel userAccountPane;
 	
@@ -71,7 +71,7 @@ public class MainUI extends JFrame implements ActionListener{
 		supplierPane = new SupplierListPanel();
 		productPane = new ProductListPanel();
 		orderPane = new OrderListPanel();
-		invoicePane = new InvoiceListPanel();
+	//	invoicePane = new InvoiceListPanel();
 		accountingPane = new AccountingPanel();
 		userAccountPane = new UserAccountListPanel();
 		
@@ -79,7 +79,7 @@ public class MainUI extends JFrame implements ActionListener{
 		supplierPane.buildPanel(supplierPanel, database);
 		productPane.buildPanel(productPanel, database);
 		orderPane.buildPanel(orderPanel, database);
-		invoicePane.buildPanel(invoicePanel, database);
+	//	invoicePane.buildPanel(invoicePanel, database);
 		accountingPane.buildPanel(accountingPanel, database);
 		userAccountPane.buildPanel(userAccountPanel, database);
 		
