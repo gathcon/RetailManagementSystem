@@ -76,7 +76,14 @@ public class OrderListPanel extends JPanel implements ActionListener{
 		this.mainPanel = panel;
 		this.database = database;
 				
-		orderTableModel =  new DefaultTableModel();
+		DefaultTableModel orderTableModel = new DefaultTableModel() {
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       return false;
+		    }
+		};
+		
 		tableOfOrders = new JTable(orderTableModel);// JTABLE code
 		tableOfOrders.setModel(orderTableModel);
 		orderScrollPane = new JScrollPane(tableOfOrders);
