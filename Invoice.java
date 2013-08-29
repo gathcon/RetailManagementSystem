@@ -32,6 +32,14 @@ public class Invoice {
 		this.products = products;
 	}
 	
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	
 	public String calculateInvoiceCost(){
 		
 		for(Product product: products){

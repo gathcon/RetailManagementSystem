@@ -34,6 +34,7 @@ public class MainUI extends JFrame implements ActionListener{
 	private JPanel productPanel;
 	private JPanel orderPanel;
 	private JPanel invoicePanel;
+	private JPanel accountingPanel;
 	private JPanel userAccountPanel;
 	
 	private CustomerListPanel customerPane;
@@ -41,6 +42,7 @@ public class MainUI extends JFrame implements ActionListener{
 	private ProductListPanel productPane;
 	private OrderListPanel orderPane;
 	private InvoiceListPanel invoicePane;
+	private AccountingPanel accountingPane;
 	private UserAccountListPanel userAccountPane;
 	
 	private JLabel loginLabel;
@@ -62,6 +64,7 @@ public class MainUI extends JFrame implements ActionListener{
 		productPanel = new JPanel();
 		orderPanel = new JPanel();
 		invoicePanel = new JPanel();
+		accountingPanel = new JPanel();
 		userAccountPanel = new JPanel();
 				
 		customerPane = new CustomerListPanel();
@@ -69,6 +72,7 @@ public class MainUI extends JFrame implements ActionListener{
 		productPane = new ProductListPanel();
 		orderPane = new OrderListPanel();
 		invoicePane = new InvoiceListPanel();
+		accountingPane = new AccountingPanel();
 		userAccountPane = new UserAccountListPanel();
 		
 		customerPane.buildPanel(customerPanel, database);
@@ -76,6 +80,7 @@ public class MainUI extends JFrame implements ActionListener{
 		productPane.buildPanel(productPanel, database);
 		orderPane.buildPanel(orderPanel, database);
 		invoicePane.buildPanel(invoicePanel, database);
+		accountingPane.buildPanel(accountingPanel, database);
 		userAccountPane.buildPanel(userAccountPanel, database);
 		
 		tabbedPane = new JTabbedPane();
@@ -180,6 +185,7 @@ public class MainUI extends JFrame implements ActionListener{
             	     tabbedPane.add("Products", productPanel);
             	     tabbedPane.add("Orders", orderPanel);
             	     tabbedPane.add("Invoices", invoicePanel);
+            	     tabbedPane.add("Accounting", accountingPanel);
             	     tabbedPane.add("User Accounts", userAccountPanel);
             	     
             	     orderPane.setTabbedPane(tabbedPane);
