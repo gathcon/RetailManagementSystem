@@ -33,12 +33,14 @@ public class MainUI extends JFrame implements ActionListener{
 	private JPanel supplierPanel;
 	private JPanel productPanel;
 	private JPanel orderPanel;
+	private JPanel invoicePanel;
 	private JPanel userAccountPanel;
 	
 	private CustomerListPanel customerPane;
 	private SupplierListPanel supplierPane;
 	private ProductListPanel productPane;
 	private OrderListPanel orderPane;
+	private InvoiceListPanel invoicePane;
 	private UserAccountListPanel userAccountPane;
 	
 	private JLabel loginLabel;
@@ -59,18 +61,21 @@ public class MainUI extends JFrame implements ActionListener{
 		supplierPanel = new JPanel();
 		productPanel = new JPanel();
 		orderPanel = new JPanel();
+		invoicePanel = new JPanel();
 		userAccountPanel = new JPanel();
 				
 		customerPane = new CustomerListPanel();
 		supplierPane = new SupplierListPanel();
 		productPane = new ProductListPanel();
 		orderPane = new OrderListPanel();
+		invoicePane = new InvoiceListPanel();
 		userAccountPane = new UserAccountListPanel();
 		
 		customerPane.buildPanel(customerPanel, database);
 		supplierPane.buildPanel(supplierPanel, database);
 		productPane.buildPanel(productPanel, database);
 		orderPane.buildPanel(orderPanel, database);
+		invoicePane.buildPanel(invoicePanel, database);
 		userAccountPane.buildPanel(userAccountPanel, database);
 		
 		tabbedPane = new JTabbedPane();
@@ -174,6 +179,7 @@ public class MainUI extends JFrame implements ActionListener{
             	     tabbedPane.add("Suppliers", supplierPanel);
             	     tabbedPane.add("Products", productPanel);
             	     tabbedPane.add("Orders", orderPanel);
+            	     tabbedPane.add("Invoices", invoicePanel);
             	     tabbedPane.add("User Accounts", userAccountPanel);
             	     
             	     orderPane.setTabbedPane(tabbedPane);
