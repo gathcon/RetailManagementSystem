@@ -3,10 +3,7 @@ package retailManagementSystem;
 import java.util.ArrayList;
 
 public class Order {
-	
-	
-	//testing the git
-	
+
 	private String orderID;
 	private String orderDate;
 	private String orderDeliveryDate;

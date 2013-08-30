@@ -7,14 +7,14 @@ public class Invoice {
 	private String invoiceID;
 	private String invoiceDeliveryDate;
 	private String invoiceCost;
-	private String isInvoiceOutstanding;
+	private boolean isInvoiceOutstanding;
 	private String invoiceQuantity;
 	
 	private ArrayList<Product> products = new ArrayList<Product>();
 	
 	private Customer customer;
 	
-	public Invoice(String invoiceID, String invoiceDeliveryDate, String invoiceCost, String isInvoiceOutstanding, String invoiceQuantity,
+	public Invoice(String invoiceID, String invoiceDeliveryDate, String invoiceCost, boolean isInvoiceOutstanding, String invoiceQuantity,
 			Customer customer){
 		this.invoiceID = invoiceID;
 		this.invoiceDeliveryDate = invoiceDeliveryDate;
@@ -24,11 +24,27 @@ public class Invoice {
 		this.customer = customer;
 	}
 	
-public String calculateInvoiceCost(){
+	public ArrayList<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(ArrayList<Product> products) {
+		this.products = products;
+	}
+	
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	
+	public String calculateInvoiceCost(){
 		
 		for(Product product: products){
-		int cost = (Integer.parseInt(invoiceQuantity))*(Integer.parseInt(product.getProductPrice()));
-		invoiceCost = Integer.parseInt(invoiceCost)  + Integer.toString(cost);
+		double cost = Double.parseDouble(invoiceQuantity)*product.getProductPrice();
+		invoiceCost = Integer.parseInt(invoiceCost)  + Double.toString(cost);
 		}
 		return invoiceCost;
 	}
@@ -41,19 +57,13 @@ public String calculateInvoiceCost(){
 	products.remove(product);
 	}
 
-	
-	
 	public String getInvoiceQuantity() {
 		return invoiceQuantity;
 	}
 
-
-
 	public void setInvoiceQuantity(String invoiceQuantity) {
 		this.invoiceQuantity = invoiceQuantity;
 	}
-
-
 
 	public String getInvoiceID() {
 		return invoiceID;
@@ -79,11 +89,11 @@ public String calculateInvoiceCost(){
 		this.invoiceCost = invoiceCost;
 	}
 
-	public String getIsInvoiceOutstanding() {
+	public boolean isInvoiceOutstanding() {
 		return isInvoiceOutstanding;
 	}
 
-	public void setInvoiceOutstanding(String isInvoiceOutstanding) {
+	public void setInvoiceOutstanding(boolean isInvoiceOutstanding) {
 		this.isInvoiceOutstanding = isInvoiceOutstanding;
 	}
 

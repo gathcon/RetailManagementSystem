@@ -33,12 +33,16 @@ public class MainUI extends JFrame implements ActionListener{
 	private JPanel supplierPanel;
 	private JPanel productPanel;
 	private JPanel orderPanel;
+	private JPanel invoicePanel;
+	private JPanel accountingPanel;
 	private JPanel userAccountPanel;
 	
 	private CustomerListPanel customerPane;
 	private SupplierListPanel supplierPane;
 	private ProductListPanel productPane;
 	private OrderListPanel orderPane;
+	private InvoiceListPanel invoicePane;
+	private AccountingPanel accountingPane;
 	private UserAccountListPanel userAccountPane;
 	
 	private JLabel loginLabel;
@@ -59,18 +63,24 @@ public class MainUI extends JFrame implements ActionListener{
 		supplierPanel = new JPanel();
 		productPanel = new JPanel();
 		orderPanel = new JPanel();
+		invoicePanel = new JPanel();
+		accountingPanel = new JPanel();
 		userAccountPanel = new JPanel();
 				
 		customerPane = new CustomerListPanel();
 		supplierPane = new SupplierListPanel();
 		productPane = new ProductListPanel();
 		orderPane = new OrderListPanel();
+		invoicePane = new InvoiceListPanel();
+		accountingPane = new AccountingPanel();
 		userAccountPane = new UserAccountListPanel();
 		
 		customerPane.buildPanel(customerPanel, database);
 		supplierPane.buildPanel(supplierPanel, database);
 		productPane.buildPanel(productPanel, database);
 		orderPane.buildPanel(orderPanel, database);
+		invoicePane.buildPanel(invoicePanel, database);
+		accountingPane.buildPanel(accountingPanel, database);
 		userAccountPane.buildPanel(userAccountPanel, database);
 		
 		tabbedPane = new JTabbedPane();
@@ -174,7 +184,11 @@ public class MainUI extends JFrame implements ActionListener{
             	     tabbedPane.add("Suppliers", supplierPanel);
             	     tabbedPane.add("Products", productPanel);
             	     tabbedPane.add("Orders", orderPanel);
+            	     tabbedPane.add("Invoices", invoicePanel);
+            	     tabbedPane.add("Accounting", accountingPanel);
             	     tabbedPane.add("User Accounts", userAccountPanel);
+            	     
+            	     orderPane.setTabbedPane(tabbedPane);
 
             	     setTitle("Retail Management System");
             	     System.out.println("Set content pane to tabs view");

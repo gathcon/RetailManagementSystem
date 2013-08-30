@@ -27,28 +27,28 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-public class OrderListPanel extends JPanel implements ActionListener{
+public class InvoiceListPanel extends JPanel implements ActionListener{
 	
 	private Database database;
 	
 	private JTabbedPane tabbedPane;
 	
-	private DefaultTableModel orderTableModel;
+	private DefaultTableModel InvoiceTableModel;
 	
-	private JTable tableOfOrders;
+	private JTable tableOfInvoices;
 	
-	private JScrollPane orderScrollPane;
+	private JScrollPane InvoiceScrollPane;
 	
-	private JLabel orderListLabel;
-	private JLabel newOrderListLabel;
+	private JLabel InvoiceListLabel;
+	private JLabel newInvoiceListLabel;
 	
-	private JButton newOrderButton;
+	private JButton newInvoiceButton;
 	
 	private JPanel tablePanel;
-	private JPanel newOrderPanel;
+	private JPanel newInvoicePanel;
 	private JPanel mainPanel;
 	
-	private CreateNewOrderUI newOrderPane;
+	//private CreateNewInvoiceUI newInvoicePane;
 	
 	private JLabel productLabel, quantityLabel, priceLabel;
 	private JTextField productField1, productField2, productField3, productField4;
@@ -59,12 +59,12 @@ public class OrderListPanel extends JPanel implements ActionListener{
 	private JComboBox filteredSelection;
 	private JTextField filterField;
 	private TableRowSorter<TableModel> sorter;
-	private String [] columnNames = {"Order ID", "Delivery Date","Cost","Outstanding"};
+	private String [] columnNames = {"Invoice ID", "Delivery Date","Cost","Outstanding"};
 
 	private int filterIndex = 0;
 	
-	public OrderListPanel() {
-		System.out.println("OrderListPanel created");
+	public InvoiceListPanel() {
+		System.out.println("InvoiceListPanel created");
 	}
 	
 	public void setTabbedPane(JTabbedPane tabbedPane) {
@@ -76,54 +76,47 @@ public class OrderListPanel extends JPanel implements ActionListener{
 		this.mainPanel = panel;
 		this.database = database;
 				
-		DefaultTableModel orderTableModel = new DefaultTableModel() {
-
-		    @Override
-		    public boolean isCellEditable(int row, int column) {
-		       return false;
-		    }
-		};
-		
-		tableOfOrders = new JTable(orderTableModel);// JTABLE code
-		tableOfOrders.setModel(orderTableModel);
-		orderScrollPane = new JScrollPane(tableOfOrders);
-		orderTableModel.setColumnIdentifiers(columnNames);
+		InvoiceTableModel =  new DefaultTableModel();
+		tableOfInvoices = new JTable(InvoiceTableModel);// JTABLE code
+		tableOfInvoices.setModel(InvoiceTableModel);
+		InvoiceScrollPane = new JScrollPane(tableOfInvoices);
+		InvoiceTableModel.setColumnIdentifiers(columnNames);
 		int row = 0;
-		for(Order order : database.getOrders()){
-			orderTableModel.addRow(new String[] {
-					order.getOrderID(),
-					order.getOrderDeliveryDate(),
-					order.getOrderCost(),
-					String.valueOf(order.isOrderOutstanding())});
+		for(Invoice Invoice : database.getInvoices()){
+			InvoiceTableModel.addRow(new String[] {
+					Invoice.getInvoiceID(),
+					Invoice.getInvoiceDeliveryDate(),
+					Invoice.getInvoiceCost(),
+					String.valueOf(Invoice.isInvoiceOutstanding())});
 			row++;
 		}
-		tableOfOrders.setVisible(true);
+		tableOfInvoices.setVisible(true);
 		
-		tableOfOrders.addMouseListener(new MouseAdapter(){
+		tableOfInvoices.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
-				for(Order order : database.getOrders()){
-					if(order.getOrderID().equals(tableOfOrders.getValueAt(tableOfOrders.getSelectedRow(), 0).toString())){
+				for(Invoice Invoice : database.getInvoices()){
+					if(Invoice.getInvoiceID().equals(tableOfInvoices.getValueAt(tableOfInvoices.getSelectedRow(), 0).toString())){
 						resetTextFields();
-						for(int productInOrder=0; productInOrder < order.getProducts().size(); productInOrder++){
-							if(productInOrder == 0){
-								productField1.setText(order.getProducts().get(productInOrder).getProductName());
-								quantityField1.setText(order.getProducts().get(productInOrder).getProductQuantity());
-								priceField1.setText(String.valueOf(order.getProducts().get(productInOrder).getProductPrice()));
+						for(int productInInvoice=0; productInInvoice < Invoice.getProducts().size(); productInInvoice++){
+							if(productInInvoice == 0){
+								productField1.setText(Invoice.getProducts().get(productInInvoice).getProductName());
+								quantityField1.setText(Invoice.getProducts().get(productInInvoice).getProductQuantity());
+								priceField1.setText(String.valueOf(Invoice.getProducts().get(productInInvoice).getProductPrice()));
 							}
-							if(productInOrder == 1){
-								productField2.setText(order.getProducts().get(productInOrder).getProductName());
-								quantityField2.setText(order.getProducts().get(productInOrder).getProductQuantity());
-								priceField2.setText(String.valueOf(order.getProducts().get(productInOrder).getProductPrice()));
+							if(productInInvoice == 1){
+								productField2.setText(Invoice.getProducts().get(productInInvoice).getProductName());
+								quantityField2.setText(Invoice.getProducts().get(productInInvoice).getProductQuantity());
+								priceField2.setText(String.valueOf(Invoice.getProducts().get(productInInvoice).getProductPrice()));
 							}
-							if(productInOrder == 2){
-								productField3.setText(order.getProducts().get(productInOrder).getProductName());
-								quantityField3.setText(order.getProducts().get(productInOrder).getProductQuantity());
-								priceField3.setText(String.valueOf(order.getProducts().get(productInOrder).getProductPrice()));
+							if(productInInvoice == 2){
+								productField3.setText(Invoice.getProducts().get(productInInvoice).getProductName());
+								quantityField3.setText(Invoice.getProducts().get(productInInvoice).getProductQuantity());
+								priceField3.setText(String.valueOf(Invoice.getProducts().get(productInInvoice).getProductPrice()));
 							}
-							if(productInOrder == 3){
-								productField4.setText(order.getProducts().get(productInOrder).getProductName());
-								quantityField4.setText(order.getProducts().get(productInOrder).getProductQuantity());
-								priceField4.setText(String.valueOf(order.getProducts().get(productInOrder).getProductPrice()));
+							if(productInInvoice == 3){
+								productField4.setText(Invoice.getProducts().get(productInInvoice).getProductName());
+								quantityField4.setText(Invoice.getProducts().get(productInInvoice).getProductQuantity());
+								priceField4.setText(String.valueOf(Invoice.getProducts().get(productInInvoice).getProductPrice()));
 							}
 						}
 					}
@@ -131,20 +124,20 @@ public class OrderListPanel extends JPanel implements ActionListener{
 			}
 		});
 				
-		orderListLabel = new JLabel("Order Control", SwingConstants.CENTER);
-		orderListLabel.setOpaque(true);
-		orderListLabel.setBackground(new Color(0,51,102));
-		orderListLabel.setForeground(Color.WHITE);
-		orderListLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
+		InvoiceListLabel = new JLabel("Invoice Control", SwingConstants.CENTER);
+		InvoiceListLabel.setOpaque(true);
+		InvoiceListLabel.setBackground(new Color(0,51,102));
+		InvoiceListLabel.setForeground(Color.WHITE);
+		InvoiceListLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
 		
-		newOrderListLabel = new JLabel("New Order", SwingConstants.CENTER);
-		newOrderListLabel.setOpaque(true);
-		newOrderListLabel.setBackground(new Color(0,51,102));
-		newOrderListLabel.setForeground(Color.WHITE);
-		newOrderListLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
+		newInvoiceListLabel = new JLabel("New Invoice", SwingConstants.CENTER);
+		newInvoiceListLabel.setOpaque(true);
+		newInvoiceListLabel.setBackground(new Color(0,51,102));
+		newInvoiceListLabel.setForeground(Color.WHITE);
+		newInvoiceListLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
 				
-		newOrderButton = new JButton("Create new order");
-		newOrderButton.addActionListener(this);
+		newInvoiceButton = new JButton("Create new Invoice");
+		newInvoiceButton.addActionListener(this);
 		filterLabel = new JLabel("Filter by:");
 		filteredSelection = new JComboBox(columnNames);
 		filteredSelection.setSelectedIndex(0); //default setting is InvoiceID
@@ -153,18 +146,18 @@ public class OrderListPanel extends JPanel implements ActionListener{
 		
 		filterField.getDocument().addDocumentListener(new DocumentListener() {
 		    	public void changedUpdate(DocumentEvent e) {
-			    		sorter = new TableRowSorter<TableModel>(tableOfOrders.getModel());
-			    		tableOfOrders.setRowSorter(sorter);
+			    		sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel());
+			    		tableOfInvoices.setRowSorter(sorter);
 			    		newFilter();
 		            }
 		            public void insertUpdate(DocumentEvent e) {
-		            	sorter = new TableRowSorter<TableModel>(tableOfOrders.getModel());
-		            	tableOfOrders.setRowSorter(sorter);
+		            	sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel());
+		            	tableOfInvoices.setRowSorter(sorter);
 		            	newFilter();
 		            }
 		            public void removeUpdate(DocumentEvent e) {
-		            	sorter = new TableRowSorter<TableModel>(tableOfOrders.getModel());
-		            	tableOfOrders.setRowSorter(sorter);
+		            	sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel());
+		            	tableOfInvoices.setRowSorter(sorter);
 		                newFilter();
 		            }
 		 });
@@ -232,17 +225,17 @@ public class OrderListPanel extends JPanel implements ActionListener{
 		priceField4.setBackground(Color.WHITE);
 		
 		tablePanel = new JPanel();
-		newOrderPanel = new JPanel();
+		newInvoicePanel = new JPanel();
 		
-		newOrderPane = new CreateNewOrderUI();
-		newOrderPane.buildPanel(newOrderPanel, tablePanel, database, tableOfOrders);
+		//newInvoicePane = new CreateNewInvoiceUI();
+		//newInvoicePane.buildPanel(newInvoicePanel, tablePanel, database, tableOfInvoices);
 		
 		tablePanel.setLayout(new GridBagLayout());
 		mainPanel.setLayout(new GridBagLayout());
 		
-		createConstraint(tablePanel, orderListLabel,	0, 0, 3, 1, 0, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(tablePanel, newOrderButton, 	0, 1, 1, 1, 50, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE);
-		createConstraint(tablePanel, orderScrollPane, 	0, 2, 3, 1, 0, 0, 2, 20, 2, 20, 1, 0.5, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(tablePanel, InvoiceListLabel,	0, 0, 3, 1, 0, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(tablePanel, newInvoiceButton, 	0, 1, 1, 1, 41, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE);
+		createConstraint(tablePanel, InvoiceScrollPane, 0, 2, 3, 1, 0, 0, 2, 20, 2, 20, 1, 0.5, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(tablePanel, filterLabel, 		1, 1, 1, 4, 0, 0, 7, 45, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE);
 		createConstraint(tablePanel, filteredSelection, 1, 1, 1, 1, 0, 0, 2, 100, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE);
 		createConstraint(tablePanel, filterField, 		1, 1, 1, 1, 100, 6, 2, 210, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE);
@@ -268,9 +261,9 @@ public class OrderListPanel extends JPanel implements ActionListener{
 		createConstraint(tablePanel, priceField4, 		2, 7, 1, 1, 0, 0, 2, 2, 2, 20, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		
 		createConstraint(mainPanel, tablePanel,			0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(mainPanel, newOrderPanel,		0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(mainPanel, newInvoicePanel,		0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		
-		newOrderPanel.setVisible(false);
+		newInvoicePanel.setVisible(false);
 	}
 	
 	//Create GridBagLayout constraints and add component to a panel using these constraints
@@ -324,19 +317,19 @@ public class OrderListPanel extends JPanel implements ActionListener{
 		
 		System.out.println(e.paramString());
 		
-		if(e.getActionCommand().equals("Create new order")) {
+		if(e.getActionCommand().equals("Create new Invoice")) {
 			
-			//go to create order view
+			//go to create Invoice view
 			tablePanel.setVisible(false);
-			newOrderPanel.setVisible(true); 
-			System.out.println("order panel invisible");
+			newInvoicePanel.setVisible(true); 
+			System.out.println("Invoice panel invisible");
 			
 			//update the comboBox lists
-			newOrderPane.updateComboBoxData();
+			//newInvoicePane.updateComboBoxData();
 			
 			//disable tabs
 			tabbedPane.setEnabled(false);
-			newOrderPane.setTabbedPane(tabbedPane);
+			//newInvoicePane.setTabbedPane(tabbedPane);
 			System.out.println("tabs disabled");
 		}
 		
