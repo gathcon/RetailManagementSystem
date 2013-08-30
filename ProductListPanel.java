@@ -2,14 +2,22 @@ package retailManagementSystem;
 
 import java.awt.Color; 
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints; 
 import java.awt.GridBagLayout; 
 import java.awt.Insets; 
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent; 
 import java.awt.event.ActionListener; 
   
 
 
+import java.awt.font.FontRenderContext;
+import java.awt.font.LineMetrics;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel; 
@@ -68,7 +76,17 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
     public ProductListPanel() { 
 		System.out.println("ProductListPanel created");
 
-    } 
+    }
+    
+    private static final int maxStock = 150;
+    private static final int border = 50;
+    private static final int yHatchCount = 15;
+    private static final int graphPointWidth = 12;
+    private int width = 800;
+    private int height = 550;
+    
+    int [] stockLevels  = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    double [] predictedStockLevels = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
       
     public void buildPanel(JPanel panel, final Database database) { 
           
@@ -157,7 +175,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 		//newGraphPane = new CreateStockGraph();
 		//newGraphPane.buildPanel(graphPanel, panel, database);
 		
-		graphPanel = new CreateStockGraph();
+		graphPanel = new graph();
 		
 
 		createConstraint(newPanel, productListLabel,	0, 0, 3, 1,	0, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
@@ -448,11 +466,132 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                             quantityField.setText(products.get(i).getProductQuantity()); 
                             priceField.setText(products.get(i).getProductPrice()); 
                             IDField.setText(products.get(i).getProductID()); 
-                              
+                            
+                            int stock [] = products.get(i).getStockLevels();  
+                            stockLevels = stock;
+                            
+                            int average1 = stock[0];
+                            int average2 = (stock[0]+stock[1])/2;
+                            int average3 = (stock[0]+stock[1]+stock[2])/3;
+                            int average4 = (stock[0]+stock[1]+stock[2]+stock[3])/4;
+                            int average5 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4])/5;
+                            int average6 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4]+stock[5])/6;
+                            int average7 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4]+stock[5]+stock[6])/7;
+                            int average8 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4]+stock[5]+stock[6]+stock[7])/8;
+                            int average9 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4]+stock[5]+stock[6]+stock[7]+stock[8])/9;
+                            int average10 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4]+stock[5]+stock[6]+stock[7]+stock[8]+stock[9])/10;
+                            int average11 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4]+stock[5]+stock[6]+stock[7]+stock[8]+stock[9]+stock[10])/11;
+                            int average12 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4]+stock[5]+stock[6]+stock[7]+stock[8]+stock[9]+stock[10]+stock[11])/12;
+                            
+                            double [] stockData = {average1, average2, average3, average4, average5, average6, average7, average7, average8, average9, average10, average11, average12}; 
+                            
+                            predictedStockLevels = stockData;
                         } 
   
                     } 
                 } 
             } 
-    }  
+    }
+    class graph extends JPanel{
+    	protected void paintComponent(Graphics g) {    
+            super.paintComponent(g);
+            Graphics2D g2 = (Graphics2D)g;
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            
+            // Draw x and y axis
+            g2.draw(new Line2D.Double(border, border, border, height-border));
+            g2.draw(new Line2D.Double(border, height-border, width-border, height-border));
+            
+             
+            for (int i = 0; i < yHatchCount; i++) {
+                 int x0 = border;
+                 int x1 = graphPointWidth + border;
+                 int y0 = height - (((i) * (height - border * 2)) / yHatchCount + border);
+                 int y1 = y0;
+                 g2.drawLine(x0, y0, x1, y1);
+                 FontMetrics fm = g2.getFontMetrics();
+                 String [] values = {"", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150"};
+                 g2.drawString(values[i], x0 - fm.stringWidth(values[i]), y0 + (fm.getAscent() / 2));
+                 
+              }
+             
+         // and for x axis
+              for (int i = 0; i < 12; i++) { 
+                 int x0 = (i) * (width - border * 2) / (12 - 1) + border;
+                 int x1 = x0;
+                 int y0 = height - border;
+                 int y1 = y0 - graphPointWidth;
+                 g2.drawLine(x0, y0, x1, y1);
+                 FontMetrics fm = g2.getFontMetrics();
+                 String [] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                 g2.drawString(months[i], x0 - (fm.stringWidth(months[i]) / 2), y0 + fm.getAscent());
+              }
+             
+            // Draw labels
+            Font font = g2.getFont();
+            FontRenderContext frc = g2.getFontRenderContext();
+            LineMetrics lm = font.getLineMetrics("0", frc);
+            float sh = lm.getAscent() + lm.getDescent(); 
+             
+            // Ordinate label.
+            String Label = "STOCK";
+            float sy = border + ((height - 2*border) - Label.length()*sh)/2 + lm.getAscent();
+            
+            for(int i = 0; i < Label.length(); i++) {
+                String letter = String.valueOf(Label.charAt(i));
+                float sw = (float)font.getStringBounds(letter, frc).getWidth();
+                float sx = (border - sw)/4;
+                g2.drawString(letter, sx, sy);
+                sy += sh;
+            }
+             
+            // Abcissa label.
+            Label = "MONTHS";
+            sy = height - border + (border - sh)/2 + lm.getAscent();
+            float sw = (float)font.getStringBounds(Label, frc).getWidth();
+            float sx = (width - sw)/2;
+            g2.drawString(Label, sx, sy);
+             
+            // Draw stock level lines.
+            double xInc = (double)(width - 2*border)/(12-1);
+            double scale = (double)(height - 2*border)/maxStock;
+            g2.setPaint(Color.green.darker());
+            for(int i = 0; i < stockLevels.length-1; i++) {
+                double x1 = border + i*xInc;
+                double y1 = height - border - scale*stockLevels[i];
+                double x2 = border + (i+1)*xInc;
+                double y2 = height - border - scale*stockLevels[i+1];
+                g2.draw(new Line2D.Double(x1, y1, x2, y2));
+            }
+             
+            // Draw predicted stock level lines.
+            double xInc2 = (double)(width - 2*border)/(12-1);
+            double scale2 = (double)(height - 2*border)/maxStock;
+            g2.setPaint(Color.red.darker());
+            for(int i = 0; i < predictedStockLevels.length-1; i++) {
+                double a1 = border + i*xInc2;
+                double b1 = height - border - scale*predictedStockLevels[i];
+                double a2 = border + (i+1)*xInc2;
+                double b2 = height - border - scale2*predictedStockLevels[i+1];
+                g2.draw(new Line2D.Double(a1, b1, a2, b2));
+            }
+             
+            // Mark data points.
+            g2.setPaint(Color.white);
+            for(int i = 0; i < stockLevels.length; i++) {
+                double x = border + i*xInc;
+                double y = height - border - scale*stockLevels[i];
+                g2.fill(new Ellipse2D.Double(x-2, y-2, 4, 4));
+            }
+             
+            // Mark predicted data points.
+            g2.setPaint(Color.black);
+            for(int i = 0; i < predictedStockLevels.length; i++) {
+                double x = border + i*xInc2;
+                double y = height - border - scale2*predictedStockLevels[i];
+                g2.fill(new Ellipse2D.Double(x-2, y-2, 4, 4));
+            }
+           
+        }
+    }
 }
