@@ -126,11 +126,12 @@ public class CreateNewOrderUI {
 		priceField3.setText("0.00");
 		priceField4.setText("0.00");
 		
-		totalPriceField.setText("0.00");
 		deliveryCostField.setText("0.00");
 		
 		deliveryDaysComboBox.setSelectedIndex(0);
 		quantityComboBox1.setSelectedItem("0");
+		
+		totalPriceField.setText("0.00");
 		
 		System.out.println("Product and supplier list updated.");
 	}
@@ -628,11 +629,12 @@ public class CreateNewOrderUI {
 		priceField3.setText("0.00");
 		priceField4.setText("0.00");
 		
-		totalPriceField.setText("0.00");
 		deliveryCostField.setText("0.00");
 		
 		deliveryDaysComboBox.setSelectedIndex(0);
 		quantityComboBox1.setSelectedItem("0");
+		
+		totalPriceField.setText("0.00");
 	}
 	
 	private class OrderButtonListener implements ActionListener{
