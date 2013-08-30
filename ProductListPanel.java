@@ -82,7 +82,11 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
       
     public void buildPanel(JPanel panel, final Database database) { 
           
+<<<<<<< HEAD
         this.database = database; 
+=======
+        this.database = database;
+>>>>>>> master
         productNameList = database.getProductList(); //array of type String[] 
           
         productList = new JList<String>(productNameList);
@@ -152,6 +156,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 		newPanel.setLayout(new GridBagLayout());
 		
 		//newGraphPane = new CreateStockGraph();
@@ -166,6 +171,8 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 >>>>>>> 86d38b06f7d52f4e86a7c92a4a2b005ba8b5a266
 =======
 >>>>>>> 86d38b06f7d52f4e86a7c92a4a2b005ba8b5a266
+=======
+>>>>>>> master
 
 		createConstraint(panel, productListLabel,	0, 0, 3, 1,	0, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(panel, listScroller, 		0, 1, 1, 7,	0, 0, 2, 2, 2, 2, 0.3, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
@@ -186,6 +193,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 		createConstraint(buttonPanel, productDeleteButton, 		1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(buttonPanel, productCancelButton, 		1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(buttonPanel, productEditSaveButton,	2, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -210,6 +218,10 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 
 		createConstraint(panel, buttonPanel, 	1, 6, 2, 1, 0, 0, 20, 0, 0, 0, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE);        
 >>>>>>> 86d38b06f7d52f4e86a7c92a4a2b005ba8b5a266
+=======
+
+		createConstraint(panel, buttonPanel, 	1, 6, 2, 1, 0, 0, 20, 0, 0, 0, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE);        
+>>>>>>> master
     } 
     
     private void createConstraint(JPanel panel, JComponent component, int gridx, int gridy, int width, int height, int ipadx, int ipady,

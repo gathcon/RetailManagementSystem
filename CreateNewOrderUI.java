@@ -513,30 +513,54 @@ public class CreateNewOrderUI {
 			if(e.getSource().equals(quantityComboBox1) && updateCombobox1 == true){
 				
 				price1 = Double.parseDouble((String) quantityComboBox1.getSelectedItem())* 
+<<<<<<< HEAD
 						Double.parseDouble(unitPriceField1.getText().substring(1, unitPriceField1.getText().length()));
 				priceField1.setText(String.valueOf(df.format(price1)));
 				updateCombobox1 = false; 
+=======
+						Double.parseDouble(unitPriceField1.getText().substring(0, unitPriceField1.getText().length()));
+				priceField1.setText(String.valueOf(df.format(price1)));
+				updateCombobox1 = true; 
+>>>>>>> master
 			}
 			else if(e.getSource().equals(quantityComboBox2) && updateCombobox2 == true){
 				
 				price2 = Double.parseDouble((String) quantityComboBox2.getSelectedItem())* 
+<<<<<<< HEAD
 						Double.parseDouble(unitPriceField2.getText().substring(1, unitPriceField2.getText().length()));
 				priceField2.setText(String.valueOf(df.format(price2)));
 				updateCombobox2= false;
+=======
+						Double.parseDouble(unitPriceField2.getText().substring(0, unitPriceField2.getText().length()));
+				priceField2.setText(String.valueOf(df.format(price2)));
+				updateCombobox2= true;
+>>>>>>> master
 			}
 			else if(e.getSource().equals(quantityComboBox3) && updateCombobox3 == true){
 				
 				price3 = Double.parseDouble((String) quantityComboBox3.getSelectedItem())* 
+<<<<<<< HEAD
 						Double.parseDouble(unitPriceField3.getText().substring(1, unitPriceField3.getText().length()));
 				priceField3.setText(String.valueOf(df.format(price3)));
 				updateCombobox3 = false;
+=======
+						Double.parseDouble(unitPriceField3.getText().substring(0, unitPriceField3.getText().length()));
+				priceField3.setText(String.valueOf(df.format(price3)));
+				updateCombobox3 = true;
+>>>>>>> master
 			}
 			else if(e.getSource().equals(quantityComboBox4) && updateCombobox4 == true){
 				
 				price4 = Double.parseDouble((String) quantityComboBox4.getSelectedItem())* 
+<<<<<<< HEAD
 						Double.parseDouble(unitPriceField4.getText().substring(1, unitPriceField4.getText().length()));
 				priceField4.setText(String.valueOf(df.format(price4)));
 				updateCombobox4 = false;
+=======
+						Double.parseDouble(unitPriceField4.getText().substring(0, unitPriceField4.getText().length()));
+				priceField4.setText(String.valueOf(df.format(price4)));
+				updateCombobox4 = true;
+>>>>>>> master
 			}
 			else if(e.getSource().equals(deliveryDaysComboBox)){
 				
@@ -656,7 +680,7 @@ public class CreateNewOrderUI {
 					System.out.println("Save button was clicked");
 					String orderID = orderIDField.getText();
 					Supplier supplier = database.getSupplierByName((String)supplierNameComboBox.getSelectedItem());
-					String orderCost = totalPriceField.getText().substring(1, totalPriceField.getText().length());
+					String orderCost = totalPriceField.getText().substring(0, totalPriceField.getText().length());
 					String orderDescription = commentTextArea.getText();
 					ArrayList<Product> orderedproducts = new ArrayList<Product>();
 					
