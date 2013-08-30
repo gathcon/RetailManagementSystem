@@ -65,7 +65,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
       
     public void buildPanel(JPanel panel, final Database database) { 
           
-        this.database = database; 
+        this.database = database;
         productNameList = database.getProductList(); //array of type String[] 
           
         productList = new JList<String>(productNameList);

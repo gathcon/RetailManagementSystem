@@ -9,22 +9,21 @@ public class Product {
     private String productID;
     private int[] stockLevels;
     
-    public Product(String productName, String productType, double productPrice, String productBarcode){
-    	
-        this.productName = productName;
-        this.productType = productType;
-        this.productQuantity = null;
-        this.productPrice = productPrice;
-        this.productID = productBarcode;
-    }
-    
-    public Product(String productName, String productType, String productQuantity, double productPrice, String productBarcode){
+    public Product(String productName, String productType, double productPrice, String productQuantity){
     	
         this.productName = productName;
         this.productType = productType;
         this.productQuantity = productQuantity;
         this.productPrice = productPrice;
-        this.productID = productBarcode;
+    }
+    
+    public Product(String productName, String productType, String productQuantity, double productPrice, String productID){
+    	
+        this.productName = productName;
+        this.productType = productType;
+        this.productQuantity = productQuantity;
+        this.productPrice = productPrice;
+        this.productID = productID;
     }
  
     public String getProductName() {

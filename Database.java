@@ -2,6 +2,8 @@ package retailManagementSystem;
   
 import java.util.ArrayList; 
 import java.util.Arrays; 
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.swing.table.DefaultTableModel;
   
@@ -35,9 +37,10 @@ public class Database {
         this.addSupplier("02MMUH39", "Sean", "sean@gmail.com", "1234567890", "Wicklow"); 
         this.addSupplier("AO9U8NNE", "Bill", "bill@gmail.com", "0987654321", "Cork");
         
-        this.addProduct("iPod", "mp3", "100", 330, "AP0001");
-        this.addProduct("HP Envy", "Laptop", "40", 550, "HP0001");
         this.addProduct("Samsung Galaxy", "Phone", "75", 400, "SM0001");
+        this.addProduct("iPod", "mp3", "100", 330, "AP0001");
+        this.addProduct("Nexus 7", "Tablet", "30", 249, "N70001");
+        this.addProduct("HP Envy", "Laptop", "40", 550, "HP0001");
         
         this.addUserAccount("Stock", "Checker", "stock", "1234".toCharArray(), 3);
         this.addUserAccount("General", "Manager", "manager", "1234".toCharArray(), 1);
@@ -287,6 +290,7 @@ public class Database {
     }
     
     public String getProductTypeByName(String productName) {
+    	
 		String productType = null;
 		for(Product product: products) {
 			
@@ -299,6 +303,48 @@ public class Database {
 		
 		return productType;
 	}
+    
+    public void sortProducts() {
+    	
+    	int length = products.size();
+    	String key = "";
+    	int i = 0;
+    	
+    	for(Product product: products) {
+    		System.out.println("product : " + product.getProductName());
+    	}
+    	
+    	System.out.println("");
+    	
+    	for(int j = 1; j < length; j++) {
+    		
+    		key = products.get(j).getProductName();
+    		i = j - 1;
+    		
+    		while(i >= 0 && products.get(i).getProductName().compareTo(key) < 0) {
+    			
+    			Product p1 = products.get(i);
+    			Product p2 = products.get(i + 1);
+    			
+    			System.out.println("\np1 = " + p1.getProductName() + " p2 = " + p2.getProductName() + "\n");
+    			
+    			//remove products from list
+    			products.remove(i);
+    			products.remove(i + 1);
+    			
+    			//put back into list in each others positions
+    			products.add(i + 1, p1);
+    			i--;
+    			products.add(i + 1, p2);
+    			
+    			for(Product product: products) {
+    	    		System.out.println("product : " + product.getProductName());
+    	    	}
+    			System.out.println("");
+    		}
+    	}
+    	
+    }
     
     
     
@@ -330,41 +376,18 @@ public class Database {
 	public DefaultTableModel getOrdersData() {
 		
 		int rows = orders.size();
-		//int columns = 4;
-		//String[][] data = new String[rows][columns];
 		Object[] columnNames = {"ID", "Date", "Cost", "Supplier"};
 		DefaultTableModel ordersData = new DefaultTableModel(columnNames, rows);
-
+		
 		for(int i = 0; i < rows; i++) {
-			
-//			for(int j = 0; j < columns; j++) {
-//				
-//				if(j == 0) { data[i][j] = orders.get(i).getOrderID(); }
-//				else if (j == 1) { data[i][j] = orders.get(i).getOrderDate(); }
-//				else if (j == 2) { data[i][j] = orders.get(i).getOrderCost(); }
-//				else if (j == 3) { data[i][j] = orders.get(i).getSupplier().getSupplierName(); }
-//				
-//			}
 			
 			ordersData.setValueAt(orders.get(i).getOrderID(), i, 0);
 			ordersData.setValueAt(orders.get(i).getOrderDate(), i, 1);
 			ordersData.setValueAt(orders.get(i).getOrderCost(), i, 2);
 			ordersData.setValueAt(orders.get(i).getSupplier().getSupplierName(), i, 3);
-			
-//			Object[] orderData = {
-//					orders.get(i).getOrderID(),
-//					orders.get(i).getOrderDate(), 
-//					orders.get(i).getOrderCost(),
-//					orders.get(i).getSupplier().getSupplierName()
-//			};
-//				
-			//add row
-//			ordersTableModel.addRow(orderData);
-				
 		}
-		//System.out.println(ordersTableModel.getValueAt(0, 0));
+		
 		return ordersData;
-		//return data;
 	}
 	
     public String[] getOrderIDList(){
