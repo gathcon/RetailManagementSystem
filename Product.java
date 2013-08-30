@@ -9,7 +9,11 @@ public class Product {
     private String productID;
     private int[] stockLevels;
     
+<<<<<<< HEAD
+    public Product(String productName, String productType, double productPrice, String productBarcode){
+=======
     public Product(String productName, String productType, double productPrice, String productQuantity){
+>>>>>>> master
     	
         this.productName = productName;
         this.productType = productType;
@@ -17,13 +21,21 @@ public class Product {
         this.productPrice = productPrice;
     }
     
+<<<<<<< HEAD
+    public Product(String productName, String productType, String productQuantity, double productPrice, String productBarcode){
+=======
     public Product(String productName, String productType, String productQuantity, double productPrice, String productID){
+>>>>>>> master
     	
         this.productName = productName;
         this.productType = productType;
         this.productQuantity = productQuantity;
         this.productPrice = productPrice;
+<<<<<<< HEAD
+        this.productID = productBarcode;
+=======
         this.productID = productID;
+>>>>>>> master
     }
  
     public String getProductName() {

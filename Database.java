@@ -37,10 +37,16 @@ public class Database {
         this.addSupplier("02MMUH39", "Sean", "sean@gmail.com", "1234567890", "Wicklow"); 
         this.addSupplier("AO9U8NNE", "Bill", "bill@gmail.com", "0987654321", "Cork");
         
+<<<<<<< HEAD
+        this.addProduct("iPod", "mp3", "100", 330, "AP0001");
+        this.addProduct("HP Envy", "Laptop", "40", 550, "HP0001");
+        this.addProduct("Samsung Galaxy", "Phone", "75", 400, "SM0001");
+=======
         this.addProduct("Samsung Galaxy", "Phone", "75", 400, "SM0001");
         this.addProduct("iPod", "mp3", "100", 330, "AP0001");
         this.addProduct("Nexus 7", "Tablet", "30", 249, "N70001");
         this.addProduct("HP Envy", "Laptop", "40", 550, "HP0001");
+>>>>>>> master
         
         this.addUserAccount("Stock", "Checker", "stock", "1234".toCharArray(), 3);
         this.addUserAccount("General", "Manager", "manager", "1234".toCharArray(), 1);
@@ -304,6 +310,8 @@ public class Database {
 		return productType;
 	}
     
+<<<<<<< HEAD
+=======
     public void sortProducts() {
     	
     	int length = products.size();
@@ -346,6 +354,7 @@ public class Database {
     	
     }
     
+>>>>>>> master
     
     
     /*
