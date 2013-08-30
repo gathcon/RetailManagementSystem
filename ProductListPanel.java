@@ -82,8 +82,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
     private static final int border = 50;
     private static final int yHatchCount = 15;
     private static final int graphPointWidth = 12;
-    private int width = 800;
-    private int height = 550;
+    
     
     int [] stockLevels  = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     double [] predictedStockLevels = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -175,6 +174,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 		//newGraphPane = new CreateStockGraph();
 		//newGraphPane.buildPanel(graphPanel, panel, database);
 		
+		
 		graphPanel = new graph();
 		
 
@@ -204,6 +204,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 		createConstraint(panel, newPanel,		0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(panel, graphPanel,	0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		
+		graphPanel.setSize(900, 600);
 		graphPanel.setVisible(false);
     } 
     
@@ -493,20 +494,22 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
             } 
     }
     class graph extends JPanel{
-    	protected void paintComponent(Graphics g) {    
+        
+    	protected void paintComponent(Graphics g) { 
+    		
             super.paintComponent(g);
             Graphics2D g2 = (Graphics2D)g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             
             // Draw x and y axis
-            g2.draw(new Line2D.Double(border, border, border, height-border));
-            g2.draw(new Line2D.Double(border, height-border, width-border, height-border));
+            g2.draw(new Line2D.Double(border, border, border, getHeight()-border));
+            g2.draw(new Line2D.Double(border, getHeight()-border, getWidth()-border, getHeight()-border));
             
              
             for (int i = 0; i < yHatchCount; i++) {
                  int x0 = border;
                  int x1 = graphPointWidth + border;
-                 int y0 = height - (((i) * (height - border * 2)) / yHatchCount + border);
+                 int y0 = getHeight() - (((i) * (getHeight() - border * 2)) / yHatchCount + border);
                  int y1 = y0;
                  g2.drawLine(x0, y0, x1, y1);
                  FontMetrics fm = g2.getFontMetrics();
@@ -517,9 +520,9 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
              
          // and for x axis
               for (int i = 0; i < 12; i++) { 
-                 int x0 = (i) * (width - border * 2) / (12 - 1) + border;
+                 int x0 = (i) * (getWidth() - border * 2) / (12 - 1) + border;
                  int x1 = x0;
-                 int y0 = height - border;
+                 int y0 = getHeight() - border;
                  int y1 = y0 - graphPointWidth;
                  g2.drawLine(x0, y0, x1, y1);
                  FontMetrics fm = g2.getFontMetrics();
@@ -535,7 +538,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
              
             // Ordinate label.
             String Label = "STOCK";
-            float sy = border + ((height - 2*border) - Label.length()*sh)/2 + lm.getAscent();
+            float sy = border + ((getHeight() - 2*border) - Label.length()*sh)/2 + lm.getAscent();
             
             for(int i = 0; i < Label.length(); i++) {
                 String letter = String.valueOf(Label.charAt(i));
@@ -547,32 +550,33 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
              
             // Abcissa label.
             Label = "MONTHS";
-            sy = height - border + (border - sh)/2 + lm.getAscent();
+            sy = getHeight() - border + (border - sh)/2 + lm.getAscent();
             float sw = (float)font.getStringBounds(Label, frc).getWidth();
-            float sx = (width - sw)/2;
+            float sx = (getWidth() - sw)/2;
             g2.drawString(Label, sx, sy);
+            
              
             // Draw stock level lines.
-            double xInc = (double)(width - 2*border)/(12-1);
-            double scale = (double)(height - 2*border)/maxStock;
+            double xInc = (double)(getWidth() - 2*border)/(12-1);
+            double scale = (double)(getHeight() - 2*border)/maxStock;
             g2.setPaint(Color.green.darker());
             for(int i = 0; i < stockLevels.length-1; i++) {
                 double x1 = border + i*xInc;
-                double y1 = height - border - scale*stockLevels[i];
+                double y1 = getHeight() - border - scale*stockLevels[i];
                 double x2 = border + (i+1)*xInc;
-                double y2 = height - border - scale*stockLevels[i+1];
+                double y2 = getHeight() - border - scale*stockLevels[i+1];
                 g2.draw(new Line2D.Double(x1, y1, x2, y2));
             }
              
             // Draw predicted stock level lines.
-            double xInc2 = (double)(width - 2*border)/(12-1);
-            double scale2 = (double)(height - 2*border)/maxStock;
+            double xInc2 = (double)(getWidth() - 2*border)/(12-1);
+            double scale2 = (double)(getHeight() - 2*border)/maxStock;
             g2.setPaint(Color.red.darker());
             for(int i = 0; i < predictedStockLevels.length-1; i++) {
                 double a1 = border + i*xInc2;
-                double b1 = height - border - scale*predictedStockLevels[i];
+                double b1 = getHeight() - border - scale*predictedStockLevels[i];
                 double a2 = border + (i+1)*xInc2;
-                double b2 = height - border - scale2*predictedStockLevels[i+1];
+                double b2 = getHeight() - border - scale2*predictedStockLevels[i+1];
                 g2.draw(new Line2D.Double(a1, b1, a2, b2));
             }
              
@@ -580,7 +584,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
             g2.setPaint(Color.white);
             for(int i = 0; i < stockLevels.length; i++) {
                 double x = border + i*xInc;
-                double y = height - border - scale*stockLevels[i];
+                double y = getHeight() - border - scale*stockLevels[i];
                 g2.fill(new Ellipse2D.Double(x-2, y-2, 4, 4));
             }
              
@@ -588,7 +592,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
             g2.setPaint(Color.black);
             for(int i = 0; i < predictedStockLevels.length; i++) {
                 double x = border + i*xInc2;
-                double y = height - border - scale2*predictedStockLevels[i];
+                double y = getHeight() - border - scale2*predictedStockLevels[i];
                 g2.fill(new Ellipse2D.Double(x-2, y-2, 4, 4));
             }
            
