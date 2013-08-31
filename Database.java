@@ -114,6 +114,23 @@ public class Database {
         return customers.get(i); 
     }
     
+
+    public Customer getCustomerByName(String customerName) {
+    	
+		int i = 0;
+		for(Customer customer: customers) {
+			
+			if(customer.getCustomerName().equals(customerName)) {	
+				
+				break;		
+			}
+			
+			i++;
+		}
+		
+		return customers.get(i);
+	}
+    
     public boolean checkCustomerID(String id) {
     	
         boolean validId = false; 
@@ -442,6 +459,13 @@ public class Database {
     /*
      * invoice methods
      */
+	
+	public void addInvoice(String invoiceID, Customer customer, String invoiceDate, String invoiceDeliveryDate, String invoiceCost,
+    		boolean isInvoiceOutstanding, ArrayList<Product> products, String invoiceComment){
+    	
+    	Invoice invoice = new Invoice(invoiceID, customer, invoiceDate, invoiceDeliveryDate, invoiceCost, isInvoiceOutstanding, products, invoiceComment);
+		invoices.add(invoice);
+	}
 	
 	public ArrayList<Invoice> getInvoices(){
 		return invoices;

@@ -10,6 +10,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter; 
 import java.awt.event.MouseEvent; 
   
+
+import java.util.ArrayList;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton; 
 import javax.swing.JComboBox; 
@@ -17,6 +20,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel; 
 import javax.swing.JPanel; 
 import javax.swing.JScrollPane; 
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane; 
 import javax.swing.JTable; 
 import javax.swing.JTextArea;
@@ -48,24 +52,28 @@ public class OrderListPanel extends JPanel implements ActionListener{
       
     private JPanel tablePanel; 
     private JPanel newOrderPanel; 
-    private JPanel mainPanel;
+    private JPanel mainPanel; 
     private JPanel dynamicPanel;
       
     private CreateNewOrderUI newOrderPane; 
       
     private JLabel productLabel, quantityLabel, priceLabel; 
-    private JTextField productField1, productField2, productField3, productField4; 
-    private JTextField quantityField1, quantityField2, quantityField3, quantityField4; 
-    private JTextField priceField1,  priceField2,  priceField3,  priceField4; 
-    private JTextArea productTextArea;
       
     private JLabel filterLabel; 
-    private JComboBox<String> filteredSelection; 
+    private JComboBox filteredSelection; 
     private JTextField filterField; 
     private TableRowSorter<TableModel> sorter; 
     private String [] columnNames = {"Order ID", "Delivery Date","Cost","Outstanding"}; 
+    private JSplitPane splitPane;
   
-    private int filterIndex = 0; 
+    private int filterIndex = 0;
+    private OrderListPanel orderPane;
+    
+    private ArrayList<JTextField> productFields  = new ArrayList<JTextField>();
+    private ArrayList<JTextField> quantityFields = new ArrayList<JTextField>();
+    private ArrayList<JTextField> priceFields    = new ArrayList<JTextField>();
+	private static  int count1 = 0;
+	
       
     public OrderListPanel() { 
         System.out.println("OrderListPanel created"); 
@@ -75,10 +83,22 @@ public class OrderListPanel extends JPanel implements ActionListener{
         this.tabbedPane = tabbedPane; 
     } 
           
-    public void buildPanel(JPanel panel, final Database database) { 
+    public void buildPanel(JPanel panel, final Database database, OrderListPanel orderPane) { 
           
         this.mainPanel = panel; 
-        this.database = database; 
+        this.database = database;
+        this.orderPane = orderPane;
+        
+        dynamicPanel = new JPanel();
+        //dynamicPanel.setBackground(Color.BLUE);
+        dynamicPanel.setLayout(new GridBagLayout());
+        
+        final JScrollPane scrollDynamicPanel = new JScrollPane(dynamicPanel);
+        scrollDynamicPanel.setAutoscrolls(true);
+        scrollDynamicPanel.setVisible(true);
+        
+        dynamicPanel.setAutoscrolls(true);
+        dynamicPanel.setVisible(true);
                   
         DefaultTableModel orderTableModel = new DefaultTableModel() { 
   
@@ -92,14 +112,75 @@ public class OrderListPanel extends JPanel implements ActionListener{
         tableOfOrders.setModel(orderTableModel); 
         orderScrollPane = new JScrollPane(tableOfOrders); 
         orderTableModel.setColumnIdentifiers(columnNames); 
+        int row = 0; 
         for(Order order : database.getOrders()){ 
             orderTableModel.addRow(new String[] { 
                     order.getOrderID(), 
                     order.getOrderDeliveryDate(), 
                     order.getOrderCost(), 
                     String.valueOf(order.isOrderOutstanding())}); 
+            row++; 
         } 
-        tableOfOrders.setVisible(true);
+        tableOfOrders.setVisible(true); 
+          
+        tableOfOrders.addMouseListener(new MouseAdapter(){ 
+            public void mouseClicked(MouseEvent e){ 
+                for(Order order : database.getOrders()){ 
+                    if(order.getOrderID().equals(tableOfOrders.getValueAt(tableOfOrders.getSelectedRow(), 0).toString())){ 
+                        resetTextFields(); 
+                        
+                        createConstraint(dynamicPanel, productLabel,      0, 0, 2, 1, 0, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
+                        createConstraint(dynamicPanel, quantityLabel,     2, 0, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
+                        createConstraint(dynamicPanel, priceLabel,        3, 0, 1, 1, 0, 0, 2, 2, 2, 20, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+
+                        for(int productInOrder=0; productInOrder < order.getProducts().size() ; productInOrder++){ 
+
+	       	            	productFields.add(new JTextField());
+	                    	quantityFields.add(new JTextField());
+	       	            	priceFields.add(new JTextField());
+	       	            	
+	       	            	count1 =  count1 + 1;
+							JTextField component = productFields.get(productFields.size()-1);
+							component.setEditable(false);
+							component.setBackground(new Color(255,255,220));
+							component.setText(order.getProducts().get(productInOrder).getProductName());
+							createConstraint(dynamicPanel, component, 	0, count1, 2, 1, 0, 0, 2, 20, 2, 2, 2, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+	                    	   
+							JTextField component1 = quantityFields.get(quantityFields.size()-1);
+							component1.setEditable(false);
+							component1.setBackground(new Color(255,255,220));
+							component1.setText(order.getProducts().get(productInOrder).getProductQuantity());
+							createConstraint(dynamicPanel, component1, 	2, count1, 1, 1, 0, 0, 2, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+							
+							JTextField component2 = priceFields.get(priceFields.size()-1);
+							component2.setEditable(false);
+							component2.setBackground(new Color(255,255,220));
+							component2.setText(Double.toString(order.getProducts().get(productInOrder).getProductPrice()));
+							createConstraint(dynamicPanel, component2, 	3, count1, 1, 1, 0, 0, 2, 2, 2, 20, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+						
+                        }
+                        
+                        JTextArea component3 = new JTextArea();
+   					    component3.setEditable(false);
+   					  	component3.setBackground(new Color(255,255,220));
+   						component3.append(order.getOrderDescription());
+   						component3.setBorder(BorderFactory.createLoweredBevelBorder());
+   					    createConstraint(dynamicPanel, component3, 	0, count1 + 1, 4, 2, 0, 0, 2, 20, 2, 20, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+                        
+   						dynamicPanel.setVisible(true);
+						dynamicPanel.validate();
+						dynamicPanel.repaint();
+						scrollDynamicPanel.setVisible(true);
+						scrollDynamicPanel.validate();
+						scrollDynamicPanel.repaint();
+   					    
+   					    count1 = 0;
+                    }
+                    
+                    
+                } 
+            } 
+        }); 
                   
         orderListLabel = new JLabel("Order Control", SwingConstants.CENTER); 
         orderListLabel.setOpaque(true); 
@@ -116,7 +197,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
         newOrderButton = new JButton("Create new order"); 
         newOrderButton.addActionListener(this); 
         filterLabel = new JLabel("Filter by:"); 
-        filteredSelection = new JComboBox<String>(columnNames); 
+        filteredSelection = new JComboBox(columnNames); 
         filteredSelection.setSelectedIndex(0); //default setting is InvoiceID 
         filteredSelection.addActionListener(this); 
         filterField = new JTextField(); 
@@ -158,64 +239,37 @@ public class OrderListPanel extends JPanel implements ActionListener{
             } 
               
         }); 
-        productLabel = new JLabel("Product:"); 
-        quantityLabel = new JLabel("Quantity:"); 
-        priceLabel = new JLabel("Price:");
+        productLabel = new JLabel("Product: "); 
+        quantityLabel = new JLabel("Quantity: "); 
+        priceLabel = new JLabel("Price: "); 
+        
+          
           
         tablePanel = new JPanel(); 
         newOrderPanel = new JPanel(); 
           
         newOrderPane = new CreateNewOrderUI(); 
-        newOrderPane.buildPanel(newOrderPanel, tablePanel, database, tableOfOrders); 
+        newOrderPane.buildPanel(newOrderPanel, tablePanel, database, tableOfOrders, orderPane); 
           
         tablePanel.setLayout(new GridBagLayout()); 
         mainPanel.setLayout(new GridBagLayout());
         
-        dynamicPanel = new JPanel();
-        dynamicPanel.setLayout(new GridBagLayout()); 
+              
+       //Create a split pane with the two scroll panes in it.
+        splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, tablePanel, scrollDynamicPanel);
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setDividerLocation(300);
         
         createConstraint(tablePanel, orderListLabel,    0, 0, 3, 1, 0, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, newOrderButton,    0, 1, 1, 1, 50, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE);
-        createConstraint(tablePanel, filterLabel,       1, 1, 1, 1, 0, 0, 7, 45, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE); 
+        createConstraint(tablePanel, newOrderButton,    0, 1, 1, 1, 50, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE); 
+        createConstraint(tablePanel, orderScrollPane,   0, 2, 3, 1, 0, 0, 2, 20, 2, 20, 1, 0.5, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
+        createConstraint(tablePanel, filterLabel,       1, 1, 1, 4, 0, 0, 7, 45, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE); 
         createConstraint(tablePanel, filteredSelection, 1, 1, 1, 1, 0, 0, 2, 100, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE); 
         createConstraint(tablePanel, filterField,       1, 1, 1, 1, 100, 6, 2, 210, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE); 
-        createConstraint(tablePanel, orderScrollPane,   0, 2, 3, 1, 0, 0, 2, 20, 2, 20, 1, 0.5, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        
-        createConstraint(tablePanel, dynamicPanel,      0, 4, 3, 1, 0, 0, 20, 20, 20, 20, 1, 0.5, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
+       
+        createConstraint(mainPanel, splitPane,         0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 3, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
+        createConstraint(mainPanel, newOrderPanel,     0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
           
-        createConstraint(mainPanel, tablePanel,         0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 3, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(mainPanel, newOrderPanel,      0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        
-        tableOfOrders.addMouseListener(new MouseAdapter(){ 
-            public void mouseClicked(MouseEvent e){
-            	
-            	String selectedOrderID = tableOfOrders.getValueAt(tableOfOrders.getSelectedRow(), 0).toString();
-            	
-            	Order order = database.getOrderByID(selectedOrderID);
-            	
-            	dynamicPanel.removeAll();
-            	
-            	createConstraint(dynamicPanel, productLabel,      0, 0, 1, 1, 0, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-                createConstraint(dynamicPanel, quantityLabel,     1, 0, 1, 1, 0, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-                createConstraint(dynamicPanel, priceLabel,        2, 0, 1, 1, 0, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-                
-            	for(int i = 0; i < order.getProducts().size(); i++){
-            		System.out.println(order.getProducts().get(i).getProductName());
-            		
-            		JLabel productNameLabel = new JLabel(order.getProducts().get(i).getProductName());
-            		JLabel productQuantityLabel = new JLabel(order.getProducts().get(i).getProductQuantity());
-            		JLabel productPriceLabel = new JLabel(String.valueOf(order.getProducts().get(i).getProductPrice()));
-                    
-                	createConstraint(dynamicPanel, productNameLabel,		0, i+1, 1, 1, 0, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-                	createConstraint(dynamicPanel, productQuantityLabel,	1, i+1, 1, 1, 0, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-                	createConstraint(dynamicPanel, productPriceLabel,		2, i+1, 1, 1, 0, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-            	}
-            	
-				mainPanel.validate();
-				mainPanel.repaint();
-            } 
-        });
-        
         newOrderPanel.setVisible(false); 
     } 
       
@@ -237,11 +291,26 @@ public class OrderListPanel extends JPanel implements ActionListener{
             panel.add(component, constraints); 
     } 
       
+    public void resetTextFields() { 
+    	
+    	for(int i = 0; i < productFields.size(); i++){
+			productFields.remove(i);
+			quantityFields.remove(i);
+			priceFields.remove(i);
+		}
+    	
+    	dynamicPanel.removeAll();
+		dynamicPanel.setVisible(true);
+		dynamicPanel.validate();
+		dynamicPanel.repaint();
+    } 
+      
     private void newFilter() { 
            // RowFilter<? super TableModel, ? super Integer> rf = null; 
             RowFilter<TableModel, Object> rf = null; 
             //If current expression doesn't parse, don't update. 
             try { 
+                 resetTextFields(); 
                 rf = RowFilter.regexFilter(filterField.getText(), filterIndex ); 
                 System.out.println("filtering   " + filterIndex + filterField.getText()); 
             } catch (java.util.regex.PatternSyntaxException e) { 
@@ -257,8 +326,16 @@ public class OrderListPanel extends JPanel implements ActionListener{
         if(e.getActionCommand().equals("Create new order")) { 
               
             //go to create order view 
-            tablePanel.setVisible(false); 
-            newOrderPanel.setVisible(true);  
+            tablePanel.setVisible(false);
+            tablePanel.invalidate();
+            dynamicPanel.setVisible(false);
+            dynamicPanel.invalidate();
+            splitPane.setVisible(false);
+            splitPane.invalidate();
+            
+            newOrderPanel.setVisible(true);
+            newOrderPanel.validate();
+            mainPanel.repaint();
             System.out.println("order panel invisible"); 
               
             //update the comboBox lists 
@@ -270,5 +347,26 @@ public class OrderListPanel extends JPanel implements ActionListener{
             System.out.println("tabs disabled"); 
         } 
           
-    } 
+    }
+
+	public JTable getTableOfOrders() {
+		return tableOfOrders;
+	}
+
+	public JPanel getTablePanel() {
+		return tablePanel;
+	}
+
+	public JPanel getDynamicPanel() {
+		return dynamicPanel;
+	}
+
+	public JSplitPane getSplitPane() {
+		return splitPane;
+	}
+
+	public JPanel getMainPanel() {
+		return mainPanel;
+	}
+  
 }

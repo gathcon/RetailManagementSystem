@@ -5,23 +5,24 @@ import java.util.ArrayList;
 public class Invoice {
 	
 	private String invoiceID;
+	private String invoiceDate;
 	private String invoiceDeliveryDate;
 	private String invoiceCost;
 	private boolean isInvoiceOutstanding;
-	private String invoiceQuantity;
-	
 	private ArrayList<Product> products = new ArrayList<Product>();
-	
 	private Customer customer;
+	private String comment;
 	
-	public Invoice(String invoiceID, String invoiceDeliveryDate, String invoiceCost, boolean isInvoiceOutstanding, String invoiceQuantity,
-			Customer customer){
+	public Invoice(String invoiceID, Customer customer, String invoiceDate, String invoiceDeliveryDate, String invoiceCost,
+    		boolean isInvoiceOutstanding, ArrayList<Product> products, String invoiceComment){
 		this.invoiceID = invoiceID;
+		this.invoiceDate = invoiceDate;
 		this.invoiceDeliveryDate = invoiceDeliveryDate;
 		this.invoiceCost = invoiceCost;
 		this.isInvoiceOutstanding = isInvoiceOutstanding;
-		this.invoiceQuantity = invoiceQuantity;
+		this.products = products;
 		this.customer = customer;
+		this.comment = invoiceComment;
 	}
 	
 	public ArrayList<Product> getProducts() {
@@ -39,15 +40,6 @@ public class Invoice {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	
-	public String calculateInvoiceCost(){
-		
-		for(Product product: products){
-		double cost = Double.parseDouble(invoiceQuantity)*product.getProductPrice();
-		invoiceCost = Integer.parseInt(invoiceCost)  + Double.toString(cost);
-		}
-		return invoiceCost;
-	}
 
 	public void addProductToOrder(Product product) {
 	products.add(product);
@@ -57,13 +49,6 @@ public class Invoice {
 	products.remove(product);
 	}
 
-	public String getInvoiceQuantity() {
-		return invoiceQuantity;
-	}
-
-	public void setInvoiceQuantity(String invoiceQuantity) {
-		this.invoiceQuantity = invoiceQuantity;
-	}
 
 	public String getInvoiceID() {
 		return invoiceID;
@@ -71,6 +56,14 @@ public class Invoice {
 
 	public void setInvoiceID(String invoiceID) {
 		this.invoiceID = invoiceID;
+	}
+
+	public String getInvoiceDate() {
+		return invoiceDate;
+	}
+
+	public void setInvoiceDate(String invoiceDate) {
+		this.invoiceDate = invoiceDate;
 	}
 
 	public String getInvoiceDeliveryDate() {
@@ -97,5 +90,14 @@ public class Invoice {
 		this.isInvoiceOutstanding = isInvoiceOutstanding;
 	}
 
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	
 }
 

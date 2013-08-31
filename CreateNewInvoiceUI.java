@@ -36,12 +36,12 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 
-public class CreateNewOrderUI {
+public class CreateNewInvoiceUI {
 	
 	private static double totalPrice = 0;
 	private static double  deliveryCost = 0;
 
-	private boolean updateOrderID = true;
+	private boolean updateInvoiceID = true;
 	
 	private static  int count = 0, count1 = 0, count2 = 0, count3 = 0;
 	private JPanel dynamicPanel;
@@ -55,42 +55,42 @@ public class CreateNewOrderUI {
 	private ArrayList<Boolean> updateQuantityCombobox = new ArrayList<Boolean>();
 	
 	
-	private JLabel orderLabel, unitPriceLabel, priceLabel, totalPriceLabel, commentLabel;
-	private JLabel orderIDLabel, supplierNameLabel, orderDateLabel, productLabel, quantityLabel;
-	private JLabel deliveryDaysLabel, deliveryCostLabel,  deliveryDateLabel;
+	private JLabel invoiceLabel, unitPriceLabel, priceLabel, totalPriceLabel, commentLabel;
+	private JLabel invoiceIDLabel, customerNameLabel, invoiceDateLabel, productLabel, quantityLabel;
+	private JLabel deliveryDaysLabel, deliveryCostLabel, deliveryDateLabel;
 	private JTextArea  commentTextArea;
 	
-	private JTextField orderIDField, orderDateField, deliveryCostField;
-	private JTextField totalPriceField,  deliveryDateField;
+	private JTextField invoiceIDField, invoiceDateField, deliveryCostField;
+	private JTextField totalPriceField, deliveryDateField;
 	
-	private JComboBox<String> supplierNameComboBox, deliveryDaysComboBox;
+	private JComboBox<String> customerNameComboBox, deliveryDaysComboBox;
 
 	
-	private JButton orderClearButton, orderSaveButton, addButton, orderCancelButton;
+	private JButton invoiceClearButton, invoiceSaveButton, addButton, invoiceCancelButton;
 
 	
 	
-	private Date orderDate;
+	private Date invoiceDate;
 	
 	private String deliveryDate = "";
 	
-	private JPanel orderPanel;
+	private JPanel invoicePanel;
 	private JPanel tablePanel;
 	
-	private JTable tableOfOrders;
+	private JTable tableOfInvoices;
 	
-	private DefaultTableModel orderTableModel;
+	private DefaultTableModel invoiceTableModel;
 	
 	private TableRowSorter<TableModel> sorter;
 	
 	private Database database;
 	
-	private String[] supplierListNames;
+	private String[] customerListNames;
 	private String[] productListNames;
-	private OrderListPanel orderPane;
+	private InvoiceListPanel invoicePane;
 	private JTabbedPane tabbedPane;
 	
-	public CreateNewOrderUI(){
+	public CreateNewInvoiceUI(){
 		
 	}
 	
@@ -99,12 +99,12 @@ public class CreateNewOrderUI {
 	}
 	
 	public void updateComboBoxData() {
-		supplierListNames = database.getSupplierList();
+		customerListNames = database.getCustomerList();
 		productListNames = database.getProductList();
 		
-		supplierNameComboBox.setModel(new DefaultComboBoxModel<String>(supplierListNames));
-		supplierNameComboBox.addItem("Please Select");
-		supplierNameComboBox.setSelectedItem("Please Select");
+		customerNameComboBox.setModel(new DefaultComboBoxModel<String>(customerListNames));
+		customerNameComboBox.addItem("Please Select");
+		customerNameComboBox.setSelectedItem("Please Select");
 		
 		for(JComboBox<String> tempComboBox : productComboBox){
 			tempComboBox.setModel(new DefaultComboBoxModel<String>(productListNames));
@@ -131,60 +131,60 @@ public class CreateNewOrderUI {
 
 		totalPriceField.setText("0.00");
 
-		System.out.println("Product and supplier list updated.");
+		System.out.println("Product and customer list updated.");
 	}
 
 	
-	public void buildPanel(final JPanel orderPanel, final JPanel tablePanel, final Database database, JTable tableOfOrders,
-			final OrderListPanel orderPane) {
+	public void buildPanel(final JPanel invoicePanel, final JPanel tablePanel, final Database database, JTable tableOfInvoices,
+			final InvoiceListPanel invoicePane) {
 		
-		this.orderPanel = orderPanel;
+		this.invoicePanel = invoicePanel;
 		this.tablePanel = tablePanel;
 		this.database = database;
-		this.tableOfOrders = tableOfOrders;
-		this.orderPane = orderPane;
+		this.tableOfInvoices = tableOfInvoices;
+		this.invoicePane = invoicePane;
 		
 		//this.splitPane = splitPane;
 		
-		orderLabel = new JLabel("Create New Order", SwingConstants.CENTER);
-		orderLabel.setOpaque(true);
-		orderLabel.setBackground(new Color(0,51,102));
-		orderLabel.setForeground(Color.WHITE);
-		orderLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
+		invoiceLabel = new JLabel("Create New Invoice", SwingConstants.CENTER);
+		invoiceLabel.setOpaque(true);
+		invoiceLabel.setBackground(new Color(0,51,102));
+		invoiceLabel.setForeground(Color.WHITE);
+		invoiceLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
 		
-		orderIDLabel = new JLabel("OrderID:", SwingConstants.RIGHT);
-		orderIDField = new JTextField();
-		orderIDField.setEditable(false);
-		orderIDField.setBackground(Color.WHITE);
-		orderIDField.setHorizontalAlignment(SwingConstants.CENTER);	
+		invoiceIDLabel = new JLabel("InvoiceID:", SwingConstants.RIGHT);
+		invoiceIDField = new JTextField();
+		invoiceIDField.setEditable(false);
+		invoiceIDField.setBackground(Color.WHITE);
+		invoiceIDField.setHorizontalAlignment(SwingConstants.CENTER);	
 	
-		supplierListNames = database.getSupplierList();	
-		supplierNameLabel = new JLabel("Supplier Name:", SwingConstants.RIGHT);
-		supplierNameComboBox = new JComboBox<String>(supplierListNames);
-		supplierNameComboBox.addItem("Please Select");
-		supplierNameComboBox.setSelectedIndex(0);
-		supplierNameComboBox.setSelectedItem("Please Select");
-		supplierNameComboBox.setMaximumRowCount(7);
-		supplierNameComboBox.addActionListener(new ActionListener(){
+		customerListNames = database.getCustomerList();	
+		customerNameLabel = new JLabel("Customer Name:", SwingConstants.RIGHT);
+		customerNameComboBox = new JComboBox<String>(customerListNames);
+		customerNameComboBox.addItem("Please Select");
+		customerNameComboBox.setSelectedIndex(0);
+		customerNameComboBox.setSelectedItem("Please Select");
+		customerNameComboBox.setMaximumRowCount(7);
+		customerNameComboBox.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				 if (e.getSource().equals(supplierNameComboBox) && updateOrderID == true){
-						orderIDField.setText(generateUniqueId());
-						updateOrderID = false;
+				 if (e.getSource().equals(customerNameComboBox) && updateInvoiceID == true){
+						invoiceIDField.setText(generateUniqueId());
+						updateInvoiceID = false;
 				 }
 			}		 
 		 });
 
 
 		
-		orderDateLabel = new JLabel("Order Date:", SwingConstants.RIGHT);
+		invoiceDateLabel = new JLabel("Invoice Date:", SwingConstants.RIGHT);
 		
-		orderDate = new Date();
+		invoiceDate = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yyyy");
-		orderDateField = new JTextField(ft.format(orderDate));
-		orderDateField.setBackground(Color.WHITE);
-		orderDateField.setEditable(false);
-		orderDateField.setHorizontalAlignment(SwingConstants.CENTER);
+		invoiceDateField = new JTextField(ft.format(invoiceDate));
+		invoiceDateField.setBackground(Color.WHITE);
+		invoiceDateField.setEditable(false);
+		invoiceDateField.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		commentLabel = new JLabel("Comments");
 		commentTextArea = new JTextArea();
@@ -225,31 +225,32 @@ public class CreateNewOrderUI {
 		deliveryDateField = new JTextField();
 		deliveryDateField.setEditable(false);
 		deliveryDateField.setBackground(Color.WHITE);
-
-		orderCancelButton = new JButton("Cancel");
-		orderCancelButton.addActionListener(new ActionListener(){
+		
+		
+		invoiceCancelButton = new JButton("Cancel");
+		invoiceCancelButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == orderCancelButton){
+				if(e.getSource() == invoiceCancelButton){
 					
 					//go back to table view
 					
 
-					orderPanel.setVisible(false);
-					orderPanel.invalidate();
+					invoicePanel.setVisible(false);
+					invoicePanel.invalidate();
 					
-					orderPane.getSplitPane().setVisible(true);
-					orderPane.getSplitPane().validate();
-					orderPane.getSplitPane().setDividerLocation(300);
-					orderPane.getTablePanel().setVisible(true);
-					orderPane.getTablePanel().validate();
-					orderPane.getDynamicPanel().setVisible(true);
-					orderPane.getDynamicPanel().validate();
-					orderPane.getMainPanel().setVisible(true);
+					invoicePane.getSplitPane().setVisible(true);
+					invoicePane.getSplitPane().validate();
+					invoicePane.getSplitPane().setDividerLocation(300);
+					invoicePane.getTablePanel().setVisible(true);
+					invoicePane.getTablePanel().validate();
+					invoicePane.getDynamicPanel().setVisible(true);
+					invoicePane.getDynamicPanel().validate();
+					invoicePane.getMainPanel().setVisible(true);
 				
-					orderPane.getMainPanel().repaint();
+					invoicePane.getMainPanel().repaint();
 					
-					System.out.println("order panel visible");
+					System.out.println("invoice panel visible");
 					
 					//enable tabs
 					tabbedPane.setEnabled(true);
@@ -260,53 +261,53 @@ public class CreateNewOrderUI {
 		
 	
 		
-		orderSaveButton	= new JButton("Save");
-		orderSaveButton.addActionListener(new OrderButtonListener(database));	
+		invoiceSaveButton	= new JButton("Save");
+		invoiceSaveButton.addActionListener(new InvoiceButtonListener(database));	
 		
-		orderClearButton = new JButton("Clear");
-		orderClearButton.addActionListener(new ActionListener(){
+		invoiceClearButton = new JButton("Clear");
+		invoiceClearButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource().equals(orderClearButton)){
-					clearOrderPanel();
-					updateOrderID = true;
+				if(e.getSource().equals(invoiceClearButton)){
+					clearInvoicePanel();
+					updateInvoiceID = true;
 				}
 			}
 		});	
 		
-		orderSaveButton	= new JButton("Save");
-		orderSaveButton.addActionListener(new OrderButtonListener(database));
+		invoiceSaveButton	= new JButton("Save");
+		invoiceSaveButton.addActionListener(new InvoiceButtonListener(database));
 		
 		
 		addButton = new JButton("Add Product");
 		
-		orderPanel.setLayout(new GridBagLayout());
-	    final JScrollPane scrollOrder = new JScrollPane(orderPanel);
+		invoicePanel.setLayout(new GridBagLayout());
+	    final JScrollPane scrollInvoice = new JScrollPane(invoicePanel);
 	    dynamicPanel = new JPanel();
 	    dynamicPanel.setLayout(new GridBagLayout());
 	    scrollPane = new JScrollPane(dynamicPanel);
 	    
-	    orderPanel.setVisible(true);
-	    scrollOrder.setVisible(true);
+	    invoicePanel.setVisible(true);
+	    scrollInvoice.setVisible(true);
 		
-		createConstraint(orderPanel, orderLabel,	 		0, 0, 6, 1, 0, 10, 2, 2, 2, 2, 1, 0);
+		createConstraint(invoicePanel, invoiceLabel,	 		0, 0, 6, 1, 0, 10, 2, 2, 2, 2, 1, 0);
 		
-		createConstraint(orderPanel, supplierNameLabel,	 	0, 1, 1, 1, 0, 0, 20, 20, 2, 2, 0, 0);
-		createConstraint(orderPanel, supplierNameComboBox,	1, 1, 1, 1, 0, 0, 20, 20, 2, 2, 0, 0);
+		createConstraint(invoicePanel, customerNameLabel,	 	0, 1, 1, 1, 0, 0, 20, 20, 2, 2, 0, 0);
+		createConstraint(invoicePanel, customerNameComboBox,	1, 1, 1, 1, 0, 0, 20, 20, 2, 2, 0, 0);
 		
-		createConstraint(orderPanel, orderIDLabel,	 		2, 1, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, orderIDField,	 		3, 1, 1, 1, 10, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(invoicePanel, invoiceIDLabel,	 		2, 1, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(invoicePanel, invoiceIDField,	 		3, 1, 1, 1, 10, 0, 20, 2, 2, 2, 0, 0);
 		
-		createConstraint(orderPanel, orderDateLabel,	 	4, 1, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, orderDateField,	 	5, 1, 1, 1, 10, 0, 20, 2, 2, 20, 0, 0);
+		createConstraint(invoicePanel, invoiceDateLabel,	 	4, 1, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(invoicePanel, invoiceDateField,	 	5, 1, 1, 1, 10, 0, 20, 2, 2, 20, 0, 0);
 		
-		createConstraint(orderPanel, productLabel,		 	0, 2, 2, 1, 0, 0, 2,20,2,2, 1, 1);
-		createConstraint(orderPanel, quantityLabel,			2, 2, 1, 1, 0, 0, 2,2,2,2, 1, 1);
-		createConstraint(orderPanel, unitPriceLabel,	 	3, 2, 1, 1, 0, 0, 2,2,2,2, 1, 1);
-		createConstraint(orderPanel, priceLabel,	 	 	5, 2, 1, 1, 0, 0, 2,2,2,20, 1, 1);
+		createConstraint(invoicePanel, productLabel,		 	0, 2, 2, 1, 0, 0, 2,20,2,2, 1, 1);
+		createConstraint(invoicePanel, quantityLabel,			2, 2, 1, 1, 0, 0, 2,2,2,2, 1, 1);
+		createConstraint(invoicePanel, unitPriceLabel,	 	3, 2, 1, 1, 0, 0, 2,2,2,2, 1, 1);
+		createConstraint(invoicePanel, priceLabel,	 	 	5, 2, 1, 1, 0, 0, 2,2,2,20, 1, 1);
 		
 		
-		createConstraint(orderPanel, scrollPane,	 	 	0, 3, 6, 3, 0, 0, 2,10,2,10, 1, 20);
+		createConstraint(invoicePanel, scrollPane,	 	 	0, 3, 6, 3, 0, 0, 2,10,2,10, 1, 20);
 		
 		createProductField();
 		
@@ -367,31 +368,30 @@ public class CreateNewOrderUI {
 	            } 
 	     }); 
 		
-		createConstraint(orderPanel, addButton,	    		5, 7 + count3, 1, 1, 0, 0, 20, 2, 2, 20, 0, 0);
-		createConstraint(orderPanel, deliveryDaysLabel,	    2, 8 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, deliveryDaysComboBox,	3, 8 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(invoicePanel, addButton,	    		5, 7 + count3, 1, 1, 0, 0, 20, 2, 2, 20, 0, 0);
+		createConstraint(invoicePanel, deliveryDaysLabel,	    2, 8 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(invoicePanel, deliveryDaysComboBox,	3, 8 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
 		
+		createConstraint(invoicePanel, deliveryDateLabel,	    2, 9 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(invoicePanel, deliveryDateField,		3, 9 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
 		
-		createConstraint(orderPanel, deliveryDateLabel,	    2, 9 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, deliveryDateField,		3, 9 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(invoicePanel, deliveryCostLabel,	    4, 8 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(invoicePanel, deliveryCostField,	    5, 8 + count3, 1, 1, 0, 0, 20, 2, 2, 20, 0, 0);	
 		
-		createConstraint(orderPanel, deliveryCostLabel,	    4, 8 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, deliveryCostField,	    5, 8 + count3, 1, 1, 0, 0, 20, 2, 2, 20, 0, 0);	
+		createConstraint(invoicePanel, totalPriceLabel,	    	4, 9 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(invoicePanel, totalPriceField,	    	5, 9 + count3, 1, 1, 0, 0, 20, 2, 2, 20, 0, 0);
 		
-		createConstraint(orderPanel, totalPriceLabel,	    4, 9 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, totalPriceField,	    5, 9 + count3, 1, 1, 0, 0, 20, 2, 2, 20, 0, 0);
+		createConstraint(invoicePanel, invoiceClearButton,	    3, 10 + count3, 1, 1, 25, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(invoicePanel, invoiceCancelButton,	    4, 10 + count3, 1, 1, 20, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(invoicePanel, invoiceSaveButton,	    5, 10 + count3, 1, 1, 30, 0, 20, 2, 2, 20, 0, 0);
 		
-		createConstraint(orderPanel, orderClearButton,	    3, 10 + count3, 1, 1, 25, 0, 20, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, orderCancelButton,	    4, 10 + count3, 1, 1, 20, 0, 20, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, orderSaveButton,	    5, 10 + count3, 1, 1, 30, 0, 20, 2, 2, 20, 0, 0);
-		
-		createConstraint(orderPanel, commentLabel,	 		0, 11 + count3, 1, 1, 0, 0, 20, 20, 2, 2, 0, 0);
-		createConstraint(orderPanel, commentTextArea,	 	0, 12 + count3, 6, 2, 0, 0, 2, 20, 20, 20, 0, 1);
+		createConstraint(invoicePanel, commentLabel,	 		0, 11 + count3, 1, 1, 0, 0, 20, 20, 2, 2, 0, 0);
+		createConstraint(invoicePanel, commentTextArea,	 		0, 12 + count3, 6, 2, 0, 0, 2, 20, 20, 20, 0, 1);
 		
 
-		orderPanel.setAutoscrolls(true);
-		orderPanel.validate();
-		orderPanel.repaint();
+		invoicePanel.setAutoscrolls(true);
+		invoicePanel.validate();
+		invoicePanel.repaint();
 	}
 
 	private void createConstraint(JPanel panel, JComponent c, int gridx, int gridy, int width, int height, 
@@ -422,7 +422,7 @@ public class CreateNewOrderUI {
         uid = uuidChars.replaceAll("-", "");
         
         char[] newUUID = uid.toCharArray();
-        String OrderID = "";
+        String invoiceID = "";
         char  temp;
         
         for(int i = 0; i<8;i++){       	
@@ -430,11 +430,11 @@ public class CreateNewOrderUI {
         	if(Character.getType(newUUID[i]) == Character.LOWERCASE_LETTER){     		
         		temp = Character.toUpperCase(newUUID[i]);
         	} 
-        	 OrderID += temp;
+        	 invoiceID += temp;
         }       
-        System.out.println(OrderID);
+        System.out.println(invoiceID);
         
-        return OrderID;
+        return invoiceID;
     }
 	
     private class ProductComboBoxListener implements ActionListener{
@@ -516,7 +516,7 @@ public class CreateNewOrderUI {
 
 				SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yyyy");
 				Calendar c = Calendar.getInstance();
-				 String tempDate = ft.format(orderDate).toString();
+				 String tempDate = ft.format(invoiceDate).toString();
 				try {
 					c.setTime(ft.parse(tempDate));
 				} catch (ParseException e1) {
@@ -572,11 +572,11 @@ public class CreateNewOrderUI {
 		}
     }
 
-	private void clearOrderPanel(){ 
+	private void clearInvoicePanel(){ 
 		
-		orderIDField.setText("");
-		supplierNameComboBox.setSelectedIndex(0);
-		supplierNameComboBox.setSelectedItem("Please Select");
+		invoiceIDField.setText("");
+		customerNameComboBox.setSelectedIndex(0);
+		customerNameComboBox.setSelectedItem("Please Select");
 		
 		for(JTextField temp:priceField){
 			temp.setText("0.00");
@@ -596,9 +596,9 @@ public class CreateNewOrderUI {
 		dynamicPanel.setVisible(true);
 		dynamicPanel.validate();
 		dynamicPanel.repaint();
-		orderPanel.setVisible(true);
-		orderPanel.validate();
-		orderPanel.repaint();	
+		invoicePanel.setVisible(true);
+		invoicePanel.validate();
+		invoicePanel.repaint();	
 		
 		totalPrice = 0;
 		deliveryCost = 0;
@@ -609,20 +609,20 @@ public class CreateNewOrderUI {
 	}
 	
 	
-	private class OrderButtonListener implements ActionListener{
+	private class InvoiceButtonListener implements ActionListener{
 		
 		private Database database;
 		
-		private OrderButtonListener(Database database){
+		private InvoiceButtonListener(Database database){
 			this.database = database;
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource().equals(orderSaveButton)){
+			if(e.getSource().equals(invoiceSaveButton)){
 				
 				boolean itemSelectedFlag = false;
-				 for(int i = 0; i <= productComboBox.size()-1; i++){
+				for(int i = 0; i <= productComboBox.size()-1; i++){
 					 
 					if (!productComboBox.get(i).getSelectedItem().equals("Please Select") && !((String)quantityComboBox.get(i).getSelectedItem()).equals("0")){
 						itemSelectedFlag = true;
@@ -630,17 +630,17 @@ public class CreateNewOrderUI {
 						break;
 					}
 				}
-				 if(itemSelectedFlag == false || supplierNameComboBox.getSelectedItem().equals("Please Select") ||
+				 if(itemSelectedFlag == false || customerNameComboBox.getSelectedItem().equals("Please Select") ||
 					 deliveryDaysComboBox.getSelectedItem().equals("0")){
-					 JOptionPane.showMessageDialog(null,"Choose a Supplier, Delivery Days and a Product to Progress with Order", "Input Warning",JOptionPane.WARNING_MESSAGE);
+					 JOptionPane.showMessageDialog(null,"Choose a Customer, Delivery Days and a Product to Progress with Invoice", "Input Warning",JOptionPane.WARNING_MESSAGE);
 				 }else{
 					 
 					 System.out.println("Save button was clicked");
-					 String orderID = orderIDField.getText();
-					 Supplier supplier = database.getSupplierByName((String)supplierNameComboBox.getSelectedItem());
-					 String orderCost = totalPriceField.getText();
-					 String orderDescription = commentTextArea.getText();
-					 ArrayList<Product> orderedproducts = new ArrayList<Product>();
+					 String invoiceID = invoiceIDField.getText();
+					 Customer customer = database.getCustomerByName((String)customerNameComboBox.getSelectedItem());
+					 String invoiceCost = totalPriceField.getText();
+					 String comment = commentTextArea.getText();
+					 ArrayList<Product> invoiceproducts = new ArrayList<Product>();
 					 
 					 for(int i = 0; i <= productComboBox.size()-1; i++){
 						 
@@ -651,54 +651,54 @@ public class CreateNewOrderUI {
 							String productQuantity = (String) quantityComboBox.get(i).getSelectedItem();
 							Double productPrice = Double.parseDouble(priceField.get(i).getText());
 							Product product = new Product(productName, productType, productQuantity, productPrice);
-							orderedproducts.add(product);
+							invoiceproducts.add(product);
 						}
 					 }
 					 
 					 SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yyyy");
-					
-					//add order to database
-					database.addOrder(orderID, supplier, ft.format(orderDate).toString(), deliveryDate, orderCost, true, orderedproducts, orderDescription);
-					clearOrderPanel(); 
+					//add invoice to database
+					 
+					database.addInvoice(invoiceID, customer, ft.format(invoiceDate).toString(), deliveryDate, invoiceCost, true, invoiceproducts, comment);
+					clearInvoicePanel(); 
 					totalPrice = 0;
 					deliveryCost = 0;
-					updateOrderID = true;
+					updateInvoiceID = true;
 					
 					//update table
-					orderTableModel =  new DefaultTableModel();
-					tableOfOrders.setModel(orderTableModel);
-					sorter = new TableRowSorter<TableModel>(tableOfOrders.getModel());
-				    tableOfOrders.setRowSorter(sorter); //
-					//orderScrollPane = new JScrollPane(tableOfOrders);
-				    String [] columnNames = {"Order ID", "Delivery Date","Cost","Outstanding"};
-					orderTableModel.setColumnIdentifiers(columnNames);
+					invoiceTableModel =  new DefaultTableModel();
+					tableOfInvoices.setModel(invoiceTableModel);
+					sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel());
+				    tableOfInvoices.setRowSorter(sorter); 
+					//invoiceScrollPane = new JScrollPane(tableOfInvoices);
+				    String [] columnNames = {"Invoice ID", "Delivery Date","Cost","Outstanding"};
+					invoiceTableModel.setColumnIdentifiers(columnNames);
 					
-					ArrayList<Order> tempGetOrder = database.getOrders();
-					for(Order order : database.getOrders()){
-						orderTableModel.addRow(new String[] {
-						order.getOrderID(),
-								order.getOrderDeliveryDate(),
-								order.getOrderCost(),
-								String.valueOf(order.isOrderOutstanding())});
+					ArrayList<Invoice> tempGetInvoice = database.getInvoices();
+					for(Invoice invoice : database.getInvoices()){
+						invoiceTableModel.addRow(new String[] {
+						invoice.getInvoiceID(),
+								invoice.getInvoiceDeliveryDate(),
+								invoice.getInvoiceCost(),
+								String.valueOf(invoice.isInvoiceOutstanding())});
 					}
 					            
 			         
 					//go back to table view
-					orderPanel.setVisible(false);
-					orderPanel.invalidate();
+					invoicePanel.setVisible(false);
+					invoicePanel.invalidate();
 					
-					orderPane.getSplitPane().setVisible(true);
-					orderPane.getSplitPane().validate();
-					orderPane.getSplitPane().setDividerLocation(300);
-					orderPane.getTablePanel().setVisible(true);
-					orderPane.getTablePanel().validate();
-					orderPane.getDynamicPanel().setVisible(true);
-					orderPane.getDynamicPanel().validate();
-					orderPane.getMainPanel().setVisible(true);
+					invoicePane.getSplitPane().setVisible(true);
+					invoicePane.getSplitPane().validate();
+					invoicePane.getSplitPane().setDividerLocation(300);
+					invoicePane.getTablePanel().setVisible(true);
+					invoicePane.getTablePanel().validate();
+					invoicePane.getDynamicPanel().setVisible(true);
+					invoicePane.getDynamicPanel().validate();
+					invoicePane.getMainPanel().setVisible(true);
 				
-					orderPane.getMainPanel().repaint();
+					invoicePane.getMainPanel().repaint();
 			
-					System.out.println("order panel visible");
+					System.out.println("invoice panel visible");
 					
 					//enable tabs
 					tabbedPane.setEnabled(true);
