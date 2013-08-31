@@ -48,7 +48,8 @@ public class OrderListPanel extends JPanel implements ActionListener{
       
     private JPanel tablePanel; 
     private JPanel newOrderPanel; 
-    private JPanel mainPanel; 
+    private JPanel mainPanel;
+    private JPanel dynamicPanel;
       
     private CreateNewOrderUI newOrderPane; 
       
@@ -59,7 +60,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
     private JTextArea productTextArea;
       
     private JLabel filterLabel; 
-    private JComboBox filteredSelection; 
+    private JComboBox<String> filteredSelection; 
     private JTextField filterField; 
     private TableRowSorter<TableModel> sorter; 
     private String [] columnNames = {"Order ID", "Delivery Date","Cost","Outstanding"}; 
@@ -91,33 +92,14 @@ public class OrderListPanel extends JPanel implements ActionListener{
         tableOfOrders.setModel(orderTableModel); 
         orderScrollPane = new JScrollPane(tableOfOrders); 
         orderTableModel.setColumnIdentifiers(columnNames); 
-        int row = 0; 
         for(Order order : database.getOrders()){ 
             orderTableModel.addRow(new String[] { 
                     order.getOrderID(), 
                     order.getOrderDeliveryDate(), 
                     order.getOrderCost(), 
                     String.valueOf(order.isOrderOutstanding())}); 
-            row++; 
         } 
-        tableOfOrders.setVisible(true); 
-          
-        tableOfOrders.addMouseListener(new MouseAdapter(){ 
-            public void mouseClicked(MouseEvent e){ 
-                for(Order order : database.getOrders()){ 
-                    if(order.getOrderID().equals(tableOfOrders.getValueAt(tableOfOrders.getSelectedRow(), 0).toString())){ 
-                        resetTextFields(); 
-          
-                     for(int productInOrder=0; productInOrder < order.getProducts().size(); productInOrder++){ 
-                    	 
-                    	 productTextArea.setText(order.getProducts().get(productInOrder).getProductName()  + 
-                    	 "\t"+order.getProducts().get(productInOrder).getProductQuantity() +
-                    	 "\t"+ String.valueOf(order.getProducts().get(productInOrder).getProductPrice()));
-                        } 
-                    } 
-                } 
-            } 
-        }); 
+        tableOfOrders.setVisible(true);
                   
         orderListLabel = new JLabel("Order Control", SwingConstants.CENTER); 
         orderListLabel.setOpaque(true); 
@@ -134,7 +116,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
         newOrderButton = new JButton("Create new order"); 
         newOrderButton.addActionListener(this); 
         filterLabel = new JLabel("Filter by:"); 
-        filteredSelection = new JComboBox(columnNames); 
+        filteredSelection = new JComboBox<String>(columnNames); 
         filteredSelection.setSelectedIndex(0); //default setting is InvoiceID 
         filteredSelection.addActionListener(this); 
         filterField = new JTextField(); 
@@ -176,48 +158,9 @@ public class OrderListPanel extends JPanel implements ActionListener{
             } 
               
         }); 
-        productLabel = new JLabel("Product: "); 
-        quantityLabel = new JLabel("Quantity: "); 
-        priceLabel = new JLabel("Price: "); 
-          
-        productField1 = new JTextField(); 
-        productField1.setEditable(false); 
-        productField1.setBackground(Color.WHITE); 
-        productField2 = new JTextField(); 
-        productField2.setEditable(false); 
-        productField2.setBackground(Color.WHITE); 
-        productField3 = new JTextField(); 
-        productField3.setEditable(false); 
-        productField3.setBackground(Color.WHITE); 
-        productField4 = new JTextField(); 
-        productField4.setEditable(false); 
-        productField4.setBackground(Color.WHITE); 
-          
-        quantityField1 = new JTextField(); 
-        quantityField1.setEditable(false); 
-        quantityField1.setBackground(Color.WHITE); 
-        quantityField2 = new JTextField(); 
-        quantityField2.setEditable(false); 
-        quantityField2.setBackground(Color.WHITE); 
-        quantityField3 = new JTextField(); 
-        quantityField3.setEditable(false); 
-        quantityField3.setBackground(Color.WHITE); 
-        quantityField4 = new JTextField(); 
-        quantityField4.setEditable(false); 
-        quantityField4.setBackground(Color.WHITE); 
-          
-        priceField1 = new JTextField(); 
-        priceField1.setEditable(false); 
-        priceField1.setBackground(Color.WHITE); 
-        priceField2 = new JTextField(); 
-        priceField2.setEditable(false); 
-        priceField2.setBackground(Color.WHITE); 
-        priceField3 = new JTextField(); 
-        priceField3.setEditable(false); 
-        priceField3.setBackground(Color.WHITE); 
-        priceField4 = new JTextField(); 
-        priceField4.setEditable(false); 
-        priceField4.setBackground(Color.WHITE); 
+        productLabel = new JLabel("Product:"); 
+        quantityLabel = new JLabel("Quantity:"); 
+        priceLabel = new JLabel("Price:");
           
         tablePanel = new JPanel(); 
         newOrderPanel = new JPanel(); 
@@ -228,47 +171,51 @@ public class OrderListPanel extends JPanel implements ActionListener{
         tablePanel.setLayout(new GridBagLayout()); 
         mainPanel.setLayout(new GridBagLayout());
         
-        JPanel dynamicPanel = new JPanel();
-        dynamicPanel.setBackground(Color.BLUE);
+        dynamicPanel = new JPanel();
         dynamicPanel.setLayout(new GridBagLayout()); 
         
         createConstraint(tablePanel, orderListLabel,    0, 0, 3, 1, 0, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, newOrderButton,    0, 1, 1, 1, 50, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE); 
-        createConstraint(tablePanel, orderScrollPane,   0, 2, 3, 1, 0, 0, 2, 20, 2, 20, 1, 0.5, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, filterLabel,       1, 1, 1, 4, 0, 0, 7, 45, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE); 
+        createConstraint(tablePanel, newOrderButton,    0, 1, 1, 1, 50, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE);
+        createConstraint(tablePanel, filterLabel,       1, 1, 1, 1, 0, 0, 7, 45, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE); 
         createConstraint(tablePanel, filteredSelection, 1, 1, 1, 1, 0, 0, 2, 100, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE); 
         createConstraint(tablePanel, filterField,       1, 1, 1, 1, 100, 6, 2, 210, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE); 
-  
-          
-        createConstraint(tablePanel, productLabel,      0, 3, 1, 1, 0, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, quantityLabel,     1, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, priceLabel,        2, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
+        createConstraint(tablePanel, orderScrollPane,   0, 2, 3, 1, 0, 0, 2, 20, 2, 20, 1, 0.5, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
         
-        productTextArea = new JTextArea();
-        productTextArea.setBackground(new Color(255,255,200));
-        productTextArea.setBorder(BorderFactory.createLoweredBevelBorder());
-		
-        createConstraint(dynamicPanel, productTextArea, 0, 0, 3, 1, 0, 10, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, dynamicPanel,      0, 4, 3, 1, 0, 0, 20, 20, 20, 20, 1, 1.5, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        
-/*      createConstraint(tablePanel, productField1,     0, 4, 1, 1, 0, 0, 2, 20, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, productField2,     0, 5, 1, 1, 0, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, productField3,     0, 6, 1, 1, 0, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, productField4,     0, 7, 1, 1, 0, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-          
-        createConstraint(tablePanel, quantityField1,    1, 4, 1, 1, 0, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, quantityField2,    1, 5, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, quantityField3,    1, 6, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, quantityField4,    1, 7, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-          
-        createConstraint(tablePanel, priceField1,       2, 4, 1, 1, 0, 0, 2, 2, 2, 20, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, priceField2,       2, 5, 1, 1, 0, 0, 2, 2, 2, 20, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, priceField3,       2, 6, 1, 1, 0, 0, 2, 2, 2, 20, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, priceField4,       2, 7, 1, 1, 0, 0, 2, 2, 2, 20, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); */
+        createConstraint(tablePanel, dynamicPanel,      0, 4, 3, 1, 0, 0, 20, 20, 20, 20, 1, 0.5, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
           
         createConstraint(mainPanel, tablePanel,         0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 3, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
         createConstraint(mainPanel, newOrderPanel,      0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-          
+        
+        tableOfOrders.addMouseListener(new MouseAdapter(){ 
+            public void mouseClicked(MouseEvent e){
+            	
+            	String selectedOrderID = tableOfOrders.getValueAt(tableOfOrders.getSelectedRow(), 0).toString();
+            	
+            	Order order = database.getOrderByID(selectedOrderID);
+            	
+            	dynamicPanel.removeAll();
+            	
+            	createConstraint(dynamicPanel, productLabel,      0, 0, 1, 1, 0, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
+                createConstraint(dynamicPanel, quantityLabel,     1, 0, 1, 1, 0, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
+                createConstraint(dynamicPanel, priceLabel,        2, 0, 1, 1, 0, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
+                
+            	for(int i = 0; i < order.getProducts().size(); i++){
+            		System.out.println(order.getProducts().get(i).getProductName());
+            		
+            		JLabel productNameLabel = new JLabel(order.getProducts().get(i).getProductName());
+            		JLabel productQuantityLabel = new JLabel(order.getProducts().get(i).getProductQuantity());
+            		JLabel productPriceLabel = new JLabel(String.valueOf(order.getProducts().get(i).getProductPrice()));
+                    
+                	createConstraint(dynamicPanel, productNameLabel,		0, i+1, 1, 1, 0, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+                	createConstraint(dynamicPanel, productQuantityLabel,	1, i+1, 1, 1, 0, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+                	createConstraint(dynamicPanel, productPriceLabel,		2, i+1, 1, 1, 0, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+            	}
+            	
+				mainPanel.validate();
+				mainPanel.repaint();
+            } 
+        });
+        
         newOrderPanel.setVisible(false); 
     } 
       
@@ -290,27 +237,11 @@ public class OrderListPanel extends JPanel implements ActionListener{
             panel.add(component, constraints); 
     } 
       
-    public void resetTextFields() { 
-        productField1.setText(""); 
-        quantityField1.setText(""); 
-        priceField1.setText(""); 
-        productField2.setText(""); 
-        quantityField2.setText(""); 
-        priceField2.setText(""); 
-        productField3.setText(""); 
-        quantityField3.setText(""); 
-        priceField3.setText(""); 
-        productField4.setText(""); 
-        quantityField4.setText(""); 
-        priceField4.setText(""); 
-    } 
-      
     private void newFilter() { 
            // RowFilter<? super TableModel, ? super Integer> rf = null; 
             RowFilter<TableModel, Object> rf = null; 
             //If current expression doesn't parse, don't update. 
             try { 
-                 resetTextFields(); 
                 rf = RowFilter.regexFilter(filterField.getText(), filterIndex ); 
                 System.out.println("filtering   " + filterIndex + filterField.getText()); 
             } catch (java.util.regex.PatternSyntaxException e) { 

@@ -237,7 +237,6 @@ public class Database {
         return products; 
     }
     
-    
     public String[] getProductList() { 
     	  
         int noOfProducts = products.size(); 
@@ -249,8 +248,7 @@ public class Database {
         } 
         return arrayOfNames; 
   
-    } 
-  
+    }
     
     public Product getProductByID(String ID) { 
     	
@@ -320,6 +318,22 @@ public class Database {
 		
 		return orders;
 	}
+	
+	public Order getOrderByID(String ID) { 
+    	
+        int i = 0; 
+        for(Order order: orders) { 
+        	
+            if(order.getOrderID().equals(ID)) { 
+                  
+                break; 
+            } 
+            
+            i++; 
+        } 
+        
+        return orders.get(i); 
+    }
 
 	public void setOrders(ArrayList<Order> orders) {
 		
