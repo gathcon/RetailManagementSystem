@@ -35,9 +35,9 @@ public class Database {
         this.addSupplier("02MMUH39", "Sean", "sean@gmail.com", "1234567890", "Wicklow"); 
         this.addSupplier("AO9U8NNE", "Bill", "bill@gmail.com", "0987654321", "Cork");
         
-        this.addProduct("iPod", "mp3", "100", 330, "AP0001");
-        this.addProduct("HP Envy", "Laptop", "40", 550, "HP0001");
-        this.addProduct("Samsung Galaxy", "Phone", "75", 400, "SM0001");
+        this.addProduct("iPod", "mp3", "100", 330, "AP0001", stockLevelsIpod);
+        this.addProduct("HP Envy", "Laptop", "40", 550, "HP0001", stockLevelsEnvy);
+        this.addProduct("Samsung Galaxy", "Phone", "75", 400, "SM0001", stockLevelsGalaxy);
         
         this.addUserAccount("Stock", "Checker", "stock", "1234".toCharArray(), 3);
         this.addUserAccount("General", "Manager", "manager", "1234".toCharArray(), 1);
@@ -154,19 +154,17 @@ public class Database {
     }
     
     public String[] getSupplierList() { 
-        
+    	  
         int noOfSuppliers = suppliers.size(); 
         String[] arrayOfNames = new String[noOfSuppliers]; 
         int i = 0; 
-        for(Supplier supplier: suppliers) { 
-        	
+        for (Supplier supplier : suppliers) { 
             arrayOfNames[i] = supplier.getSupplierName(); 
-            i++;
-            
+            i++; 
         } 
-          
+  
         return arrayOfNames; 
-    }
+    } 
     
     public Supplier getSupplierByID(String id) { 
     	
@@ -223,9 +221,9 @@ public class Database {
      * product methods
      */
     public void addProduct(String productName, String productType, String productQuantity, double productPrice,
-    		String productID) { 
+    		String productID, int [] stockLevels) { 
         
-    	Product product = new Product(productName, productType, productQuantity, productPrice, productID);
+    	Product product = new Product(productName, productType, productQuantity, productPrice, productID, stockLevels);
     	products.add(product);
     } 
       
@@ -239,19 +237,20 @@ public class Database {
         return products; 
     }
     
+    
     public String[] getProductList() { 
-        
+    	  
         int noOfProducts = products.size(); 
         String[] arrayOfNames = new String[noOfProducts]; 
         int i = 0; 
-        for(Product product: products) { 
-        	
+        for (Product product : products) { 
             arrayOfNames[i] = product.getProductName(); 
             i++; 
         } 
-          
         return arrayOfNames; 
-    }
+  
+    } 
+  
     
     public Product getProductByID(String ID) { 
     	

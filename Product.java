@@ -18,13 +18,14 @@ public class Product {
         this.productID = productBarcode;
     }
     
-    public Product(String productName, String productType, String productQuantity, double productPrice, String productBarcode){
+    public Product(String productName, String productType, String productQuantity, double productPrice, String productBarcode, int[] stockLevels){
     	
         this.productName = productName;
         this.productType = productType;
         this.productQuantity = productQuantity;
         this.productPrice = productPrice;
         this.productID = productBarcode;
+        this.stockLevels = stockLevels;
     }
  
     public String getProductName() {

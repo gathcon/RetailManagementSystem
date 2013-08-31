@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import javax.swing.BorderFactory;
+import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,6 +24,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -32,10 +34,25 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+
 public class CreateNewOrderUI {
 	
-	private static double totalprice = 0;
-	private static double price1 = 0, price2 = 0, price3 = 0, price4 = 0 , deliveryCost = 0;
+	private static double totalPrice = 0;
+	private static double  deliveryCost = 0;
+
+	private boolean updateOrderID = true;
+	
+	private static  int count = 0, count1 = 0, count2 = 0, count3 = 0;
+	private JPanel dynamicPanel;
+	private JScrollPane scrollPane;
+
+	
+	private ArrayList<JComboBox<String>> productComboBox = new ArrayList<JComboBox<String>>();
+	private ArrayList<JComboBox<String>> quantityComboBox = new ArrayList<JComboBox<String>>(); 
+	private ArrayList<JTextField> unitPriceField = new ArrayList<JTextField>(); 
+	private ArrayList<JTextField> priceField = new ArrayList<JTextField>();
+	private ArrayList<Boolean> updateQuantityCombobox = new ArrayList<Boolean>();
+	
 	
 	private JLabel orderLabel, unitPriceLabel, priceLabel, totalPriceLabel, commentLabel;
 	private JLabel orderIDLabel, supplierNameLabel, orderDateLabel, productLabel, quantityLabel;
@@ -43,19 +60,14 @@ public class CreateNewOrderUI {
 	private JTextArea  commentTextArea;
 	
 	private JTextField orderIDField, orderDateField, deliveryCostField;
-	private JTextField unitPriceField1, unitPriceField2, unitPriceField3, unitPriceField4;
-	private JTextField priceField1, priceField2, priceField3, priceField4, totalPriceField;
+	private JTextField totalPriceField;
 	
 	private JComboBox<String> supplierNameComboBox, deliveryDaysComboBox;
-	private JComboBox<String> productComboBox1, productComboBox2, productComboBox3, productComboBox4;
-	private JComboBox<String> quantityComboBox1, quantityComboBox2, quantityComboBox3, quantityComboBox4;
+
 	
-	private JButton orderClearButton, orderSaveButton, orderCancelButton;
-	private boolean updateCombobox1 = false;
-	private boolean updateCombobox2 = false;
-	private boolean updateCombobox3 = false;
-	private boolean updateCombobox4 = false;
-	private boolean updateOrderID = true;
+	private JButton orderClearButton, orderSaveButton, addButton, orderCancelButton;
+
+	
 	
 	private Date orderDate;
 	
@@ -72,8 +84,8 @@ public class CreateNewOrderUI {
 	
 	private Database database;
 	
-	private String[] supplierNames;
-	private String[] productNames;
+	private String[] supplierListNames;
+	private String[] productListNames;
 	
 	private JTabbedPane tabbedPane;
 	
@@ -86,61 +98,48 @@ public class CreateNewOrderUI {
 	}
 	
 	public void updateComboBoxData() {
-		supplierNames = database.getSupplierList();
-		productNames = database.getProductList();
+		supplierListNames = database.getSupplierList();
+		productListNames = database.getProductList();
 		
-		supplierNameComboBox.setModel(new DefaultComboBoxModel<String>(supplierNames));
-		productComboBox1.setModel(new DefaultComboBoxModel<String>(productNames));
-		productComboBox2.setModel(new DefaultComboBoxModel<String>(productNames));
-		productComboBox3.setModel(new DefaultComboBoxModel<String>(productNames));
-		productComboBox4.setModel(new DefaultComboBoxModel<String>(productNames));
-		
+		supplierNameComboBox.setModel(new DefaultComboBoxModel<String>(supplierListNames));
 		supplierNameComboBox.addItem("Please Select");
-		productComboBox1.addItem("Please Select");
-		productComboBox2.addItem("Please Select");
-		productComboBox3.addItem("Please Select");
-		productComboBox4.addItem("Please Select");
-		
 		supplierNameComboBox.setSelectedItem("Please Select");
-		productComboBox1.setSelectedItem("Please Select");
-		productComboBox2.setSelectedItem("Please Select");
-		productComboBox3.setSelectedItem("Please Select");
-		productComboBox4.setSelectedItem("Please Select");
 		
-		quantityComboBox1.addItem("0");
-		quantityComboBox1.setSelectedItem("0");
-		quantityComboBox2.addItem("0");
-		quantityComboBox2.setSelectedItem("0");
-		quantityComboBox3.addItem("0");
-		quantityComboBox3.setSelectedItem("0");
-		quantityComboBox4.addItem("0");
-		quantityComboBox4.setSelectedItem("0");
+		for(JComboBox<String> tempComboBox : productComboBox){
+			tempComboBox.setModel(new DefaultComboBoxModel<String>(productListNames));
+			tempComboBox.addItem("Please Select");
+			tempComboBox.setSelectedItem("Please Select");
+		}
 		
-		unitPriceField1.setText("0.00");
-		unitPriceField2.setText("0.00");
-		unitPriceField3.setText("0.00");
-		unitPriceField4.setText("0.00");
+		for(JComboBox<String> tempComboBox : quantityComboBox){
+			tempComboBox.addItem("0");
+			tempComboBox.setSelectedItem("0");
+		}
 		
-		priceField1.setText("0.00");
-		priceField2.setText("0.00");
-		priceField3.setText("0.00");
-		priceField4.setText("0.00");
+		for(JTextField tempField: unitPriceField){
+			tempField.setText("0.00");
+		}
+		
+		for(JTextField tempField: priceField){
+			tempField.setText("0.00");
+		}
 		
 		deliveryCostField.setText("0.00");
-		
+
 		deliveryDaysComboBox.setSelectedIndex(0);
-		quantityComboBox1.setSelectedItem("0");
-		
+
 		totalPriceField.setText("0.00");
-		
+
 		System.out.println("Product and supplier list updated.");
 	}
+
 	
-	public void buildPanel(JPanel orderPanel, JPanel tablePanel, Database database, JTable tableOfOrders) {
+	public void buildPanel(final JPanel orderPanel, final JPanel tablePanel, final Database database, JTable tableOfOrders) {
 		
 		this.orderPanel = orderPanel;
 		this.tablePanel = tablePanel;
 		this.database = database;
+		dynamicPanel = new JPanel();
 		this.tableOfOrders = tableOfOrders;
 		
 		orderLabel = new JLabel("Create New Order", SwingConstants.CENTER);
@@ -153,16 +152,25 @@ public class CreateNewOrderUI {
 		orderIDField = new JTextField();
 		orderIDField.setEditable(false);
 		orderIDField.setBackground(Color.WHITE);
-		orderIDField.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		supplierNames = database.getSupplierList();
-		
+		orderIDField.setHorizontalAlignment(SwingConstants.CENTER);	
+	
+		supplierListNames = database.getSupplierList();	
 		supplierNameLabel = new JLabel("Supplier Name:", SwingConstants.RIGHT);
-		supplierNameComboBox = new JComboBox<String>(supplierNames);
+		supplierNameComboBox = new JComboBox<String>(supplierListNames);
 		supplierNameComboBox.addItem("Please Select");
+		supplierNameComboBox.setSelectedIndex(0);
 		supplierNameComboBox.setSelectedItem("Please Select");
 		supplierNameComboBox.setMaximumRowCount(7);
-		supplierNameComboBox.addActionListener(new ProductComboBoxListener());
+		supplierNameComboBox.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				 if (e.getSource().equals(supplierNameComboBox) && updateOrderID == true){
+						orderIDField.setText(generateUniqueId());
+						updateOrderID = false;
+				 }
+			}		 
+		 });
+
 
 		
 		orderDateLabel = new JLabel("Order Date:", SwingConstants.RIGHT);
@@ -179,102 +187,13 @@ public class CreateNewOrderUI {
 		commentTextArea.setBackground(new Color(255,255,200));
 		commentTextArea.setBorder(BorderFactory.createLoweredBevelBorder());
 		
-		
-		productNames = database.getProductList();
+		productListNames = database.getProductList();
 		
 		productLabel = new JLabel("Product:");
-		productComboBox1 = new JComboBox<String>(productNames);
-		productComboBox1.addItem("Please Select");
-		productComboBox1.setSelectedItem("Please Select");
-		productComboBox1.setMaximumRowCount(7);
-		productComboBox1.addActionListener(new ProductComboBoxListener());
-		
-		productComboBox2 = new JComboBox<String>(productNames);
-		productComboBox2.addItem("Please Select");
-		productComboBox2.setSelectedItem("Please Select");
-		productComboBox2.setMaximumRowCount(7);
-		productComboBox2.addActionListener(new ProductComboBoxListener());
-		
-		productComboBox3 = new JComboBox<String>(productNames);
-		productComboBox3.addItem("Please Select");
-		productComboBox3.setSelectedItem("Please Select");
-		productComboBox3.setMaximumRowCount(7);
-		productComboBox3.addActionListener(new ProductComboBoxListener());
-		
-		productComboBox4 = new JComboBox<String>(productNames);
-		productComboBox4.addItem("Please Select");
-		productComboBox4.setSelectedItem("Please Select");
-		productComboBox4.setMaximumRowCount(7);
-		productComboBox4.addActionListener(new ProductComboBoxListener());
-		
 		quantityLabel = new JLabel("Quantity:");
-		quantityComboBox1 = new JComboBox<String>();
-		quantityComboBox1.setMaximumRowCount(7);
-		quantityComboBox1.addItem("0");
-		quantityComboBox1.setSelectedItem("0");
-		quantityComboBox1.addActionListener(new QuantityComboBoxListener());
-		
-		quantityComboBox2 = new JComboBox<String>();
-		quantityComboBox2.setMaximumRowCount(7);
-		quantityComboBox2.addItem("0");
-		quantityComboBox2.setSelectedItem("0");
-		quantityComboBox2.addActionListener(new QuantityComboBoxListener());
-		
-		quantityComboBox3 = new JComboBox<String>();
-		quantityComboBox3.setMaximumRowCount(7);
-		quantityComboBox3.addItem("0");
-		quantityComboBox3.setSelectedItem("0");
-		quantityComboBox3.addActionListener(new QuantityComboBoxListener());
-		
-		quantityComboBox4 = new JComboBox<String>();
-		quantityComboBox4.setMaximumRowCount(7);
-		quantityComboBox4.addItem("0");
-		quantityComboBox4.setSelectedItem("0");
-		quantityComboBox4.addActionListener(new QuantityComboBoxListener());
-
-		
-		unitPriceLabel = new JLabel("Unit Price:");
-		unitPriceField1 = new JTextField();
-		unitPriceField1.setText("0.00");
-		unitPriceField1.setEditable(false);
-		unitPriceField1.setBackground(Color.WHITE);
-		
-		unitPriceField2 = new JTextField();
-		unitPriceField2.setText("0.00");
-		unitPriceField2.setEditable(false);
-		unitPriceField2.setBackground(Color.WHITE);
-		
-		unitPriceField3 = new JTextField();
-		unitPriceField3.setText("0.00");
-		unitPriceField3.setEditable(false);
-		unitPriceField3.setBackground(Color.WHITE);
-		
-		unitPriceField4 = new JTextField();
-		unitPriceField4.setText("0.00");
-		unitPriceField4.setEditable(false);
-		unitPriceField4.setBackground(Color.WHITE);
-		
-		
+		unitPriceLabel = new JLabel("Unit Price:", SwingConstants.CENTER);
 		priceLabel = new JLabel("Price:");
-		priceField1 = new JTextField();
-		priceField1.setEditable(false);
-		priceField1.setText("0.00");
-		priceField1.setBackground(Color.WHITE);
-		
-		priceField2 = new JTextField();
-		priceField2.setEditable(false);
-		priceField2.setText("0.00");
-		priceField2.setBackground(Color.WHITE);
-		
-		priceField3 = new JTextField();
-		priceField3.setText("0.00");
-		priceField3.setEditable(false);
-		priceField3.setBackground(Color.WHITE);
-		
-		priceField4 = new JTextField();
-		priceField4.setEditable(false);
-		priceField4.setText("0.00");
-		priceField4.setBackground(Color.WHITE);
+
 		
 		deliveryCostLabel = new JLabel("Delivery Cost:", SwingConstants.RIGHT);
 		deliveryCostField = new JTextField();
@@ -295,19 +214,57 @@ public class CreateNewOrderUI {
 		}
 		deliveryDaysComboBox.setMaximumRowCount(7);
 		deliveryDaysComboBox.setSelectedIndex(0);
-		quantityComboBox1.setSelectedItem("0");
-		deliveryDaysComboBox.addActionListener(new QuantityComboBoxListener());
+		deliveryDaysComboBox.setSelectedItem("0");
+		deliveryDaysComboBox.addActionListener(new QuantityComboBoxListener(database));
 
 		orderCancelButton = new JButton("Cancel");
-		orderCancelButton.addActionListener(new OrderButtonListener());
+		orderCancelButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == orderCancelButton){
+					
+					//go back to table view
+					tablePanel.setVisible(true);
+					orderPanel.setVisible(false);
+					System.out.println("order panel visible");
+					
+					//enable tabs
+					tabbedPane.setEnabled(true);
+					System.out.println("tabs enabled");
+				}
+			}
+		});
 		
-		orderClearButton = new JButton("Clear");
-		orderClearButton.addActionListener(new OrderButtonListener());
+	
 		
 		orderSaveButton	= new JButton("Save");
-		orderSaveButton.addActionListener(new OrderButtonListener());
+		orderSaveButton.addActionListener(new OrderButtonListener(database));	
+		
+		orderClearButton = new JButton("Clear");
+		orderClearButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(orderClearButton)){
+					clearOrderPanel();
+					updateOrderID = true;
+				}
+			}
+		});	
+		
+		orderSaveButton	= new JButton("Save");
+		orderSaveButton.addActionListener(new OrderButtonListener(database));
+		
+		
+		addButton = new JButton("Add Product");
 		
 		orderPanel.setLayout(new GridBagLayout());
+	    final JScrollPane scrollOrder = new JScrollPane(orderPanel);
+
+	    dynamicPanel.setLayout(new GridBagLayout());
+	    scrollPane = new JScrollPane(dynamicPanel);
+	    
+	    orderPanel.setVisible(true);
+	    scrollOrder.setVisible(true);
 		
 		createConstraint(orderPanel, orderLabel,	 		0, 0, 6, 1, 0, 10, 2, 2, 2, 2, 1, 0);
 		
@@ -320,45 +277,94 @@ public class CreateNewOrderUI {
 		createConstraint(orderPanel, orderDateLabel,	 	4, 1, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
 		createConstraint(orderPanel, orderDateField,	 	5, 1, 1, 1, 10, 0, 20, 2, 2, 20, 0, 0);
 		
-		createConstraint(orderPanel, productLabel,		 	0, 2, 3, 1, 0, 0, 20, 20, 2, 2, 0.7, 0);
-		createConstraint(orderPanel, productComboBox1,	 	0, 3, 3, 1, 0, 0, 2, 20, 2, 2, 0, 0);
-		createConstraint(orderPanel, productComboBox2,	 	0, 4, 3, 1, 0, 0, 2, 20, 2, 2, 0, 0);
-		createConstraint(orderPanel, productComboBox3,	 	0, 5, 3, 1, 0, 0, 2, 20, 2, 2, 0, 0);
-		createConstraint(orderPanel, productComboBox4,	 	0, 6, 3, 1, 0, 0, 2, 20, 2, 2, 0, 0);
+		createConstraint(orderPanel, productLabel,		 	0, 2, 2, 1, 0, 0, 2,20,2,2, 1, 1);
+		createConstraint(orderPanel, quantityLabel,			2, 2, 1, 1, 0, 0, 2,2,2,2, 1, 1);
+		createConstraint(orderPanel, unitPriceLabel,	 	3, 2, 1, 1, 0, 0, 2,2,2,2, 1, 1);
+		createConstraint(orderPanel, priceLabel,	 	 	5, 2, 1, 1, 0, 0, 2,2,2,20, 1, 1);
 		
-		createConstraint(orderPanel, quantityLabel,		 	3, 2, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, quantityComboBox1,	 	3, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, quantityComboBox2,	 	3, 4, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, quantityComboBox3,	 	3, 5, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, quantityComboBox4,	 	3, 6, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0);
 		
-		createConstraint(orderPanel, unitPriceLabel,	 	4, 2, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, unitPriceField1,	 	4, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, unitPriceField2,	 	4, 4, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, unitPriceField3,	 	4, 5, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, unitPriceField4,	 	4, 6, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0);
+		createConstraint(orderPanel, scrollPane,	 	 	0, 3, 6, 3, 0, 0, 2,10,2,10, 1, 20);
 		
-		createConstraint(orderPanel, priceLabel,	 	 	5, 2, 1, 1, 0, 0, 20, 2, 2, 20, 0, 0);
-		createConstraint(orderPanel, priceField1,	  	 	5, 3, 1, 1, 0, 0, 2, 2, 2, 20, 0, 0);
-		createConstraint(orderPanel, priceField2,	     	5, 4, 1, 1, 0, 0, 2, 2, 2, 20, 0, 0);
-		createConstraint(orderPanel, priceField3,	     	5, 5, 1, 1, 0, 0, 2, 2, 2, 20, 0, 0);
-		createConstraint(orderPanel, priceField4,	     	5, 6, 1, 1, 0, 0, 2, 2, 2, 20, 0, 0);
+		createProductField();
+		
+		  addButton.addActionListener(new ActionListener() { 
+	            public void actionPerformed(ActionEvent e) { 
+	            	
+	            	System.out.println("add button was pressed");
 
-		createConstraint(orderPanel, deliveryDaysLabel,	    2, 7, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, deliveryDaysComboBox,	3, 7, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
+	            	productComboBox.add(new JComboBox<String>(productListNames));
+	            	quantityComboBox.add(new JComboBox<String>());
+	            	unitPriceField.add(new JTextField());
+	            	priceField.add(new JTextField());
+	            	updateQuantityCombobox.add(false);  
+	            	
+						count =  count + 1;
+						JComboBox<String> component = productComboBox.get(productComboBox.size()-1);
+						component.addItem("Please Select");
+						component.setSelectedItem("Please Select");
+						component.setMaximumRowCount(7);
+						component.setBackground(Color.WHITE);
+						component.addActionListener(new ProductComboBoxListener(database));
+						createConstraint(dynamicPanel, component,	 0, 1 + count, 2, 1, 0, 0, 2,10,2,2, 1, 0);
+				
+				
+						count1 =  count1 + 1;
+						JComboBox<String> component1 = quantityComboBox.get(quantityComboBox.size()-1);
+						component1.addItem("0");
+						component1.setSelectedIndex(0);
+						component1.setMaximumRowCount(7);
+						component1.setBackground(Color.WHITE);
+						component1.addActionListener(new QuantityComboBoxListener(database));
+						createConstraint(dynamicPanel, component1, 2, 1 + count1,  1, 1, 0, 0, 2,2,2,2, 1, 0);
+				
+					
+						JTextField component2 = unitPriceField.get(unitPriceField.size()-1);
+						count2 =  count2 + 1;
+						component2.setEditable(false);
+						component2.setText("0.00");
+						component2.setBackground(Color.WHITE);
+						createConstraint(dynamicPanel, component2,	3, 1 + count2,  1, 1, 0, 0, 2,2,2,2, 1, 0);
+					 
+					 
+						JTextField component3 = priceField.get(priceField.size()-1);
+						count3 =  count3 + 1;
+						component3.setEditable(false);
+						component3.setText("0.00");
+						component3.setBackground(Color.WHITE);
+						createConstraint(dynamicPanel, component3,	4, 1 + count3,  1, 1, 0, 0, 2,2,2,10, 1, 0);
+
+						
+						dynamicPanel.setVisible(true);
+						dynamicPanel.validate();
+						dynamicPanel.repaint();
+						scrollPane.setVisible(true);
+						scrollPane.validate();
+						scrollPane.repaint();	
+					 		
+	            } 
+	     }); 
 		
-		createConstraint(orderPanel, deliveryCostLabel,	    4, 7, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, deliveryCostField,	    5, 7, 1, 1, 0, 0, 20, 2, 2, 20, 0, 0);	
+		createConstraint(orderPanel, addButton,	    		5, 7 + count3, 1, 1, 0, 0, 20, 2, 2, 20, 0, 0);
+		createConstraint(orderPanel, deliveryDaysLabel,	    2, 8 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(orderPanel, deliveryDaysComboBox,	3, 8 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
 		
-		createConstraint(orderPanel, totalPriceLabel,	    4, 8, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, totalPriceField,	    5, 8, 1, 1, 0, 0, 20, 2, 2, 20, 0, 0);
+		createConstraint(orderPanel, deliveryCostLabel,	    4, 8 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(orderPanel, deliveryCostField,	    5, 8 + count3, 1, 1, 0, 0, 20, 2, 2, 20, 0, 0);	
 		
-		createConstraint(orderPanel, orderClearButton,	    3, 9, 1, 1, 25, 0, 20, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, orderCancelButton,	    4, 9, 1, 1, 20, 0, 20, 2, 2, 2, 0, 0);
-		createConstraint(orderPanel, orderSaveButton,	    5, 9, 1, 1, 30, 0, 20, 2, 2, 20, 0, 0);
+		createConstraint(orderPanel, totalPriceLabel,	    4, 9 + count3, 1, 1, 0, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(orderPanel, totalPriceField,	    5, 9 + count3, 1, 1, 0, 0, 20, 2, 2, 20, 0, 0);
 		
-		createConstraint(orderPanel, commentLabel,	 		0, 10, 1, 1, 0, 0, 20, 20, 2, 2, 0, 0);
-		createConstraint(orderPanel, commentTextArea,	 	0, 11, 6, 2, 0, 0, 2, 20, 20, 20, 0, 1);
+		createConstraint(orderPanel, orderClearButton,	    3, 10 + count3, 1, 1, 25, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(orderPanel, orderCancelButton,	    4, 10 + count3, 1, 1, 20, 0, 20, 2, 2, 2, 0, 0);
+		createConstraint(orderPanel, orderSaveButton,	    5, 10 + count3, 1, 1, 30, 0, 20, 2, 2, 20, 0, 0);
+		
+		createConstraint(orderPanel, commentLabel,	 		0, 11 + count3, 1, 1, 0, 0, 20, 20, 2, 2, 0, 0);
+		createConstraint(orderPanel, commentTextArea,	 	0, 12 + count3, 6, 2, 0, 0, 2, 20, 20, 20, 0, 1);
+		
+
+		orderPanel.setAutoscrolls(true);
+		orderPanel.validate();
+		orderPanel.repaint();
 	}
 
 	private void createConstraint(JPanel panel, JComponent c, int gridx, int gridy, int width, int height, 
@@ -379,6 +385,7 @@ public class CreateNewOrderUI {
 			panel.add(c, gc);
 	}
 
+	
     public static String generateUniqueId() {      
         String uuidChars = "" + UUID.randomUUID().toString();
         String uid = uuidChars.replaceAll("-", "");    
@@ -388,321 +395,240 @@ public class CreateNewOrderUI {
         uid = uuidChars.replaceAll("-", "");
         
         char[] newUUID = uid.toCharArray();
-        String OrderID ="";
-        for(int i = 0; i<8;i++){
-        	OrderID += newUUID[i];
-        }       
+        String OrderID = "";
+        char  temp;
         
+        for(int i = 0; i<8;i++){       	
+        	temp = newUUID[i];    	
+        	if(Character.getType(newUUID[i]) == Character.LOWERCASE_LETTER){     		
+        		temp = Character.toUpperCase(newUUID[i]);
+        	} 
+        	 OrderID += temp;
+        }       
         System.out.println(OrderID);
         
         return OrderID;
     }
 	
-	private class ProductComboBoxListener implements ActionListener{
+    private class ProductComboBoxListener implements ActionListener{
+		private Database database;
+		
+		private ProductComboBoxListener (Database database){
+			this.database = database;
+		}
 		
 		@Override
 		public void actionPerformed(ActionEvent e){
-			
 			DecimalFormat df = new DecimalFormat("####0.00");
-						
-			if(e.getSource() == productComboBox1){	
-				updateCombobox1 = false;
-				quantityComboBox1.removeAllItems();
-
-				for(Product product:database.getProducts()){
-					
-					if(productComboBox1.getSelectedItem().equals(product.getProductName())){
-						
-						unitPriceField1.setText(String.valueOf(product.getProductPrice()));
-						price1 = 0;
-						priceField1.setText(String.valueOf(df.format(0)));	
-						for(int i = 0; i <= 100;i++){
-							
-							quantityComboBox1.addItem(Integer.toString(i*20));
-						}
-						
-						quantityComboBox1.setSelectedIndex(0);
-						updateCombobox1 = true;
-						break;
-					}
-				}
-				
-			}
-			else if (e.getSource() == productComboBox2){
-				
-				updateCombobox2 = false;
-				quantityComboBox2.removeAllItems();
-				for(Product product:database.getProducts()){
-					
-					if(productComboBox2.getSelectedItem().equals(product.getProductName())){
-						
-						unitPriceField2.setText(String.valueOf(product.getProductPrice()));
-						price2 = 0;
-						priceField2.setText(String.valueOf(df.format(0)));
-						for(int i = 0; i <= 100;i++){
-							
-							quantityComboBox2.addItem(Integer.toString(i*20));
-						}
-						
-						quantityComboBox2.setSelectedItem("0");
-						updateCombobox2 = true;
-						break;
-					}
-				}
-				
-			}
-			else if (e.getSource() == productComboBox3){
-				
-				updateCombobox3 = false;
-				quantityComboBox3.removeAllItems();
-				for(Product product:database.getProducts()){
-					
-					if(productComboBox3.getSelectedItem().equals(product.getProductName())){
-						
-						unitPriceField3.setText(String.valueOf(product.getProductPrice()));
-						price3 = 0;
-						priceField3.setText(String.valueOf(df.format(0)));
-						for(int i = 0; i <= 100; i++){
-
-							quantityComboBox3.addItem(Integer.toString(i*20));
-						}
-						
-						quantityComboBox3.setSelectedIndex(0);
-						updateCombobox3 = true;
-						break;
-					}
-				}
-			}
-			else if (e.getSource() == productComboBox4){
-				
-				updateCombobox4 = false;
-				quantityComboBox4.removeAllItems();
-				for(Product product:database.getProducts()){
-					
-					if(productComboBox4.getSelectedItem().equals(product.getProductName())){
-						
-						unitPriceField4.setText(String.valueOf(product.getProductPrice()));
-						price4 = 0;
-						priceField4.setText(String.valueOf(df.format(0)));
-						for(int i = 0; i <= 100;i++){
-
-							quantityComboBox4.addItem(Integer.toString(i*20));
-						}
-						
-						quantityComboBox4.setSelectedIndex(0);
-						updateCombobox4 = true;
-						break;
-					}
-				}
-			}
-			else if (e.getSource() == supplierNameComboBox && updateOrderID == true){
-				
-				orderIDField.setText(generateUniqueId());
-				updateOrderID = false;
-			}	
-		}
-	}
 	
-	private class QuantityComboBoxListener implements ActionListener{
+			 System.out.println( "I am Combo product" + productComboBox.indexOf(e.getSource()));
+			 
+			 for(JComboBox <String> tempComboBox: productComboBox){
+				  int position = productComboBox.indexOf(e.getSource());
+				 if (e.getSource().equals(productComboBox.get(position))){
+					 totalPrice = 0;
+					 System.out.println("i an an event handler " + position);
+					 updateQuantityCombobox.set(position,false);
+					 JComboBox <String> tempquantityComboBox = quantityComboBox.get(position);
+					 
+					 tempquantityComboBox.removeAllItems();
+					 
+					 for(Product product: database.getProducts()){
+						 if(productComboBox.get(position).getSelectedItem().equals(product.getProductName())){
+							 unitPriceField.get(position).setText(Double.toString(product.getProductPrice()));
+							 priceField.get(position).setText(String.valueOf(df.format(0)));
+							 
+							 for(int i = 0; i <= Integer.parseInt(product.getProductQuantity());i++){
+								 tempquantityComboBox.addItem(Integer.toString(i));
+							 }
+							
+							 tempquantityComboBox.setSelectedIndex(0);
+						 } 
+					 }
+					 
+					 updateQuantityCombobox.set(position,true);
+					 tempquantityComboBox.addActionListener(new QuantityComboBoxListener(database));
+					 
+					 break;
+				 }
+			 } 
+		}
+	 }
+
+    
+    private class QuantityComboBoxListener implements ActionListener{
+		private Database database;
+		
+		private QuantityComboBoxListener (Database database){
+			this.database = database;
+		}
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			DecimalFormat df = new DecimalFormat("#####0.00"); 
-						
-			if(e.getSource().equals(quantityComboBox1) && updateCombobox1 == true){
-				
-				price1 = Double.parseDouble((String) quantityComboBox1.getSelectedItem())* 
-						Double.parseDouble(unitPriceField1.getText().substring(1, unitPriceField1.getText().length()));
-				priceField1.setText(String.valueOf(df.format(price1)));
-				updateCombobox1 = false; 
+		public void actionPerformed(ActionEvent e){
+			 DecimalFormat df = new DecimalFormat("####0.00");
+	
+			 System.out.println( "I am Combo" + quantityComboBox.indexOf(e.getSource()));
+			 if(!e.getSource().equals(deliveryDaysComboBox)){
+			 for(JComboBox <String> tempComboBox: productComboBox){
+				 
+				 int position = quantityComboBox.indexOf(e.getSource());
+				 JComboBox <String> tempquantityComboBox = quantityComboBox.get(position);
+				 
+				 if (e.getSource().equals(tempquantityComboBox) && updateQuantityCombobox.get(position) == true){
+					 
+					 System.out.println("i an an event quantity handler " + position);
+						double price = Double.parseDouble((String) quantityComboBox.get(position).getSelectedItem())* 
+						Double.parseDouble(unitPriceField.get(position).getText());
+					 
+					priceField.get(position).setText(String.valueOf(df.format(price))); 
+					break;
+				 }		
+			 }
 			}
-			else if(e.getSource().equals(quantityComboBox2) && updateCombobox2 == true){
-				
-				price2 = Double.parseDouble((String) quantityComboBox2.getSelectedItem())* 
-						Double.parseDouble(unitPriceField2.getText().substring(1, unitPriceField2.getText().length()));
-				priceField2.setText(String.valueOf(df.format(price2)));
-				updateCombobox2= false;
-			}
-			else if(e.getSource().equals(quantityComboBox3) && updateCombobox3 == true){
-				
-				price3 = Double.parseDouble((String) quantityComboBox3.getSelectedItem())* 
-						Double.parseDouble(unitPriceField3.getText().substring(1, unitPriceField3.getText().length()));
-				priceField3.setText(String.valueOf(df.format(price3)));
-				updateCombobox3 = false;
-			}
-			else if(e.getSource().equals(quantityComboBox4) && updateCombobox4 == true){
-				
-				price4 = Double.parseDouble((String) quantityComboBox4.getSelectedItem())* 
-						Double.parseDouble(unitPriceField4.getText().substring(1, unitPriceField4.getText().length()));
-				priceField4.setText(String.valueOf(df.format(price4)));
-				updateCombobox4 = false;
-			}
-			else if(e.getSource().equals(deliveryDaysComboBox)){
+			if(e.getSource().equals(deliveryDaysComboBox)){
 				
 				int days = Integer.parseInt((String) deliveryDaysComboBox.getSelectedItem());
 
 				SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yyyy");
-				Calendar calendar = Calendar.getInstance();
-				String tempDate = ft.format(orderDate).toString();
+				Calendar c = Calendar.getInstance();
+				 String tempDate = ft.format(orderDate).toString();
 				try {
-					
-					calendar.setTime(ft.parse(tempDate));
+					c.setTime(ft.parse(tempDate));
 				} catch (ParseException e1) {
-					
 					e1.printStackTrace();
 				}
 				
 				if(days == 0){
-					
-					calendar.add(Calendar.DATE, 0);
-					deliveryDate = ft.format(calendar.getTime());
+					c.add(Calendar.DATE, 0);
+					deliveryDate = ft.format(c.getTime());
 					System.out.println(deliveryDate);
 					deliveryCost = 0;
 					deliveryCostField.setText("0.00");
-				}
-				else if(days >= 1 && days <= 5){
-					
-					calendar.add(Calendar.DATE, days);
-					deliveryDate = ft.format(calendar.getTime());
+				}else if(days >= 1 && days <= 5){
+					c.add(Calendar.DATE, days);
+					deliveryDate = ft.format(c.getTime());
 					System.out.println(deliveryDate);
-					deliveryCost = 10;
-					deliveryCostField.setText("10.00");
-				}
-				else if(days >= 6 && days <= 10){
-					
-					calendar.add(Calendar.DATE, days);
-					deliveryDate = ft.format(calendar.getTime());
+					deliveryCost = 100;
+					deliveryCostField.setText("100.00");
+				}else if(days >= 6 && days <= 10){
+					c.add(Calendar.DATE, days);
+					deliveryDate = ft.format(c.getTime());
 					System.out.println(deliveryDate);
-					deliveryCost = 7.59;
-					deliveryCostField.setText("7.59");
-				}
-				else if(days >= 11 && days <= 15){
-					
-					calendar.add(Calendar.DATE, days);
-					deliveryDate = ft.format(calendar.getTime());
+					deliveryCost = 70.59;
+					deliveryCostField.setText("70.59");
+				}else if(days >= 11 && days <= 15){
+					c.add(Calendar.DATE, days);
+					deliveryDate = ft.format(c.getTime());
 					System.out.println(deliveryDate);
-					deliveryCost = 5.55;
-					deliveryCostField.setText("5.55");
-				}
-				else{
-					
-					calendar.add(Calendar.DATE, days);
-					deliveryDate = ft.format(calendar.getTime());
+					deliveryCost = 50.55;
+					deliveryCostField.setText("50.55");
+				}else{
+					c.add(Calendar.DATE, days);
+					deliveryDate = ft.format(c.getTime());
 					System.out.println(deliveryDate);
 					deliveryCost = 2.00;
-					deliveryCostField.setText("2.00");
+					deliveryCostField.setText("20.00");
 				}
 			}
+			
+			totalPrice = 0;	
+			for (JTextField tempTextField: priceField){	
+				totalPrice = totalPrice + Double.parseDouble(tempTextField.getText());
+			}
 		
-			totalprice = price1 + price2 + price3 + price4 + deliveryCost;
-			totalPriceField.setText(String.valueOf(df.format(totalprice)));
+			totalPrice = totalPrice + deliveryCost;
+			totalPriceField.setText(String.valueOf(df.format(totalPrice)));
+			deliveryCost = 0;	
 		}
-	}
-	
+    }
+
 	private void clearOrderPanel(){ 
-	
+		
 		orderIDField.setText("");
+		supplierNameComboBox.setSelectedIndex(0);
 		supplierNameComboBox.setSelectedItem("Please Select");
-		 
-		productComboBox1.setSelectedItem("Please Select");
-		productComboBox2.setSelectedItem("Please Select");
-		productComboBox3.setSelectedItem("Please Select");
-		productComboBox4.setSelectedItem("Please Select");
 		
-		quantityComboBox1.addItem("0");
-		quantityComboBox1.setSelectedItem("0");
-		quantityComboBox2.addItem("0");
-		quantityComboBox2.setSelectedItem("0");
-		quantityComboBox3.addItem("0");
-		quantityComboBox3.setSelectedItem("0");
-		quantityComboBox4.addItem("0");
-		quantityComboBox4.setSelectedItem("0");
+		for(JTextField temp:priceField){
+			temp.setText("0.00");
+		}
 		
-		unitPriceField1.setText("0.00");
-		unitPriceField2.setText("0.00");
-		unitPriceField3.setText("0.00");
-		unitPriceField4.setText("0.00");
+		for(int i = 0; i <= productComboBox.size()-1; i++){
+			productComboBox.remove(i);
+			quantityComboBox.remove(i);
+			unitPriceField.remove(i);
+			priceField.remove(i);
+		}	
 		
-		priceField1.setText("0.00");
-		priceField2.setText("0.00");
-		priceField3.setText("0.00");
-		priceField4.setText("0.00");
+		System.out.println("object has been removed");
 		
-		deliveryCostField.setText("0.00");
+		dynamicPanel.removeAll();
+		createProductField();
+		dynamicPanel.setVisible(true);
+		dynamicPanel.validate();
+		dynamicPanel.repaint();
+		orderPanel.setVisible(true);
+		orderPanel.validate();
+		orderPanel.repaint();	
 		
-		deliveryDaysComboBox.setSelectedIndex(0);
-		quantityComboBox1.setSelectedItem("0");
-		
+		totalPrice = 0;
+		deliveryCost = 0;
 		totalPriceField.setText("0.00");
+		deliveryCostField.setText("0.00");	
+		deliveryDaysComboBox.setSelectedIndex(0);
+		deliveryDaysComboBox.setSelectedItem("0");
 	}
 	
 	private class OrderButtonListener implements ActionListener{
+		
+		private Database database;
+		
+		private OrderButtonListener(Database database){
+			this.database = database;
+		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource().equals(orderSaveButton)){
 				
-				if((productComboBox1.getSelectedItem().equals("Please Select")||quantityComboBox1.getSelectedItem().equals("0")) &&
-				   (productComboBox2.getSelectedItem().equals("Please Select")||quantityComboBox2.getSelectedItem().equals("0")) &&
-				   (productComboBox3.getSelectedItem().equals("Please Select")||quantityComboBox3.getSelectedItem().equals("0")) &&
-				   (productComboBox4.getSelectedItem().equals("Please Select")||quantityComboBox4.getSelectedItem().equals("0")) || 
-				   supplierNameComboBox.getSelectedItem().equals("Please Select")|| deliveryDaysComboBox.getSelectedItem().equals("0")){
-					
-					JOptionPane.showMessageDialog(null,"Choose a Supplier, Delivery Days and a Product to Progress with Order", "Input Warning",JOptionPane.WARNING_MESSAGE);
+				boolean itemSelectedFlag = false;
+				 for(int i = 0; i <= productComboBox.size()-1; i++){
+					 
+					if (!productComboBox.get(i).getSelectedItem().equals("Please Select") && !quantityComboBox.get(i).getSelectedItem().equals("0")){
+						itemSelectedFlag = true;
+						System.out.println("an item was selected");
+						break;
+					}
 				}
-				else{
-					
-					System.out.println("Save button was clicked");
-					String orderID = orderIDField.getText();
-					Supplier supplier = database.getSupplierByName((String)supplierNameComboBox.getSelectedItem());
-					String orderCost = totalPriceField.getText().substring(1, totalPriceField.getText().length());
-					String orderDescription = commentTextArea.getText();
-					ArrayList<Product> orderedproducts = new ArrayList<Product>();
-					
-					if(productComboBox1.getSelectedItem().equals("Please Select") == false || quantityComboBox1.getSelectedItem().equals("0") == false){
-						
-						String productName = (String)productComboBox1.getSelectedItem();
-						String productType = database.getProductTypeByName(productName);
-						String productQuantity = (String) quantityComboBox1.getSelectedItem();
-						double productPrice = Double.parseDouble(priceField1.getText());
-						Product product1 = new Product(productName, productType, productPrice, productQuantity);
-						orderedproducts.add(product1);
-						
-					}
-					if(productComboBox2.getSelectedItem().equals("Please Select") == false || quantityComboBox2.getSelectedItem().equals("0") == false){
-						
-						String productName = (String)productComboBox2.getSelectedItem();
-						String productType = database.getProductTypeByName(productName);
-						String productQuantity = (String) quantityComboBox2.getSelectedItem();
-						double productPrice = Double.parseDouble(priceField2.getText());
-						Product product2 = new Product(productName, productType, productPrice, productQuantity);
-						orderedproducts.add(product2);
-					}
-					if(productComboBox3.getSelectedItem().equals("Please Select") == false || quantityComboBox3.getSelectedItem().equals("0") == false){
-						
-						String productName = (String)productComboBox3.getSelectedItem();
-						String productType = database.getProductTypeByName(productName);
-						String productQuantity = (String) quantityComboBox3.getSelectedItem();
-						double productPrice = Double.parseDouble(priceField3.getText());
-						Product product3 = new Product(productName, productType, productPrice, productQuantity);
-						orderedproducts.add(product3);
-					}
-					if(productComboBox4.getSelectedItem().equals("Please Select") == false || quantityComboBox4.getSelectedItem().equals("0") == false){
-						
-						String productName = (String)productComboBox4.getSelectedItem();
-						String productType = database.getProductTypeByName(productName);
-						String productQuantity = (String) quantityComboBox4.getSelectedItem();
-						double productPrice = Double.parseDouble(priceField4.getText());
-						Product product4 = new Product(productName, productType, productPrice, productQuantity);
-						orderedproducts.add(product4);
-					}
-					
-					//clear order field
-					clearOrderPanel();
+				 if(itemSelectedFlag == false || supplierNameComboBox.getSelectedItem().equals("Please Select") ||
+					 deliveryDaysComboBox.getSelectedItem().equals("0")){
+					 JOptionPane.showMessageDialog(null,"Choose a Supplier, Delivery Days and a Product to Progress with Order", "Input Warning",JOptionPane.WARNING_MESSAGE);
+				 }else{
+					 
+					 System.out.println("Save button was clicked");
+					 String orderID = orderIDField.getText();
+					 Supplier supplier = database.getSupplierByName((String)supplierNameComboBox.getSelectedItem());
+					 String orderCost = totalPriceField.getText();
+					 String orderDescription = commentTextArea.getText();
+					 ArrayList<Product> orderedproducts = new ArrayList<Product>();
+					 
+					 for(int i = 0; i <= productComboBox.size()-1; i++){
+						 
+						if (!productComboBox.get(i).getSelectedItem().equals("Please Select") && !quantityComboBox.get(i).getSelectedItem().equals(null)
+								&&!quantityComboBox.get(i).getSelectedItem().equals("0")){
+							String productName = (String)productComboBox.get(i).getSelectedItem();
+							String productType = database.getProductTypeByName(productName);
+							Double productQuantity = Double.parseDouble((String) quantityComboBox.get(i).getSelectedItem());
+							String productPrice = priceField.get(i).getText();
+							Product product = new Product(productName, productType, productQuantity, productPrice);
+							orderedproducts.add(product);
+						}
+					 }	 
 					
 					//add order to database
 					database.addOrder(orderID, supplier, orderDate.toString(), deliveryDate, orderCost, true, orderedproducts, orderDescription);
+					clearOrderPanel(); 
+					totalPrice = 0;
+					deliveryCost = 0;
 					updateOrderID = true;
 					
 					//update table
@@ -713,40 +639,70 @@ public class CreateNewOrderUI {
 					//orderScrollPane = new JScrollPane(tableOfOrders);
 				    String [] columnNames = {"Order ID", "Delivery Date","Cost","Outstanding"};
 					orderTableModel.setColumnIdentifiers(columnNames);
+					
+					ArrayList<Order> tempGetOrder = database.getOrders();
 					for(Order order : database.getOrders()){
 						orderTableModel.addRow(new String[] {
-								order.getOrderID(),
+						order.getOrderID(),
 								order.getOrderDeliveryDate(),
 								order.getOrderCost(),
 								String.valueOf(order.isOrderOutstanding())});
 					}
 					
 					//go back to table view
-					tablePanel.setVisible(true);
 					orderPanel.setVisible(false);
+					orderPanel.invalidate();
+					
+					tablePanel.setVisible(true);
+					tablePanel.validate();
+					tablePanel.repaint();
+			
 					System.out.println("order panel visible");
 					
 					//enable tabs
 					tabbedPane.setEnabled(true);
+					
 					System.out.println("tabs enabled");					
 				} 
 			}
-			else if(e.getSource() == orderCancelButton){
-				
-				//go back to table view
-				tablePanel.setVisible(true);
-				orderPanel.setVisible(false);
-				System.out.println("order panel visible");
-				
-				//enable tabs
-				tabbedPane.setEnabled(true);
-				System.out.println("tabs enabled");
-			}
-			else if(e.getSource() == orderClearButton){
-				
-					clearOrderPanel();
-					updateOrderID = true;
-			}
 		}
+	}
+	
+	private void createProductField(){
+		
+		productComboBox.add(new JComboBox<String>(productListNames));
+    	quantityComboBox.add(new JComboBox<String>());
+    	unitPriceField.add(new JTextField());
+    	priceField.add(new JTextField());
+    	updateQuantityCombobox.add(false);
+    	
+    	JComboBox<String> component = productComboBox.get(productComboBox.size()-1);
+		component.addItem("Please Select");
+		component.setSelectedItem("Please Select");
+		component.setMaximumRowCount(7);
+		component.setBackground(Color.WHITE);
+		component.addActionListener(new ProductComboBoxListener(database));
+
+		JComboBox<String> component1 = quantityComboBox.get(quantityComboBox.size()-1);
+		component1.addItem("0");
+		component1.setSelectedIndex(0);
+		component1.setMaximumRowCount(7);
+		component1.setBackground(Color.WHITE);
+		component1.addActionListener(new QuantityComboBoxListener(database));
+	
+		JTextField component2 = unitPriceField.get(unitPriceField.size()-1);
+		component2.setEditable(false);
+		component2.setText("0.00");
+		component2.setBackground(Color.WHITE);
+	 
+		JTextField component3 = priceField.get(priceField.size()-1);
+		component3.setEditable(false);
+		component3.setText("0.00");
+		component3.setBackground(Color.WHITE);
+		
+		createConstraint(dynamicPanel, component,	 	0, 0, 2, 1, 0, 0, 2,10,2,2, 1, 0);
+		createConstraint(dynamicPanel, component1,		2, 0, 1, 1, 0, 0, 2,2,2,2, 1, 0);
+		createConstraint(dynamicPanel, component2,	 	3, 0, 1, 1, 0, 0, 2,2,2,2, 1, 0);
+		createConstraint(dynamicPanel, component3,	  	4, 0, 1, 1, 0, 0, 2,2,2,10, 1,0);		
 	}
 }
