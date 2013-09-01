@@ -665,7 +665,12 @@ public class CreateNewOrderUI {
 					updateOrderID = true;
 					
 					//update table
-					orderTableModel =  new DefaultTableModel();
+					orderTableModel =  new DefaultTableModel() { 
+						@Override
+			            public boolean isCellEditable(int row, int column) { 
+			               return false; 
+			            } 
+			        };;
 					tableOfOrders.setModel(orderTableModel);
 					sorter = new TableRowSorter<TableModel>(tableOfOrders.getModel());
 				    tableOfOrders.setRowSorter(sorter); //

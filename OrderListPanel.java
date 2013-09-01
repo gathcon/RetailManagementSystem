@@ -100,7 +100,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
         dynamicPanel.setAutoscrolls(true);
         dynamicPanel.setVisible(true);
                   
-        DefaultTableModel orderTableModel = new DefaultTableModel() { 
+        orderTableModel = new DefaultTableModel() { 
   
             @Override
             public boolean isCellEditable(int row, int column) { 
