@@ -675,13 +675,14 @@ public class CreateNewOrderUI {
 					sorter = new TableRowSorter<TableModel>(tableOfOrders.getModel());
 				    tableOfOrders.setRowSorter(sorter); //
 					//orderScrollPane = new JScrollPane(tableOfOrders);
-				    String [] columnNames = {"Order ID", "Delivery Date","Cost","Outstanding"};
+				    String [] columnNames = {"Order ID", "Order Date", "Delivery Date","Cost","Outstanding"};
 					orderTableModel.setColumnIdentifiers(columnNames);
 					
 					ArrayList<Order> tempGetOrder = database.getOrders();
 					for(Order order : database.getOrders()){
 						orderTableModel.addRow(new String[] {
-						order.getOrderID(),
+								order.getOrderID(),
+								order.getOrderDate(),
 								order.getOrderDeliveryDate(),
 								order.getOrderCost(),
 								String.valueOf(order.isOrderOutstanding())});
