@@ -63,7 +63,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
     private JComboBox filteredSelection; 
     private JTextField filterField; 
     private TableRowSorter<TableModel> sorter; 
-    private String [] columnNames = {"Order ID", "Delivery Date","Cost","Outstanding"}; 
+    private String [] columnNames = {"Order ID", "Order Date","Delivery Date","Cost","Outstanding",}; 
     private JSplitPane splitPane;
   
     private int filterIndex = 0;
@@ -100,7 +100,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
         dynamicPanel.setAutoscrolls(true);
         dynamicPanel.setVisible(true);
                   
-        DefaultTableModel orderTableModel = new DefaultTableModel() { 
+        orderTableModel = new DefaultTableModel() { 
   
             @Override
             public boolean isCellEditable(int row, int column) { 
@@ -116,6 +116,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
         for(Order order : database.getOrders()){ 
             orderTableModel.addRow(new String[] { 
                     order.getOrderID(), 
+                    order.getOrderDate(),
                     order.getOrderDeliveryDate(), 
                     order.getOrderCost(), 
                     String.valueOf(order.isOrderOutstanding())}); 
@@ -233,9 +234,12 @@ public class OrderListPanel extends JPanel implements ActionListener{
                 else if(i == 2){ 
                     filterIndex = 2; 
                 } 
-                else{ 
+                else if(i == 3){ 
                     filterIndex = 3; 
                 } 
+                else{
+                	filterIndex = 4;
+                }
             } 
               
         }); 

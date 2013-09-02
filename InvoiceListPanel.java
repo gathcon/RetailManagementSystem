@@ -100,7 +100,7 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
         dynamicPanel.setAutoscrolls(true);
         dynamicPanel.setVisible(true);
                   
-        DefaultTableModel invoiceTableModel = new DefaultTableModel() { 
+        invoiceTableModel = new DefaultTableModel() { 
   
             @Override
             public boolean isCellEditable(int row, int column) { 

@@ -665,7 +665,12 @@ public class CreateNewInvoiceUI {
 					updateInvoiceID = true;
 					
 					//update table
-					invoiceTableModel =  new DefaultTableModel();
+					invoiceTableModel =  new DefaultTableModel() { 
+					    @Override
+			            public boolean isCellEditable(int row, int column) { 
+			               return false; 
+			            } 
+			        };;
 					tableOfInvoices.setModel(invoiceTableModel);
 					sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel());
 				    tableOfInvoices.setRowSorter(sorter); 
