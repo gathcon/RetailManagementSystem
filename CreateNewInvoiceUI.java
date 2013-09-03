@@ -43,7 +43,7 @@ public class CreateNewInvoiceUI {
 
 	private boolean updateInvoiceID = true;
 	
-	private static  int count = 0, count1 = , count2 = 0, count3 = 0;
+	private static  int count = 0, count1 = 0, count2 = 0, count3 = 0;
 	private JPanel dynamicPanel;
 	private JScrollPane scrollPane;
 
