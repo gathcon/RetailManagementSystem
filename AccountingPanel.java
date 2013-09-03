@@ -44,7 +44,10 @@ public class AccountingPanel extends JPanel implements ActionListener{
 	private JButton graphBackButton;
 	private JPanel graphPanel;
 	private JPanel newPanel;
-		
+	
+	private double totalOrderCost=0;
+	private double totalInvoiceCost=0;
+	private DecimalFormat df = new DecimalFormat("#.##"); 
 		
 	private static final int maxCost = 5500;
 	private static final int border = 50;
@@ -74,42 +77,11 @@ public class AccountingPanel extends JPanel implements ActionListener{
 	public void buildPanel(JPanel panel, final Database db){
 		this.database = db;
 
-		DecimalFormat df = new DecimalFormat("#.##"); 
-		double totalOrderCost=0;
-		double totalInvoiceCost=0;
 		tableOfAccounts = new JTable();// JTABLE code
 		model =  new DefaultTableModel();
 		tableOfAccounts.setModel(model);
 		JScrollPane scrollPane = new JScrollPane(tableOfAccounts);
-		model.setColumnIdentifiers(new String [] {"Order/Invoice ID", "Supplier/Customer Name","Cost"});
-		model.addRow(new String[]{"Order ID","Supplier Name","Cost"});
-		for(Order p: database.getOrders()){
-			int row = 0;
-			if (row == 0){
-				setBackground(Color.RED);
-			}
-			model.addRow(new String[]{p.getOrderID(),p.getSupplier().getSupplierName(),p.getOrderCost()});
-			
-			totalOrderCost = Double.valueOf(df.format(totalOrderCost+Double.parseDouble(p.getOrderCost())));
-			
-		}
-		String totalOrderCostS = Double.toString(totalOrderCost);
-		model.addRow(new String[]{"Total Order Cost",null,totalOrderCostS});
-		model.addRow(new String[]{});
-		model.addRow(new String[]{"Invoice ID","Customer Name","Cost"});
-		for(Invoice p: database.getInvoices()){
-			setBackground(Color.GREEN);
-			model.addRow(new String[]{p.getInvoiceID(),p.getCustomer().getCustomerName(),p.getInvoiceCost()});
-			
-			totalInvoiceCost = Double.valueOf(df.format(totalInvoiceCost+Double.parseDouble(p.getInvoiceCost())));
-		}
-		String totalInvoiceCostS = Double.toString(totalInvoiceCost);
-		model.addRow(new String[]{"Total Invoice Cost",null,totalInvoiceCostS});
-		Double total = Double.valueOf(df.format(totalInvoiceCost - totalOrderCost));
-		String totalS = Double.toString(total);
-		model.addRow(new String[]{});
-	
-		model.addRow(new String[]{"Total",null,totalS});
+		refreshAccount();
 		
 		
 		graphPanel = new JPanel();
@@ -329,5 +301,37 @@ class graph extends JPanel{
     	
     	
     }
+
+public void refreshAccount(){
+	
+	model.setRowCount(0);
+	  
+	  	model.setColumnIdentifiers(new String [] {"Order/Invoice ID", "Supplier/Customer Name","Debit","Credit"});
+	model.addRow(new String[]{"Order ID","Supplier Name","Debit"});
+	
+	for(Order p: database.getOrders()){
+		model.addRow(new String[]{p.getOrderID(),p.getSupplier().getSupplierName(),p.getOrderCost()});
+		
+		totalOrderCost = Double.valueOf(df.format(totalOrderCost+Double.parseDouble(p.getOrderCost())));
+		
+	}
+	String totalOrderCostS = Double.toString(totalOrderCost);
+	model.addRow(new String[]{"Total Order Cost",null,totalOrderCostS});
+	model.addRow(new String[]{});
+	model.addRow(new String[]{"Invoice ID","Customer Name",null,"Credit"});
+	for(Invoice p: database.getInvoices()){
+		model.addRow(new String[]{p.getInvoiceID(),p.getCustomer().getCustomerName(),null,p.getInvoiceCost()});
+		
+		totalInvoiceCost = Double.valueOf(df.format(totalInvoiceCost+Double.parseDouble(p.getInvoiceCost())));
+	}
+	String totalInvoiceCostS = Double.toString(totalInvoiceCost);
+	model.addRow(new String[]{"Total Invoice Cost",null,null,totalInvoiceCostS});
+	Double total = Double.valueOf(df.format(totalInvoiceCost - totalOrderCost));
+	String totalS = Double.toString(total);
+	model.addRow(new String[]{});
+
+	model.addRow(new String[]{"Total",null,totalS});
+	  
+  } 
 }
 

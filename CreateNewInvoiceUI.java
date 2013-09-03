@@ -87,6 +87,7 @@ public class CreateNewInvoiceUI {
 	
 	private String[] customerListNames;
 	private String[] productListNames;
+	private Object[] data;
 	private InvoiceListPanel invoicePane;
 	private JTabbedPane tabbedPane;
 	
@@ -665,12 +666,34 @@ public class CreateNewInvoiceUI {
 					updateInvoiceID = true;
 					
 					//update table
-					invoiceTableModel =  new DefaultTableModel() { 
+					DefaultTableModel invoiceTableModel = new DefaultTableModel() {
+
 					    @Override
-			            public boolean isCellEditable(int row, int column) { 
-			               return false; 
-			            } 
-			        };;
+					    public boolean isCellEditable(int row, int column) {
+					    	if (column<4) {
+					    		return false;
+					    	}
+					    	else {
+					    		return true;
+					    	}
+					    }
+					    
+					    @Override
+			            public Class getColumnClass(int column) {
+			                switch (column) {
+			                    case 0:
+			                        return String.class;
+			                    case 1:
+			                        return String.class;
+			                    case 2:
+			                    	return String.class;
+			                    case 3:
+			                    	return String.class;
+			                    default:
+			                        return Boolean.class;
+			                }
+					    }
+					};
 					tableOfInvoices.setModel(invoiceTableModel);
 					sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel());
 				    tableOfInvoices.setRowSorter(sorter); 
@@ -680,12 +703,15 @@ public class CreateNewInvoiceUI {
 					
 					ArrayList<Invoice> tempGetInvoice = database.getInvoices();
 					for(Invoice invoice : database.getInvoices()){
-						invoiceTableModel.addRow(new String[] {
-						invoice.getInvoiceID(),
-						invoice.getInvoiceDate(),
+						data = new Object[] {
+								invoice.getInvoiceID(),
+								invoice.getInvoiceDate(),
 								invoice.getInvoiceDeliveryDate(),
 								invoice.getInvoiceCost(),
-								String.valueOf(invoice.isInvoiceOutstanding())});
+								new Boolean(invoice.isInvoiceOutstanding())
+								};
+						
+						invoiceTableModel.addRow(data);
 					}
 					            
 			         

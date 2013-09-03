@@ -87,6 +87,7 @@ public class CreateNewOrderUI {
 	
 	private String[] supplierListNames;
 	private String[] productListNames;
+	private Object[] data;
 	private OrderListPanel orderPane;
 	private JTabbedPane tabbedPane;
 	
@@ -665,12 +666,34 @@ public class CreateNewOrderUI {
 					updateOrderID = true;
 					
 					//update table
-					orderTableModel =  new DefaultTableModel() { 
-						@Override
-			            public boolean isCellEditable(int row, int column) { 
-			               return false; 
-			            } 
-			        };;
+					DefaultTableModel orderTableModel = new DefaultTableModel() {
+
+					    @Override
+					    public boolean isCellEditable(int row, int column) {
+					    	if (column<4) {
+					    		return false;
+					    	}
+					    	else {
+					    		return true;
+					    	}
+					    }
+					    
+					    @Override
+			            public Class getColumnClass(int column) {
+			                switch (column) {
+			                    case 0:
+			                        return String.class;
+			                    case 1:
+			                        return String.class;
+			                    case 2:
+			                    	return String.class;
+			                    case 3:
+			                    	return String.class;
+			                    default:
+			                        return Boolean.class;
+			                }
+					    }
+					};
 					tableOfOrders.setModel(orderTableModel);
 					sorter = new TableRowSorter<TableModel>(tableOfOrders.getModel());
 				    tableOfOrders.setRowSorter(sorter); //
@@ -680,12 +703,15 @@ public class CreateNewOrderUI {
 					
 					ArrayList<Order> tempGetOrder = database.getOrders();
 					for(Order order : database.getOrders()){
-						orderTableModel.addRow(new String[] {
+						data = new Object[] {
 								order.getOrderID(),
 								order.getOrderDate(),
 								order.getOrderDeliveryDate(),
 								order.getOrderCost(),
-								String.valueOf(order.isOrderOutstanding())});
+								new Boolean(order.isOrderOutstanding())
+								};
+						
+						orderTableModel.addRow(data);
 					}
 					            
 			         

@@ -64,6 +64,7 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
     private JTextField filterField; 
     private TableRowSorter<TableModel> sorter; 
     private String [] columnNames = {"Order ID", "Invoice Date","Delivery Date","Cost","Outstanding",}; 
+    private Object[] data;
     private JSplitPane splitPane;
   
     private int filterIndex = 0;
@@ -100,28 +101,52 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
         dynamicPanel.setAutoscrolls(true);
         dynamicPanel.setVisible(true);
                   
-        invoiceTableModel = new DefaultTableModel() { 
-  
-            @Override
-            public boolean isCellEditable(int row, int column) { 
-               return false; 
-            } 
-        }; 
+        DefaultTableModel invoiceTableModel = new DefaultTableModel() {
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		    	if (column<4) {
+		    		return false;
+		    	}
+		    	else {
+		    		return true;
+		    	}
+		    }
+		    
+		    @Override
+            public Class getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                    	return String.class;
+                    case 3:
+                    	return String.class;
+                    default:
+                        return Boolean.class;
+                }
+		    }
+		}; 
           
         tableOfInvoices = new JTable(invoiceTableModel);// JTABLE code 
         tableOfInvoices.setModel(invoiceTableModel); 
         invoiceScrollPane = new JScrollPane(tableOfInvoices); 
         invoiceTableModel.setColumnIdentifiers(columnNames); 
         int row = 0; 
-        for(Invoice invoice : database.getInvoices()){ 
-            invoiceTableModel.addRow(new String[] { 
-                    invoice.getInvoiceID(), 
-                    invoice.getInvoiceDate(),
-                    invoice.getInvoiceDeliveryDate(), 
-                    invoice.getInvoiceCost(), 
-                    String.valueOf(invoice.isInvoiceOutstanding())}); 
-            row++; 
-        } 
+        for(Invoice invoice : database.getInvoices()){
+			data = new Object[] {
+					invoice.getInvoiceID(),
+					invoice.getInvoiceDate(),
+					invoice.getInvoiceDeliveryDate(),
+					invoice.getInvoiceCost(),
+					new Boolean(invoice.isInvoiceOutstanding())
+					};
+			invoiceTableModel.addRow(data);
+			
+			row++;
+		}
         tableOfInvoices.setVisible(true); 
           
         tableOfInvoices.addMouseListener(new MouseAdapter(){ 

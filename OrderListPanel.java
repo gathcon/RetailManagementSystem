@@ -64,6 +64,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
     private JTextField filterField; 
     private TableRowSorter<TableModel> sorter; 
     private String [] columnNames = {"Order ID", "Order Date","Delivery Date","Cost","Outstanding",}; 
+    private Object[] data;
     private JSplitPane splitPane;
   
     private int filterIndex = 0;
@@ -100,28 +101,52 @@ public class OrderListPanel extends JPanel implements ActionListener{
         dynamicPanel.setAutoscrolls(true);
         dynamicPanel.setVisible(true);
                   
-        orderTableModel = new DefaultTableModel() { 
-  
-            @Override
-            public boolean isCellEditable(int row, int column) { 
-               return false; 
-            } 
-        }; 
+        DefaultTableModel orderTableModel = new DefaultTableModel() {
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		    	if (column<4) {
+		    		return false;
+		    	}
+		    	else {
+		    		return true;
+		    	}
+		    }
+		    
+		    @Override
+            public Class getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                    	return String.class;
+                    case 3:
+                    	return String.class;
+                    default:
+                        return Boolean.class;
+                }
+		    }
+		}; 
           
         tableOfOrders = new JTable(orderTableModel);// JTABLE code 
         tableOfOrders.setModel(orderTableModel); 
         orderScrollPane = new JScrollPane(tableOfOrders); 
         orderTableModel.setColumnIdentifiers(columnNames); 
         int row = 0; 
-        for(Order order : database.getOrders()){ 
-            orderTableModel.addRow(new String[] { 
-                    order.getOrderID(), 
-                    order.getOrderDate(),
-                    order.getOrderDeliveryDate(), 
-                    order.getOrderCost(), 
-                    String.valueOf(order.isOrderOutstanding())}); 
-            row++; 
-        } 
+        for(Order order : database.getOrders()){
+			data = new Object[] {
+					order.getOrderID(),
+					order.getOrderDate(),
+					order.getOrderDeliveryDate(),
+					order.getOrderCost(),
+					new Boolean(order.isOrderOutstanding())
+					};
+			orderTableModel.addRow(data);
+			
+			row++;
+		}
         tableOfOrders.setVisible(true); 
           
         tableOfOrders.addMouseListener(new MouseAdapter(){ 
