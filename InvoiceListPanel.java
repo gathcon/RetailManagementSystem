@@ -63,7 +63,7 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
     private JComboBox filteredSelection; 
     private JTextField filterField; 
     private TableRowSorter<TableModel> sorter; 
-    private String [] columnNames = {"Invoice ID", "Delivery Date","Cost","Outstanding"}; 
+    private String [] columnNames = {"Order ID", "Invoice Date","Delivery Date","Cost","Outstanding",}; 
     private JSplitPane splitPane;
   
     private int filterIndex = 0;
@@ -116,6 +116,7 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
         for(Invoice invoice : database.getInvoices()){ 
             invoiceTableModel.addRow(new String[] { 
                     invoice.getInvoiceID(), 
+                    invoice.getInvoiceDate(),
                     invoice.getInvoiceDeliveryDate(), 
                     invoice.getInvoiceCost(), 
                     String.valueOf(invoice.isInvoiceOutstanding())}); 
@@ -238,9 +239,12 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
                 else if(i == 2){ 
                     filterIndex = 2; 
                 } 
-                else{ 
+                else if(i == 3){ 
                     filterIndex = 3; 
                 } 
+                else{
+                	filterIndex = 4;
+                }
             } 
               
         }); 

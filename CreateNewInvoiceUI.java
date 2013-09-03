@@ -43,7 +43,7 @@ public class CreateNewInvoiceUI {
 
 	private boolean updateInvoiceID = true;
 	
-	private static  int count = 0, count1 = 0, count2 = 0, count3 = 0;
+	private static  int count = 0, count1 = , count2 = 0, count3 = 0;
 	private JPanel dynamicPanel;
 	private JScrollPane scrollPane;
 
@@ -675,13 +675,14 @@ public class CreateNewInvoiceUI {
 					sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel());
 				    tableOfInvoices.setRowSorter(sorter); 
 					//invoiceScrollPane = new JScrollPane(tableOfInvoices);
-				    String [] columnNames = {"Invoice ID", "Delivery Date","Cost","Outstanding"};
+				    String [] columnNames = {"Invoice ID","Invoice Date", "Delivery Date","Cost","Outstanding"};
 					invoiceTableModel.setColumnIdentifiers(columnNames);
 					
 					ArrayList<Invoice> tempGetInvoice = database.getInvoices();
 					for(Invoice invoice : database.getInvoices()){
 						invoiceTableModel.addRow(new String[] {
 						invoice.getInvoiceID(),
+						invoice.getInvoiceDate(),
 								invoice.getInvoiceDeliveryDate(),
 								invoice.getInvoiceCost(),
 								String.valueOf(invoice.isInvoiceOutstanding())});
