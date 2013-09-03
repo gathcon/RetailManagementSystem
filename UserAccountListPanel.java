@@ -32,9 +32,9 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 		
 	private String[] userAccounts;
 		
-	private JList<String> userAccountList;
-	private ListModel<String> userAccountListModel;
-	private DefaultListModel<String> updatedUserAccountListModel;
+	private JList userAccountList;
+	private ListModel userAccountListModel;
+	private DefaultListModel updatedUserAccountListModel;
 	
 	private JScrollPane listScroller;
 	
@@ -52,7 +52,7 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 	private JTextField userNameField;
 	private JPasswordField passwordField1;
 	private JPasswordField passwordField2;
-	private JComboBox<String> userLevelField;
+	private JComboBox userLevelField;
 	
 	private JButton userAccountAddButton;
 	private JButton userAccountDeleteButton;
@@ -70,7 +70,7 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 		this.database = database;
 		userAccounts = database.getUserAccountList();	//array of type String[]
 		
-		userAccountList = new JList<String>(userAccounts);
+		userAccountList = new JList(userAccounts);
 		userAccountListModel = userAccountList.getModel();
 		userAccountList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		userAccountList.setLayoutOrientation(JList.VERTICAL);
@@ -91,7 +91,7 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 		userNameField = new JTextField();
 		passwordField1 = new JPasswordField();
 		passwordField2 = new JPasswordField();
-		userLevelField = new JComboBox<String>();
+		userLevelField = new JComboBox();
 		
 		userLevelField.addItem("Administrator");
 		userLevelField.addItem("level 2");
@@ -195,7 +195,7 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 	public void updateUserAccountLists() {
 		
 		//update the list of names etc
-		updatedUserAccountListModel = new DefaultListModel<String>();
+		updatedUserAccountListModel = new DefaultListModel();
 		
 		for(UserAccount userAccount: database.getUserAccounts()) {
 			
