@@ -35,6 +35,8 @@ import javax.swing.table.DefaultTableModel;
 public class AccountingPanel extends JPanel implements ActionListener{
 
 	private Database database;
+	
+	//comment
 
 	private JTable tableOfAccounts;
 	private DefaultTableModel model;
