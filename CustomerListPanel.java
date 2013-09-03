@@ -30,9 +30,9 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 		
 	private String[] customerNameList;
 		
-	private JList<String> customerList;
-	private ListModel<String> customerListModel;
-	private DefaultListModel<String> updatedCustomerListModel;
+	private JList customerList;
+	private ListModel customerListModel;
+	private DefaultListModel updatedCustomerListModel;
 	
 	private JScrollPane listScroller;
 	
@@ -67,7 +67,7 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 		this.database = database;
 		customerNameList = database.getCustomerList();	//array of type String[]
 		
-		customerList = new JList<String>(customerNameList);
+		customerList = new JList(customerNameList);
 		customerListModel = customerList.getModel();
 		customerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		customerList.setLayoutOrientation(JList.VERTICAL);
@@ -178,7 +178,7 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 	public void updateCustomerLists() {
 		
 		//update the list of names etc
-		updatedCustomerListModel = new DefaultListModel<String>();
+		updatedCustomerListModel = new DefaultListModel();
 		for(Customer customer: database.getCustomers()) {
 			
 			updatedCustomerListModel.addElement(customer.getCustomerName());

@@ -48,8 +48,8 @@ public class CreateNewOrderUI {
 	private JScrollPane scrollPane;
 
 	
-	private ArrayList<JComboBox<String>> productComboBox = new ArrayList<JComboBox<String>>();
-	private ArrayList<JComboBox<String>> quantityComboBox = new ArrayList<JComboBox<String>>(); 
+	private ArrayList<JComboBox> productComboBox = new ArrayList<JComboBox>();
+	private ArrayList<JComboBox> quantityComboBox = new ArrayList<JComboBox>(); 
 	private ArrayList<JTextField> unitPriceField = new ArrayList<JTextField>(); 
 	private ArrayList<JTextField> priceField = new ArrayList<JTextField>();
 	private ArrayList<Boolean> updateQuantityCombobox = new ArrayList<Boolean>();
@@ -63,7 +63,7 @@ public class CreateNewOrderUI {
 	private JTextField orderIDField, orderDateField, deliveryCostField;
 	private JTextField totalPriceField,  deliveryDateField;
 	
-	private JComboBox<String> supplierNameComboBox, deliveryDaysComboBox;
+	private JComboBox supplierNameComboBox, deliveryDaysComboBox;
 
 	
 	private JButton orderClearButton, orderSaveButton, addButton, orderCancelButton;
@@ -102,17 +102,17 @@ public class CreateNewOrderUI {
 		supplierListNames = database.getSupplierList();
 		productListNames = database.getProductList();
 		
-		supplierNameComboBox.setModel(new DefaultComboBoxModel<String>(supplierListNames));
+		supplierNameComboBox.setModel(new DefaultComboBoxModel(supplierListNames));
 		supplierNameComboBox.addItem("Please Select");
 		supplierNameComboBox.setSelectedItem("Please Select");
 		
-		for(JComboBox<String> tempComboBox : productComboBox){
-			tempComboBox.setModel(new DefaultComboBoxModel<String>(productListNames));
+		for(JComboBox tempComboBox : productComboBox){
+			tempComboBox.setModel(new DefaultComboBoxModel(productListNames));
 			tempComboBox.addItem("Please Select");
 			tempComboBox.setSelectedItem("Please Select");
 		}
 		
-		for(JComboBox<String> tempComboBox : quantityComboBox){
+		for(JComboBox tempComboBox : quantityComboBox){
 			tempComboBox.addItem("0");
 			tempComboBox.setSelectedItem("0");
 		}
@@ -160,7 +160,7 @@ public class CreateNewOrderUI {
 	
 		supplierListNames = database.getSupplierList();	
 		supplierNameLabel = new JLabel("Supplier Name:", SwingConstants.RIGHT);
-		supplierNameComboBox = new JComboBox<String>(supplierListNames);
+		supplierNameComboBox = new JComboBox(supplierListNames);
 		supplierNameComboBox.addItem("Please Select");
 		supplierNameComboBox.setSelectedIndex(0);
 		supplierNameComboBox.setSelectedItem("Please Select");
@@ -212,7 +212,7 @@ public class CreateNewOrderUI {
 		totalPriceField.setBackground(Color.WHITE);
 		
 		deliveryDaysLabel = new JLabel("Delivery Days:", SwingConstants.RIGHT);
-		deliveryDaysComboBox = new JComboBox<String>();
+		deliveryDaysComboBox = new JComboBox();
 		for(int i = 0; i <=100 ;i++){
 			deliveryDaysComboBox.addItem(Integer.toString(i));
 		}
@@ -315,14 +315,14 @@ public class CreateNewOrderUI {
 	            	
 	            	System.out.println("add button was pressed");
 
-	            	productComboBox.add(new JComboBox<String>(productListNames));
-	            	quantityComboBox.add(new JComboBox<String>());
+	            	productComboBox.add(new JComboBox(productListNames));
+	            	quantityComboBox.add(new JComboBox());
 	            	unitPriceField.add(new JTextField());
 	            	priceField.add(new JTextField());
 	            	updateQuantityCombobox.add(false);  
 	            	
 						count =  count + 1;
-						JComboBox<String> component = productComboBox.get(productComboBox.size()-1);
+						JComboBox component = productComboBox.get(productComboBox.size()-1);
 						component.addItem("Please Select");
 						component.setSelectedItem("Please Select");
 						component.setMaximumRowCount(7);
@@ -332,7 +332,7 @@ public class CreateNewOrderUI {
 				
 				
 						count1 =  count1 + 1;
-						JComboBox<String> component1 = quantityComboBox.get(quantityComboBox.size()-1);
+						JComboBox component1 = quantityComboBox.get(quantityComboBox.size()-1);
 						component1.addItem("0");
 						component1.setSelectedIndex(0);
 						component1.setMaximumRowCount(7);
@@ -448,13 +448,13 @@ public class CreateNewOrderUI {
 		public void actionPerformed(ActionEvent e){
 			DecimalFormat df = new DecimalFormat("####0.00");
 			 
-			 for(JComboBox <String> tempComboBox: productComboBox){
+			 for(JComboBox  tempComboBox: productComboBox){
 				  int position = productComboBox.indexOf(e.getSource());
 				 if (e.getSource().equals(productComboBox.get(position))){
 					 totalPrice = 0;
 					 System.out.println("i an an event handler " + position);
 					 updateQuantityCombobox.set(position,false);
-					 JComboBox <String> tempquantityComboBox = quantityComboBox.get(position);
+					 JComboBox  tempquantityComboBox = quantityComboBox.get(position);
 					 
 					 tempquantityComboBox.removeAllItems();
 					 
@@ -494,10 +494,10 @@ public class CreateNewOrderUI {
 	
 			 System.out.println( "I am Combo" + quantityComboBox.indexOf(e.getSource()));
 			 if(!e.getSource().equals(deliveryDaysComboBox)){
-			 for(JComboBox <String> tempComboBox: productComboBox){
+			 for(JComboBox  tempComboBox: productComboBox){
 				 
 				 int position = quantityComboBox.indexOf(e.getSource());
-				 JComboBox <String> tempquantityComboBox = quantityComboBox.get(position);
+				 JComboBox  tempquantityComboBox = quantityComboBox.get(position);
 				 
 				 if (e.getSource().equals(tempquantityComboBox) && updateQuantityCombobox.get(position) == true){
 					 
@@ -718,13 +718,13 @@ public class CreateNewOrderUI {
 	
 	private void createProductField(){
 		
-		productComboBox.add(new JComboBox<String>(productListNames));
-    	quantityComboBox.add(new JComboBox<String>());
+		productComboBox.add(new JComboBox(productListNames));
+    	quantityComboBox.add(new JComboBox());
     	unitPriceField.add(new JTextField());
     	priceField.add(new JTextField());
     	updateQuantityCombobox.add(false);
     	
-    	JComboBox<String> component = productComboBox.get(productComboBox.size()-1);
+    	JComboBox component = productComboBox.get(productComboBox.size()-1);
 		component.addItem("Please Select");
 		component.setSelectedItem("Please Select");
 		component.setMaximumRowCount(7);
@@ -732,7 +732,7 @@ public class CreateNewOrderUI {
 		component.addActionListener(new ProductComboBoxListener(database));
 		
 
-		JComboBox<String> component1 = quantityComboBox.get(quantityComboBox.size()-1);
+		JComboBox component1 = quantityComboBox.get(quantityComboBox.size()-1);
 		component1.addItem("0");
 		component1.setSelectedIndex(0);
 		component1.setMaximumRowCount(7);

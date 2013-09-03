@@ -29,9 +29,9 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 		
 	private String[] suppliers;
 		
-	private JList<String> supplierList;
-	private ListModel<String> supplierListModel;
-	private DefaultListModel<String> updatedSupplierListModel;
+	private JList supplierList;
+	private ListModel supplierListModel;
+	private DefaultListModel updatedSupplierListModel;
 	
 	private JScrollPane listScroller;
 	
@@ -66,7 +66,7 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 		this.database = database;
 		suppliers = database.getSupplierList();	//array of type String[]
 		
-		supplierList = new JList<String>(suppliers);
+		supplierList = new JList(suppliers);
 		supplierListModel = supplierList.getModel();
 		supplierList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		supplierList.setLayoutOrientation(JList.VERTICAL);
@@ -175,7 +175,7 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 	public void updateSupplierLists() {
 		
 		//update the list of names etc
-		updatedSupplierListModel = new DefaultListModel<String>();
+		updatedSupplierListModel = new DefaultListModel();
 		
 		for(Supplier supplier: database.getSuppliers()) {
 			
