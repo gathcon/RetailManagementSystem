@@ -22,6 +22,9 @@ public class Database {
     	int [] stockLevelsIpod = {120,130,110,90,70,110,140,120,95,75,100,100};
         int [] stockLevelsEnvy = {40,50,30,70,80,40,50,30,50,60,70,40};
         int [] stockLevelsGalaxy = {75,80,60,55,60,40,50,30,75,60,50,75};
+        
+       
+        
           
         this.addCustomer("09118553", "Conor Gath", "conor@gmail.com", "1092736492", "Meath");
         this.addCustomer("SIXC2938", "Joseph Uman", "joe@gmail.com", "3759264367", "Dublin");
@@ -64,6 +67,8 @@ public class Database {
 //        this.addOrder("0019", suppliers.get(3), "14/8/13", "16/8/13", "3568", true, products, "comment");
 //        this.addOrder("0020", suppliers.get(4), "18/8/13", "20/8/13", "625", true, products, "comment");
     } 
+    
+    
       
     /*
      * customer methods

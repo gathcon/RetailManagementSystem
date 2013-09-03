@@ -15,6 +15,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.LineMetrics;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -44,9 +45,9 @@ public class AccountingPanel extends JPanel implements ActionListener{
 	private JPanel newPanel;
 		
 		
-	private static final int maxCost = 5500;
+	private static final int maxCost = 25000;
 	private static final int border = 50;
-	private static final int yHatchCount = 11;
+	private static final int yHatchCount = 5;
 	private static final int graphPointWidth = 12;
 	
 	private void createConstraint(JPanel panel, JComponent component,
@@ -159,8 +160,18 @@ class graph extends JPanel{
         
     	protected void paintComponent(Graphics g) { 
     		
+//    		int sumInvoices = sumInvoiceCosts();
+    		int sumOrders = sumOrderCosts();
+    		int height = getHeight() - border*2;
+    		int width = getWidth() - border*2;
+    		
+    		
+    		
     		ArrayList<Order> orders = database.getOrders();
     	    int noOfOrders = orders.size();
+    	   
+    	    
+    	    
     	    
     	    String cost1 = orders.get(0).getOrderCost();
     	    String cost2 = orders.get(1).getOrderCost();
@@ -187,8 +198,6 @@ class graph extends JPanel{
             
             // draw opaque grid
             g2.setColor(new Color(255, 0, 0, 64));
-            int width = getWidth() - border * 2;
-            int height = getHeight() - border * 2;
             g2.draw(new Line2D.Double(border, border, border, (getHeight()-border)));
             g2.draw(new Line2D.Double((border + width/9), border, (border + width/9), (getHeight()-border)));
             g2.draw(new Line2D.Double((border + width*2/9), border, (border + width*2/9), (getHeight()-border)));
@@ -202,16 +211,30 @@ class graph extends JPanel{
             
             
             g2.draw(new Line2D.Double(border, border, getWidth() - border, border));
-            g2.draw(new Line2D.Double(border, (border + height/11), getWidth() - border, (border + height/11)));
-            g2.draw(new Line2D.Double(border, (border + height*2/11), getWidth() - border, (border + height*2/11)));
-            g2.draw(new Line2D.Double(border, (border + height*3/11), getWidth() - border, (border + height*3/11)));
-            g2.draw(new Line2D.Double(border, (border + height*4/11), getWidth() - border, (border + height*4/11)));
-            g2.draw(new Line2D.Double(border, (border + height*5/11), getWidth() - border, (border + height*5/11)));
-            g2.draw(new Line2D.Double(border, (border + height*6/11), getWidth() - border, (border + height*6/11)));
-            g2.draw(new Line2D.Double(border, (border + height*7/11), getWidth() - border, (border + height*7/11)));
-            g2.draw(new Line2D.Double(border, (border + height*8/11), getWidth() - border, (border + height*8/11)));
-            g2.draw(new Line2D.Double(border, (border + height*9/11), getWidth() - border, (border + height*9/11)));
-            g2.draw(new Line2D.Double(border, (border + height*10/11), getWidth() - border, (border + height*10/11)));
+            g2.draw(new Line2D.Double(border, (border + height/25), getWidth() - border, (border + height/25)));
+            g2.draw(new Line2D.Double(border, (border + height*2/25), getWidth() - border, (border + height*2/25)));
+            g2.draw(new Line2D.Double(border, (border + height*3/25), getWidth() - border, (border + height*3/25)));
+            g2.draw(new Line2D.Double(border, (border + height*4/25), getWidth() - border, (border + height*4/25)));
+            g2.draw(new Line2D.Double(border, (border + height*5/25), getWidth() - border, (border + height*5/25)));
+            g2.draw(new Line2D.Double(border, (border + height*6/25), getWidth() - border, (border + height*6/25)));
+            g2.draw(new Line2D.Double(border, (border + height*7/25), getWidth() - border, (border + height*7/25)));
+            g2.draw(new Line2D.Double(border, (border + height*8/25), getWidth() - border, (border + height*8/25)));
+            g2.draw(new Line2D.Double(border, (border + height*9/25), getWidth() - border, (border + height*9/25)));
+            g2.draw(new Line2D.Double(border, (border + height*10/25), getWidth() - border, (border + height*10/25)));
+            g2.draw(new Line2D.Double(border, (border + height*11/25), getWidth() - border, (border + height*11/25)));
+            g2.draw(new Line2D.Double(border, (border + height*12/25), getWidth() - border, (border + height*12/25)));
+            g2.draw(new Line2D.Double(border, (border + height*13/25), getWidth() - border, (border + height*13/25)));
+            g2.draw(new Line2D.Double(border, (border + height*14/25), getWidth() - border, (border + height*14/25)));
+            g2.draw(new Line2D.Double(border, (border + height*15/25), getWidth() - border, (border + height*15/25)));
+            g2.draw(new Line2D.Double(border, (border + height*16/25), getWidth() - border, (border + height*16/25)));
+            g2.draw(new Line2D.Double(border, (border + height*17/25), getWidth() - border, (border + height*17/25)));
+            g2.draw(new Line2D.Double(border, (border + height*18/25), getWidth() - border, (border + height*18/25)));
+            g2.draw(new Line2D.Double(border, (border + height*19/25), getWidth() - border, (border + height*19/25)));
+            g2.draw(new Line2D.Double(border, (border + height*20/25), getWidth() - border, (border + height*20/25)));
+            g2.draw(new Line2D.Double(border, (border + height*21/25), getWidth() - border, (border + height*21/25)));
+            g2.draw(new Line2D.Double(border, (border + height*22/25), getWidth() - border, (border + height*22/25)));
+            g2.draw(new Line2D.Double(border, (border + height*23/25), getWidth() - border, (border + height*23/25)));
+            g2.draw(new Line2D.Double(border, (border + height*24/25), getWidth() - border, (border + height*24/25)));
             g2.draw(new Line2D.Double(border, (border + height), getWidth() - border, (border + height)));
             
             
@@ -226,20 +249,20 @@ class graph extends JPanel{
                  int y1 = y0;
                  g2.drawLine(x0, y0, x1, y1);
                  FontMetrics fm = g2.getFontMetrics();
-                 String [] values = {"", "500", "1000", "1500", "2000", "2500", "3000", "3500", "4000", "4500", "5000", ""};
+                 String [] values = {"", "5000", "10000", "15000", "20000", ""};
                  g2.drawString(values[i], x0 - fm.stringWidth(values[i]), y0 + (fm.getAscent() / 2));
                  
               }
              
          // and for x axis
-              for (int i = 0; i < 10; i++) { 
-                 int x0 = (i) * (getWidth() - border * 2) / (10 - 1) + border;
+              for (int i = 0; i < 4; i++) { 
+                 int x0 = (i) * (getWidth() - border * 2) / (4 - 1) + border;
                  int x1 = x0;
                  int y0 = getHeight() - border;
                  int y1 = y0 - graphPointWidth;
                  g2.drawLine(x0, y0, x1, y1);
                  FontMetrics fm = g2.getFontMetrics();
-                 String [] months = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+                 String [] months = {"", "Invoice Costs", "Order Costs", ""};
                  g2.drawString(months[i], x0 - (fm.stringWidth(months[i]) / 2), y0 + fm.getAscent());
               }
              
@@ -250,8 +273,8 @@ class graph extends JPanel{
             float sh = lm.getAscent() + lm.getDescent(); 
              
             // Ordinate label.
-            String Label = "COST";
-            float sy = border + ((getHeight() - 2*border) - Label.length()*sh)/2 + lm.getAscent();
+            String Label = "AMOUNT";
+            float sy = getHeight() - height - Label.length()*sh + lm.getAscent();
             
             for(int i = 0; i < Label.length(); i++) {
                 String letter = String.valueOf(Label.charAt(i));
@@ -262,18 +285,12 @@ class graph extends JPanel{
             }
              
             // Abcissa label.
-            Label = "Number of Orders";
-            sy = getHeight() - border + (border - sh)/2 + lm.getAscent();
-            float sw = (float)font.getStringBounds(Label, frc).getWidth();
-            float sx = (getWidth() - sw)/2;
-            g2.drawString(Label, sx, sy);
+//            Label = "Number of Orders";
+//            sy = getHeight() - border + (border - sh)/2 + lm.getAscent();
+//            float sw = (float)font.getStringBounds(Label, frc).getWidth();
+//            float sx = (getWidth() - sw)/2;
+//            g2.drawString(Label, sx, sy);
             
-            // legend stock levels
-            Label = "Order Costs";
-            g2.setPaint(Color.green.darker());
-            sy = getHeight() - (getHeight() - border/2);
-            float sx1 = getWidth() - (border*3);
-            g2.drawString(Label, sx1, sy);
             
             // legend predicted stock levels
 //            Label = "Predicted Stock Levels";
@@ -282,18 +299,22 @@ class graph extends JPanel{
 //            float sx2 = getWidth() - (border*3);
 //            g2.drawString(Label, sx1, sy);
             
-             
-            // Draw stock level lines.
-            double xInc = (double)(getWidth() - 2*border)/(10-1);
+            // Draw Invoice bar
             double scale = (double)(getHeight() - 2*border)/maxCost;
-            g2.setPaint(Color.green.darker());
-            for(int i = 0; i < orderCosts.length-1; i++) {
-            double x1 = border + i*xInc;
-            double y1 = getHeight() - border - scale*orderCosts[i];
-            double x2 = border + (i+1)*xInc;
-            double y2 = getHeight() - border - scale*orderCosts[i+1];
-            g2.draw(new Line2D.Double(x1, y1, x2, y2));
-            }
+//            g2.setPaint(Color.green.darker());
+//            double a1 = border + (width/3 - 50);
+//            double b1 = getHeight() - border - scale*sumInvoices;
+//            double a2 = 100;
+//            double b2 = scale*sumInvoices;
+//            g2.fill(new Rectangle2D.Double(a1, b1, a2, b2));
+            
+            // Draw Order bar
+            g2.setPaint(Color.red.darker());
+            double x1 = border + (width*2/3 - 50);
+            double y1 = getHeight() - border - scale*sumOrders;
+            double x2 = 100;
+            double y2 = scale*sumOrders;
+            g2.fill(new Rectangle2D.Double(x1, y1, x2, y2));
              
             // Draw predicted stock level lines.
 //            double xInc2 = (double)(getWidth() - 2*border)/(12-1);
@@ -306,14 +327,17 @@ class graph extends JPanel{
 //                double b2 = getHeight() - border - scale2*predictedStockLevels[i+1];
 //                g2.draw(new Line2D.Double(a1, b1, a2, b2));
 //            }
+            
+            
+            
              
             // Mark data points.
-            g2.setPaint(Color.blue);
-            for(int i = 0; i < orderCosts.length; i++) {
-                double x = border + i*xInc;
-                double y = getHeight() - border - scale*orderCosts[i];
-                g2.fill(new Ellipse2D.Double(x-2, y-2, 4, 4));
-            }
+//            g2.setPaint(Color.blue);
+//            for(int i = 0; i < orderCosts.length; i++) {
+//                double x = border + i*xInc;
+//                double y = getHeight() - border - scale*orderCosts[i];
+//                g2.fill(new Ellipse2D.Double(x-2, y-2, 4, 4));
+//            }
              
             // Mark predicted data points.
 //            g2.setPaint(Color.black);
@@ -326,6 +350,28 @@ class graph extends JPanel{
         }
     	
     	
+    	
+    	
     }
+
+	public int sumOrderCosts(){
+		ArrayList<Order> orders = database.getOrders();
+    
+		int sum = 0;
+		for(int i = 0; i < orders.size(); i++){
+			sum = sum + Integer.parseInt(orders.get(i).getOrderCost());
+		}
+		return sum;
+   }
+	
+//	public int sumInvoiceCosts(){
+//		ArrayList<Invoice> invoices = database.getInvoices();
+//    
+//		int sum = 0;
+//		for(int i = 0; i < invoices.size(); i++){
+//			sum = sum + Integer.parseInt(invoices.get(i).getInvoiceCost());
+//		}
+//		return sum;
+//   }
 }
 

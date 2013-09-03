@@ -469,6 +469,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                     
 	        		ArrayList<Product> products = database.getProducts();
                     int noOfproducts = products.size(); 
+                    ArrayList<Order> orders = database.getOrders();
                       
                     for(int i = 0; i < noOfproducts; i++) {     //loop through products 
                           
@@ -481,6 +482,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                             quantityField.setText(products.get(i).getProductQuantity()); 
                             priceField.setText(String.valueOf(products.get(i).getProductPrice())); 
                             IDField.setText(products.get(i).getProductID()); 
+                    	
                             	
                             int stock [] = products.get(i).getStockLevels();  
                             stockLevels = stock;
@@ -499,8 +501,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                                 int average12 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4]+stock[5]+stock[6]+stock[7]+stock[8]+stock[9]+stock[10]+stock[11])/12;
                             	double [] stockPredictedData = {average1, average2, average3, average4, average5, average6, average7, average8, average9, average10, average11, average12}; 
                                 predictedStockLevels = stockPredictedData;
-                            
-                            
+                              
                         } 
   
                     } 
