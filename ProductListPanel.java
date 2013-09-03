@@ -40,7 +40,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
     private Database database; 
           
     private String[] productNameList; 
-          
+    // check      
     private JList productList; 
     private ListModel productListModel; 
     private DefaultListModel updatedProductListModel; 

@@ -48,8 +48,8 @@ public class CreateNewInvoiceUI {
 	private JScrollPane scrollPane;
 
 	
-	private ArrayList<JComboBox<String>> productComboBox = new ArrayList<JComboBox<String>>();
-	private ArrayList<JComboBox<String>> quantityComboBox = new ArrayList<JComboBox<String>>(); 
+	private ArrayList<JComboBox> productComboBox = new ArrayList<JComboBox>();
+	private ArrayList<JComboBox> quantityComboBox = new ArrayList<JComboBox>(); 
 	private ArrayList<JTextField> unitPriceField = new ArrayList<JTextField>(); 
 	private ArrayList<JTextField> priceField = new ArrayList<JTextField>();
 	private ArrayList<Boolean> updateQuantityCombobox = new ArrayList<Boolean>();
@@ -63,7 +63,7 @@ public class CreateNewInvoiceUI {
 	private JTextField invoiceIDField, invoiceDateField, deliveryCostField;
 	private JTextField totalPriceField, deliveryDateField;
 	
-	private JComboBox<String> customerNameComboBox, deliveryDaysComboBox;
+	private JComboBox customerNameComboBox, deliveryDaysComboBox;
 
 	
 	private JButton invoiceClearButton, invoiceSaveButton, addButton, invoiceCancelButton;
@@ -102,17 +102,17 @@ public class CreateNewInvoiceUI {
 		customerListNames = database.getCustomerList();
 		productListNames = database.getProductList();
 		
-		customerNameComboBox.setModel(new DefaultComboBoxModel<String>(customerListNames));
+		customerNameComboBox.setModel(new DefaultComboBoxModel(customerListNames));
 		customerNameComboBox.addItem("Please Select");
 		customerNameComboBox.setSelectedItem("Please Select");
 		
-		for(JComboBox<String> tempComboBox : productComboBox){
-			tempComboBox.setModel(new DefaultComboBoxModel<String>(productListNames));
+		for(JComboBox tempComboBox : productComboBox){
+			tempComboBox.setModel(new DefaultComboBoxModel(productListNames));
 			tempComboBox.addItem("Please Select");
 			tempComboBox.setSelectedItem("Please Select");
 		}
 		
-		for(JComboBox<String> tempComboBox : quantityComboBox){
+		for(JComboBox tempComboBox : quantityComboBox){
 			tempComboBox.addItem("0");
 			tempComboBox.setSelectedItem("0");
 		}
@@ -160,7 +160,7 @@ public class CreateNewInvoiceUI {
 	
 		customerListNames = database.getCustomerList();	
 		customerNameLabel = new JLabel("Customer Name:", SwingConstants.RIGHT);
-		customerNameComboBox = new JComboBox<String>(customerListNames);
+		customerNameComboBox = new JComboBox(customerListNames);
 		customerNameComboBox.addItem("Please Select");
 		customerNameComboBox.setSelectedIndex(0);
 		customerNameComboBox.setSelectedItem("Please Select");
@@ -212,7 +212,7 @@ public class CreateNewInvoiceUI {
 		totalPriceField.setBackground(Color.WHITE);
 		
 		deliveryDaysLabel = new JLabel("Delivery Days:", SwingConstants.RIGHT);
-		deliveryDaysComboBox = new JComboBox<String>();
+		deliveryDaysComboBox = new JComboBox();
 		for(int i = 0; i <=100 ;i++){
 			deliveryDaysComboBox.addItem(Integer.toString(i));
 		}
@@ -316,14 +316,14 @@ public class CreateNewInvoiceUI {
 	            	
 	            	System.out.println("add button was pressed");
 
-	            	productComboBox.add(new JComboBox<String>(productListNames));
-	            	quantityComboBox.add(new JComboBox<String>());
+	            	productComboBox.add(new JComboBox(productListNames));
+	            	quantityComboBox.add(new JComboBox());
 	            	unitPriceField.add(new JTextField());
 	            	priceField.add(new JTextField());
 	            	updateQuantityCombobox.add(false);  
 	            	
 						count =  count + 1;
-						JComboBox<String> component = productComboBox.get(productComboBox.size()-1);
+						JComboBox component = productComboBox.get(productComboBox.size()-1);
 						component.addItem("Please Select");
 						component.setSelectedItem("Please Select");
 						component.setMaximumRowCount(7);
@@ -333,7 +333,7 @@ public class CreateNewInvoiceUI {
 				
 				
 						count1 =  count1 + 1;
-						JComboBox<String> component1 = quantityComboBox.get(quantityComboBox.size()-1);
+						JComboBox component1 = quantityComboBox.get(quantityComboBox.size()-1);
 						component1.addItem("0");
 						component1.setSelectedIndex(0);
 						component1.setMaximumRowCount(7);
@@ -448,13 +448,13 @@ public class CreateNewInvoiceUI {
 		public void actionPerformed(ActionEvent e){
 			DecimalFormat df = new DecimalFormat("####0.00");
 			 
-			 for(JComboBox <String> tempComboBox: productComboBox){
+			 for(JComboBox  tempComboBox: productComboBox){
 				  int position = productComboBox.indexOf(e.getSource());
 				 if (e.getSource().equals(productComboBox.get(position))){
 					 totalPrice = 0;
 					 System.out.println("i an an event handler " + position);
 					 updateQuantityCombobox.set(position,false);
-					 JComboBox <String> tempquantityComboBox = quantityComboBox.get(position);
+					 JComboBox  tempquantityComboBox = quantityComboBox.get(position);
 					 
 					 tempquantityComboBox.removeAllItems();
 					 
@@ -494,10 +494,10 @@ public class CreateNewInvoiceUI {
 	
 			 System.out.println( "I am Combo" + quantityComboBox.indexOf(e.getSource()));
 			 if(!e.getSource().equals(deliveryDaysComboBox)){
-			 for(JComboBox <String> tempComboBox: productComboBox){
+			 for(JComboBox  tempComboBox: productComboBox){
 				 
 				 int position = quantityComboBox.indexOf(e.getSource());
-				 JComboBox <String> tempquantityComboBox = quantityComboBox.get(position);
+				 JComboBox  tempquantityComboBox = quantityComboBox.get(position);
 				 
 				 if (e.getSource().equals(tempquantityComboBox) && updateQuantityCombobox.get(position) == true){
 					 
@@ -665,18 +665,24 @@ public class CreateNewInvoiceUI {
 					updateInvoiceID = true;
 					
 					//update table
-					invoiceTableModel =  new DefaultTableModel();
+					invoiceTableModel =  new DefaultTableModel() { 
+					    @Override
+			            public boolean isCellEditable(int row, int column) { 
+			               return false; 
+			            } 
+			        };;
 					tableOfInvoices.setModel(invoiceTableModel);
 					sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel());
 				    tableOfInvoices.setRowSorter(sorter); 
 					//invoiceScrollPane = new JScrollPane(tableOfInvoices);
-				    String [] columnNames = {"Invoice ID", "Delivery Date","Cost","Outstanding"};
+				    String [] columnNames = {"Invoice ID","Invoice Date", "Delivery Date","Cost","Outstanding"};
 					invoiceTableModel.setColumnIdentifiers(columnNames);
 					
 					ArrayList<Invoice> tempGetInvoice = database.getInvoices();
 					for(Invoice invoice : database.getInvoices()){
 						invoiceTableModel.addRow(new String[] {
 						invoice.getInvoiceID(),
+						invoice.getInvoiceDate(),
 								invoice.getInvoiceDeliveryDate(),
 								invoice.getInvoiceCost(),
 								String.valueOf(invoice.isInvoiceOutstanding())});
@@ -712,13 +718,13 @@ public class CreateNewInvoiceUI {
 	
 	private void createProductField(){
 		
-		productComboBox.add(new JComboBox<String>(productListNames));
-    	quantityComboBox.add(new JComboBox<String>());
+		productComboBox.add(new JComboBox(productListNames));
+    	quantityComboBox.add(new JComboBox());
     	unitPriceField.add(new JTextField());
     	priceField.add(new JTextField());
     	updateQuantityCombobox.add(false);
     	
-    	JComboBox<String> component = productComboBox.get(productComboBox.size()-1);
+    	JComboBox component = productComboBox.get(productComboBox.size()-1);
 		component.addItem("Please Select");
 		component.setSelectedItem("Please Select");
 		component.setMaximumRowCount(7);
@@ -726,7 +732,7 @@ public class CreateNewInvoiceUI {
 		component.addActionListener(new ProductComboBoxListener(database));
 		
 
-		JComboBox<String> component1 = quantityComboBox.get(quantityComboBox.size()-1);
+		JComboBox component1 = quantityComboBox.get(quantityComboBox.size()-1);
 		component1.addItem("0");
 		component1.setSelectedIndex(0);
 		component1.setMaximumRowCount(7);
