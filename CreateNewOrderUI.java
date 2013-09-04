@@ -688,9 +688,7 @@ public class CreateNewOrderUI {
 			                }
 					    }
 					};
-					tableOfOrders.setModel(orderTableModel);
-					sorter = new TableRowSorter<TableModel>(tableOfOrders.getModel());
-				    tableOfOrders.setRowSorter(sorter); //
+					
 					//orderScrollPane = new JScrollPane(tableOfOrders);
 				    String [] columnNames = {"Order ID", "Order Date", "Delivery Date","Cost","Outstanding"};
 					orderTableModel.setColumnIdentifiers(columnNames);
@@ -707,6 +705,12 @@ public class CreateNewOrderUI {
 						
 						orderTableModel.addRow(data);
 					}
+					tableOfOrders.setModel(orderTableModel);
+					sorter = new TableRowSorter<TableModel>(tableOfOrders.getModel());
+					sorter.setSortable(1, false);
+                    sorter.setSortable(2, false);
+                    sorter.setSortable(3, false);
+				    tableOfOrders.setRowSorter(sorter); //
 					            
 			         
 					//go back to table view

@@ -686,9 +686,6 @@ public class CreateNewInvoiceUI {
 			                }
 					    }
 					};
-					tableOfInvoices.setModel(invoiceTableModel);
-					sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel());
-				    tableOfInvoices.setRowSorter(sorter); 
 					//invoiceScrollPane = new JScrollPane(tableOfInvoices);
 				    String [] columnNames = {"Invoice ID","Invoice Date", "Delivery Date","Cost","Outstanding"};
 					invoiceTableModel.setColumnIdentifiers(columnNames);
@@ -705,6 +702,12 @@ public class CreateNewInvoiceUI {
 						
 						invoiceTableModel.addRow(data);
 					}
+					tableOfInvoices.setModel(invoiceTableModel);
+					sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel());
+					sorter.setSortable(1, false);
+                    sorter.setSortable(2, false);
+                    sorter.setSortable(3, false);
+                    tableOfInvoices.setRowSorter(sorter); //
 					            
 			         
 					//go back to table view
