@@ -93,8 +93,8 @@ public class AccountingPanel extends JPanel implements ActionListener{
  		graphPanel.setVisible(false);
  		graphPanel.setBackground(Color.WHITE);
  					
- 		JButton accountGraphButton = new JButton("Graph");
- 		JButton graphBackButton = new JButton("Back");
+ 		accountGraphButton = new JButton("Graph");
+ 		graphBackButton = new JButton("Back");
  		accountGraphButton.setVisible(true);
  		graphBackButton.setVisible(true);
  		accountGraphButton.addActionListener(this);
@@ -134,8 +134,8 @@ class graph extends JPanel{
         
     	protected void paintComponent(Graphics g) { 
     		
-//    		int sumInvoices = sumInvoiceCosts();
-    		int sumOrders = sumOrderCosts();
+    		double sumInvoices = sumInvoiceCosts();
+    		double sumOrders = sumOrderCosts();
     		int height = getHeight() - border*2;
     		int width = getWidth() - border*2;
     		
@@ -275,12 +275,12 @@ class graph extends JPanel{
             
             // Draw Invoice bar
             double scale = (double)(getHeight() - 2*border)/maxCost;
-//            g2.setPaint(Color.green.darker());
-//            double a1 = border + (width/3 - 50);
-//            double b1 = getHeight() - border - scale*sumInvoices;
-//            double a2 = 100;
-//            double b2 = scale*sumInvoices;
-//            g2.fill(new Rectangle2D.Double(a1, b1, a2, b2));
+            g2.setPaint(Color.green.darker());
+            double a1 = border + (width/3 - 50);
+            double b1 = getHeight() - border - scale*sumInvoices;
+            double a2 = 100;
+            double b2 = scale*sumInvoices;
+            g2.fill(new Rectangle2D.Double(a1, b1, a2, b2));
             
             // Draw Order bar
             g2.setPaint(Color.red.darker());
@@ -328,27 +328,27 @@ class graph extends JPanel{
     	
     }
 
-<<<<<<< HEAD
-	public int sumOrderCosts(){
+
+	public double sumOrderCosts(){
 		ArrayList<Order> orders = database.getOrders();
     
-		int sum = 0;
+		double sum = 0;
 		for(int i = 0; i < orders.size(); i++){
-			sum = sum + Integer.parseInt(orders.get(i).getOrderCost());
+			sum = sum + Double.parseDouble(orders.get(i).getOrderCost());
 		}
 		return sum;
    }
 	
-//	public int sumInvoiceCosts(){
-//		ArrayList<Invoice> invoices = database.getInvoices();
-//    
-//		int sum = 0;
-//		for(int i = 0; i < invoices.size(); i++){
-//			sum = sum + Integer.parseInt(invoices.get(i).getInvoiceCost());
-//		}
-//		return sum;
-//   }
-=======
+	public double sumInvoiceCosts(){
+		ArrayList<Invoice> invoices = database.getInvoices();
+    
+		double sum = 0;
+		for(int i = 0; i < invoices.size(); i++){
+			sum = sum + Double.parseDouble(invoices.get(i).getInvoiceCost());
+		}
+		return sum;
+   }
+
 public void refreshAccount(){
 	
 	model.setRowCount(0);
@@ -380,6 +380,6 @@ public void refreshAccount(){
 	model.addRow(new String[]{"Total",null,totalS});
 	  
   } 
->>>>>>> af21ee121f72f31045e0431e678c8cca49c41558
+
 }
 

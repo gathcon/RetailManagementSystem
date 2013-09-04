@@ -189,6 +189,7 @@ public class MainUI extends JFrame implements ActionListener{
             	     tabbedPane.add("User Accounts", userAccountPanel);
             	     
             	     orderPane.setTabbedPane(tabbedPane);
+            	     invoicePane.setTabbedPane(tabbedPane);
 
             	     setTitle("Retail Management System");
             	     System.out.println("Set content pane to tabs view");
