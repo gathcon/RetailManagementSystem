@@ -63,6 +63,10 @@ public class CreateNewInvoiceUI {
 	private JTextField invoiceIDField, invoiceDateField, deliveryCostField;
 	private JTextField totalPriceField, deliveryDateField;
 	
+	private Object deliveryOption1 = "Free, 10 day";
+	private Object deliveryOption2 = "€10, 3 day";
+	private Object deliveryOption3 = "€25, Next day";
+	
 	private JComboBox customerNameComboBox, deliveryDaysComboBox;
 
 	
@@ -214,9 +218,11 @@ public class CreateNewInvoiceUI {
 		
 		deliveryDaysLabel = new JLabel("Delivery Days:", SwingConstants.RIGHT);
 		deliveryDaysComboBox = new JComboBox();
-		for(int i = 0; i <=100 ;i++){
-			deliveryDaysComboBox.addItem(Integer.toString(i));
-		}
+		
+		deliveryDaysComboBox.addItem(deliveryOption1);
+		deliveryDaysComboBox.addItem(deliveryOption2);
+		deliveryDaysComboBox.addItem(deliveryOption3);
+		
 		deliveryDaysComboBox.setMaximumRowCount(7);
 		deliveryDaysComboBox.setSelectedIndex(0);
 		deliveryDaysComboBox.setSelectedItem("0");
@@ -513,7 +519,7 @@ public class CreateNewInvoiceUI {
 			}
 			if(e.getSource().equals(deliveryDaysComboBox)){
 				
-				int days = Integer.parseInt((String) deliveryDaysComboBox.getSelectedItem());
+				Object option = deliveryDaysComboBox.getSelectedItem();
 
 				SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yyyy");
 				Calendar c = Calendar.getInstance();
@@ -524,40 +530,26 @@ public class CreateNewInvoiceUI {
 					e1.printStackTrace();
 				}
 				
-				if(days == 0){
-					c.add(Calendar.DATE, 0);
+				if(option.equals(deliveryOption1)){
+					c.add(Calendar.DATE, 10);
 					deliveryDate = ft.format(c.getTime());
 					System.out.println(deliveryDate);
 					deliveryCost = 0;
 					deliveryCostField.setText("0.00");
 					deliveryDateField.setText(deliveryDate);
-				}else if(days >= 1 && days <= 5){
-					c.add(Calendar.DATE, days);
+				}else if(option.equals(deliveryOption2)){
+					c.add(Calendar.DATE, 3);
 					deliveryDate = ft.format(c.getTime());
 					System.out.println(deliveryDate);
-					deliveryCost = 100;
-					deliveryCostField.setText("100.00");
+					deliveryCost = 10.00;
+					deliveryCostField.setText("10.00");
 					deliveryDateField.setText(deliveryDate);
-				}else if(days >= 6 && days <= 10){
-					c.add(Calendar.DATE, days);
+				}else if(option.equals(deliveryOption3)){
+					c.add(Calendar.DATE, 1);
 					deliveryDate = ft.format(c.getTime());
 					System.out.println(deliveryDate);
-					deliveryCost = 70.59;
-					deliveryCostField.setText("70.59");
-					deliveryDateField.setText(deliveryDate);
-				}else if(days >= 11 && days <= 15){
-					c.add(Calendar.DATE, days);
-					deliveryDate = ft.format(c.getTime());
-					System.out.println(deliveryDate);
-					deliveryCost = 50.55;
-					deliveryCostField.setText("50.55");
-					deliveryDateField.setText(deliveryDate);
-				}else{
-					c.add(Calendar.DATE, days);
-					deliveryDate = ft.format(c.getTime());
-					System.out.println(deliveryDate);
-					deliveryCost = 2.00;
-					deliveryCostField.setText("20.00");
+					deliveryCost = 25.00;
+					deliveryCostField.setText("25.00");
 					deliveryDateField.setText(deliveryDate);
 				}
 			}
@@ -569,7 +561,7 @@ public class CreateNewInvoiceUI {
 		
 			totalPrice = totalPrice + deliveryCost;
 			totalPriceField.setText(String.valueOf(df.format(totalPrice)));
-			deliveryCost = 0;	
+				
 		}
     }
 
