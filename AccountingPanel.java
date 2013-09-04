@@ -328,7 +328,6 @@ class graph extends JPanel{
     	
     }
 
-<<<<<<< HEAD
 	public int sumOrderCosts(){
 		ArrayList<Order> orders = database.getOrders();
     
@@ -348,7 +347,7 @@ class graph extends JPanel{
 //		}
 //		return sum;
 //   }
-=======
+
 public void refreshAccount(){
 	
 	model.setRowCount(0);
@@ -380,6 +379,5 @@ public void refreshAccount(){
 	model.addRow(new String[]{"Total",null,totalS});
 	  
   } 
->>>>>>> af21ee121f72f31045e0431e678c8cca49c41558
 }
 

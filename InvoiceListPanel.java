@@ -393,7 +393,7 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
 	            newInvoicePane.updateComboBoxData(); 
 	              
 	            //disable tabs 
-	            //tabbedPane.setEnabled(false); 
+	            tabbedPane.setEnabled(false); 
 	            newInvoicePane.setTabbedPane(tabbedPane); 
 	            System.out.println("tabs disabled"); 
 	        } 

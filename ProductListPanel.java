@@ -78,7 +78,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 
     }
     
-    private static final int maxStock = 150;
+    private static final int maxStock = 1000;
     private static final int border = 50;
     private static final int yHatchCount = 15;
     private static final int graphPointWidth = 12;
