@@ -78,8 +78,8 @@ public class MainUI extends JFrame implements ActionListener{
 		customerPane.buildPanel(customerPanel, database);
 		supplierPane.buildPanel(supplierPanel, database);
 		productPane.buildPanel(productPanel, database);
-		orderPane.buildPanel(orderPanel, database, orderPane);
-		invoicePane.buildPanel(invoicePanel, database, invoicePane);
+		orderPane.buildPanel(orderPanel, database, orderPane, accountingPane);
+		invoicePane.buildPanel(invoicePanel, database, invoicePane, accountingPane);
 		accountingPane.buildPanel(accountingPanel, database);
 		userAccountPane.buildPanel(userAccountPanel, database);
 		

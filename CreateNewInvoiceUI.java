@@ -47,7 +47,7 @@ public class CreateNewInvoiceUI {
 	private JPanel dynamicPanel;
 	private JScrollPane scrollPane;
 
-	
+	private AccountingPanel accountingPane;
 	private ArrayList<JComboBox> productComboBox = new ArrayList<JComboBox>();
 	private ArrayList<JComboBox> quantityComboBox = new ArrayList<JComboBox>(); 
 	private ArrayList<JTextField> unitPriceField = new ArrayList<JTextField>(); 
@@ -141,13 +141,14 @@ public class CreateNewInvoiceUI {
 
 	
 	public void buildPanel(final JPanel invoicePanel, final JPanel tablePanel, final Database database, JTable tableOfInvoices,
-			final InvoiceListPanel invoicePane) {
+			final InvoiceListPanel invoicePane, AccountingPanel accountingPane) {
 		
 		this.invoicePanel = invoicePanel;
 		this.tablePanel = tablePanel;
 		this.database = database;
 		this.tableOfInvoices = tableOfInvoices;
 		this.invoicePane = invoicePane;
+		this.accountingPane = accountingPane;
 		
 		//this.splitPane = splitPane;
 		
@@ -653,6 +654,7 @@ public class CreateNewInvoiceUI {
 					 
 					database.addInvoice(invoiceID, customer, ft.format(invoiceDate).toString(), deliveryDate, invoiceCost, true, invoiceproducts, comment);
 					clearInvoicePanel(); 
+					accountingPane.refreshAccount();
 					totalPrice = 0;
 					deliveryCost = 0;
 					updateInvoiceID = true;

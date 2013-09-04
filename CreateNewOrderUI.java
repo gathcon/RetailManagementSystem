@@ -54,7 +54,7 @@ public class CreateNewOrderUI {
 	private ArrayList<JTextField> priceField = new ArrayList<JTextField>();
 	private ArrayList<Boolean> updateQuantityCombobox = new ArrayList<Boolean>();
 	
-	
+	private AccountingPanel accountingPane;
 	private JLabel orderLabel, unitPriceLabel, priceLabel, totalPriceLabel, commentLabel;
 	private JLabel orderIDLabel, supplierNameLabel, orderDateLabel, productLabel, quantityLabel;
 	private JLabel deliveryDaysLabel, deliveryCostLabel,  deliveryDateLabel;
@@ -142,14 +142,14 @@ public class CreateNewOrderUI {
 
 	
 	public void buildPanel(final JPanel orderPanel, final JPanel tablePanel, final Database database, JTable tableOfOrders,
-			final OrderListPanel orderPane) {
+			final OrderListPanel orderPane, AccountingPanel accountingPane) {
 		
 		this.orderPanel = orderPanel;
 		this.tablePanel = tablePanel;
 		this.database = database;
 		this.tableOfOrders = tableOfOrders;
 		this.orderPane = orderPane;
-		
+		this.accountingPane = accountingPane;
 		//this.splitPane = splitPane;
 
 		
@@ -654,6 +654,7 @@ public class CreateNewOrderUI {
 					
 					//add order to database
 					database.addOrder(orderID, supplier, ft.format(orderDate).toString(), deliveryDate, orderCost, true, orderedproducts, orderDescription);
+					accountingPane.refreshAccount();
 					clearOrderPanel(); 
 					totalPrice = 0;
 					deliveryCost = 0;
