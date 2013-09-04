@@ -55,6 +55,14 @@ public class AccountingPanel extends JPanel implements ActionListener{
 	private static final int yHatchCount = 5;
 	private static final int graphPointWidth = 12;
 	
+//	DefaultTableModel model = new DefaultTableModel() {
+//
+//	    public boolean isCellEditable(int row, int column) {
+//	    	return false;
+//	    }
+//	 
+//	}; 
+	
 	private void createConstraint(JPanel panel, JComponent component,
 			int gridx, int gridy, int width, int height, int ipadx, int ipady,
 			int top, int left, int bottom, int right, double weightx,
@@ -78,12 +86,19 @@ public class AccountingPanel extends JPanel implements ActionListener{
 	public void buildPanel(JPanel panel, final Database db){
 		this.database = db;
 
+		
+		
 		tableOfAccounts = new JTable();// JTABLE code
-		model =  new DefaultTableModel();
+		
+		model = new DefaultTableModel();
+		tableOfAccounts.setEnabled(false);
+		
 		tableOfAccounts.setModel(model);
+		
 		JScrollPane scrollPane = new JScrollPane(tableOfAccounts);
 		refreshAccount();
 		
+
 		
 		graphPanel = new JPanel();
  		newPanel = new JPanel();
@@ -349,6 +364,8 @@ class graph extends JPanel{
 //   }
 
 public void refreshAccount(){
+
+	    
 	
 	model.setRowCount(0);
 	  
@@ -379,5 +396,7 @@ public void refreshAccount(){
 	model.addRow(new String[]{"Total",null,totalS});
 	  
   } 
+
+
 }
 
