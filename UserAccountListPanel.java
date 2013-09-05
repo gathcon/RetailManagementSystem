@@ -1,6 +1,8 @@
 package retailManagementSystem;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
@@ -52,22 +55,29 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 	private JTextField userNameField;
 	private JPasswordField passwordField1;
 	private JPasswordField passwordField2;
-	private JComboBox userLevelField;
+	private JComboBox<String> userLevelField;
 	
 	private JButton userAccountAddButton;
 	private JButton userAccountDeleteButton;
 	private JButton userAccountEditSaveButton;
 	private JButton userAccountCancelButton;
 
+	private JSplitPane splitPane;
 	private JPanel buttonPanel;
+	private JPanel mainPanel;
+	private JPanel panel;
 	
 	public UserAccountListPanel() {
 		System.out.println("UserAccountListPanel created");
 	}
 	
-	public void buildPanel(JPanel panel, final Database database) {
+	public void buildPanel(JPanel mainPanel, final Database database) {
 		
 		this.database = database;
+		this.mainPanel = mainPanel;
+		mainPanel.setLayout(new BorderLayout());
+		panel = new JPanel();
+		
 		userAccounts = database.getUserAccountList();	//array of type String[]
 		
 		userAccountList = new JList(userAccounts);
@@ -78,6 +88,8 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 		userAccountList.addListSelectionListener(this);
 		
 		listScroller = new JScrollPane(userAccountList);
+		Dimension minimumSize = new Dimension(100, 50);
+        listScroller.setMinimumSize(minimumSize);
 		
 		firstNameLabel = new JLabel("First name:", SwingConstants.RIGHT);
 		lastNameLabel = new JLabel("Last name:", SwingConstants.RIGHT);
@@ -86,12 +98,12 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 		confirmPasswordLabel = new JLabel("Confirm Password:", SwingConstants.RIGHT);
 		userLevelLabel = new JLabel("User level:", SwingConstants.RIGHT);
 		
-		firstNameField = new JTextField();
-		lastNameField = new JTextField();
-		userNameField = new JTextField();
-		passwordField1 = new JPasswordField();
-		passwordField2 = new JPasswordField();
-		userLevelField = new JComboBox();
+		firstNameField = new JTextField("",26);
+		lastNameField = new JTextField("",26);
+		userNameField = new JTextField("",26);
+		passwordField1 = new JPasswordField("",26);
+		passwordField2 = new JPasswordField("",26);
+		userLevelField = new JComboBox<String>();
 		
 		userLevelField.addItem("Administrator");
 		userLevelField.addItem("level 2");
@@ -143,35 +155,50 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 		userAccountListLabel.setBackground(new Color(0,51,102));
 		userAccountListLabel.setForeground(Color.WHITE);
 		userAccountListLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
+		userAccountListLabel.setPreferredSize(new Dimension(150, 35));
 		
 		buttonPanel = new JPanel();
 		
 		panel.setLayout(new GridBagLayout());
 		buttonPanel.setLayout(new GridBagLayout());
-
-		createConstraint(panel, userAccountListLabel,	0, 0, 3, 1, 0, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(panel, listScroller, 		0, 1, 1, 8, 0, 0, 2, 2, 2, 2, 0.3, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		
-		createConstraint(panel, firstNameLabel, 		1, 1, 1, 1, 0, 0, 20, 2, 2, 2, 0.4, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, lastNameLabel, 		1, 2, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, userNameLabel, 		1, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, passwordLabel, 		1, 4, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, confirmPasswordLabel, 1, 5, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, userLevelLabel, 		1, 6, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		JPanel basePanel = new JPanel();
+		basePanel.setLayout(new BorderLayout());
 
-		createConstraint(panel, firstNameField, 	2, 1, 1, 1, 200, 0, 20, 2, 2, 2, 0.4, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, lastNameField, 	2, 2, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, userNameField, 	2, 3, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, passwordField1, 	2, 4, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, passwordField2, 	2, 5, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, userLevelField, 	2, 6, 1, 1, 98, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		//createConstraint(panel, userAccountListLabel,	0, 0, 3, 1, 0, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		//createConstraint(panel, listScroller, 		0, 1, 1, 8, 0, 0, 2, 2, 2, 2, 0.3, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 
-		createConstraint(buttonPanel, userAccountAddButton, 	0, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(buttonPanel, userAccountDeleteButton, 	1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(buttonPanel, userAccountCancelButton, 	1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(buttonPanel, userAccountEditSaveButton,2, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(panel, firstNameLabel, 		0, 1, 1, 1, 0, 0, 20, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(panel, lastNameLabel, 			0, 2, 1, 1, 0, 0, 2, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(panel, userNameLabel, 			0, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(panel, passwordLabel, 			0, 4, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(panel, confirmPasswordLabel, 	0, 5, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(panel, userLevelLabel, 		0, 6, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		
+		
+		createConstraint(panel, firstNameField, 	1, 1, 2, 1, 0, 5, 20, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(panel, lastNameField, 		1, 2, 2, 1, 0, 5, 2, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(panel, userNameField, 		1, 3, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(panel, passwordField1, 	1, 4, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(panel, passwordField2, 	1, 5, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(panel, userLevelField, 	1, 6, 2, 1, 184, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		
+		createConstraint(buttonPanel, userAccountAddButton, 		1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(buttonPanel, userAccountDeleteButton, 		2, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(buttonPanel, userAccountCancelButton, 		3, 0, 1, 1, 50, 0, 2, 50, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(buttonPanel, userAccountEditSaveButton,	4, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 
-		createConstraint(panel, buttonPanel, 	1, 7, 2, 1, 0, 0, 20, 0, 0, 0, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE);
+		createConstraint(panel, buttonPanel, 	0, 7, 3, 1, 0, 0, 20, 70, 0, 0, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL);
+				
+		basePanel.add(panel, BorderLayout.PAGE_START);
+		
+	    splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, listScroller, basePanel);
+        splitPane.setDividerLocation(200);
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setContinuousLayout(true);
+        
+        mainPanel.add(splitPane, BorderLayout.CENTER);
+	    mainPanel.add(userAccountListLabel, BorderLayout.PAGE_START);
 	}
 	
 	//Create GridBagLayout constraints and add component to a panel using these constraints

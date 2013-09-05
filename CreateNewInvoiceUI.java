@@ -47,7 +47,7 @@ public class CreateNewInvoiceUI {
 	private JPanel dynamicPanel;
 	private JScrollPane scrollPane;
 
-	
+	private AccountingPanel accountingPane;
 	private ArrayList<JComboBox> productComboBox = new ArrayList<JComboBox>();
 	private ArrayList<JComboBox> quantityComboBox = new ArrayList<JComboBox>(); 
 	private ArrayList<JTextField> unitPriceField = new ArrayList<JTextField>(); 
@@ -141,13 +141,14 @@ public class CreateNewInvoiceUI {
 
 	
 	public void buildPanel(final JPanel invoicePanel, final JPanel tablePanel, final Database database, JTable tableOfInvoices,
-			final InvoiceListPanel invoicePane) {
+			final InvoiceListPanel invoicePane, AccountingPanel accountingPane) {
 		
 		this.invoicePanel = invoicePanel;
 		this.tablePanel = tablePanel;
 		this.database = database;
 		this.tableOfInvoices = tableOfInvoices;
 		this.invoicePane = invoicePane;
+		this.accountingPane = accountingPane;
 		
 		//this.splitPane = splitPane;
 		
@@ -653,6 +654,7 @@ public class CreateNewInvoiceUI {
 					 
 					database.addInvoice(invoiceID, customer, ft.format(invoiceDate).toString(), deliveryDate, invoiceCost, true, invoiceproducts, comment);
 					clearInvoicePanel(); 
+					accountingPane.refreshAccount();
 					totalPrice = 0;
 					deliveryCost = 0;
 					updateInvoiceID = true;
@@ -686,9 +688,6 @@ public class CreateNewInvoiceUI {
 			                }
 					    }
 					};
-					tableOfInvoices.setModel(invoiceTableModel);
-					sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel());
-				    tableOfInvoices.setRowSorter(sorter); 
 					//invoiceScrollPane = new JScrollPane(tableOfInvoices);
 				    String [] columnNames = {"Invoice ID","Invoice Date", "Delivery Date","Cost","Outstanding"};
 					invoiceTableModel.setColumnIdentifiers(columnNames);
@@ -705,6 +704,12 @@ public class CreateNewInvoiceUI {
 						
 						invoiceTableModel.addRow(data);
 					}
+					tableOfInvoices.setModel(invoiceTableModel);
+					sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel());
+					sorter.setSortable(1, false);
+                    sorter.setSortable(2, false);
+                    sorter.setSortable(3, false);
+                    tableOfInvoices.setRowSorter(sorter); //
 					            
 			         
 					//go back to table view

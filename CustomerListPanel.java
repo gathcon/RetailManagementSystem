@@ -1,6 +1,8 @@
 package retailManagementSystem;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -8,6 +10,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -17,6 +20,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
@@ -30,11 +34,12 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 		
 	private String[] customerNameList;
 		
-	private JList customerList;
-	private ListModel customerListModel;
-	private DefaultListModel updatedCustomerListModel;
+	private JList<String> customerList;
+	private ListModel<String> customerListModel;
+	private DefaultListModel<String> updatedCustomerListModel;
 	
 	private JScrollPane listScroller;
+	private JSplitPane splitPane;
 	
 	private JLabel customerListLabel;
 	
@@ -56,37 +61,46 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 	private JButton customerCancelButton;
 	
 	private JPanel buttonPanel;
+	private JPanel mainPanel;
+	private JPanel panel;
 	
 	public CustomerListPanel() {
 		System.out.println("CustomerListPanel created");
-
+		
 	}
 	
-	public void buildPanel(JPanel panel, final Database database) {
+	public void buildPanel(JPanel mainPanel, final Database database) {
 		
 		this.database = database;
+		this.mainPanel = mainPanel;
+		mainPanel.setLayout(new BorderLayout());
+		panel = new JPanel();
+		
 		customerNameList = database.getCustomerList();	//array of type String[]
 		
-		customerList = new JList(customerNameList);
+		customerList = new JList<String>(customerNameList);
 		customerListModel = customerList.getModel();
 		customerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		customerList.setLayoutOrientation(JList.VERTICAL);
 		customerList.setVisibleRowCount(100);
 		customerList.addListSelectionListener(this);
 		
+
 		listScroller = new JScrollPane(customerList);
+		Dimension minimumSize = new Dimension(100, 50);
+        listScroller.setMinimumSize(minimumSize);
 		
-		IDLabel = new JLabel("Id: ", SwingConstants.RIGHT);
+		IDLabel = new JLabel("ID: ", SwingConstants.RIGHT);
 		nameLabel = new JLabel("Name: ", SwingConstants.RIGHT);
 		addressLabel= new JLabel("Address: ", SwingConstants.RIGHT);
 		phoneNoLabel= new JLabel("Phone Number: ", SwingConstants.RIGHT);
 		emailLabel = new JLabel("Email: ", SwingConstants.RIGHT);
 		
-		IDField = new JTextField();
-		nameField = new JTextField();
-		addressField = new JTextField();
-		phoneNoField = new JTextField();
-		emailField = new JTextField();
+		IDField = new JTextField("", 26);
+		nameField = new JTextField("", 26);
+		addressField = new JTextField("", 26);
+		phoneNoField = new JTextField("", 26);
+		emailField = new JTextField("", 26);
 
 		IDField.setEditable(false);
 		IDField.setBackground(new Color(255,255,170));
@@ -127,33 +141,45 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 		customerListLabel.setBackground(new Color(0,51,102));
 		customerListLabel.setForeground(Color.WHITE);
 		customerListLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
-
+		customerListLabel.setPreferredSize(new Dimension(150, 35)); 
+		
 		buttonPanel = new JPanel();
 		
 		panel.setLayout(new GridBagLayout());
 		buttonPanel.setLayout(new GridBagLayout());
-
-		createConstraint(panel, customerListLabel,0, 0, 3, 1, 0, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(panel, listScroller, 	0, 1, 1, 7, 0, 0, 2, 2, 2, 2, 0.3, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		JPanel basePanel = new JPanel();
+		basePanel.setLayout(new BorderLayout());
+	
+		createConstraint(panel, IDLabel, 		0, 1, 1, 1, 0, 0, 20, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(panel, nameLabel, 		0, 2, 1, 1, 0, 0, 2, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(panel, addressLabel, 	0, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(panel, phoneNoLabel, 	0, 4, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(panel, emailLabel, 	0, 5, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+	
+		createConstraint(panel, IDField, 		1, 1, 2, 1, 0, 5, 20, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(panel, nameField, 		1, 2, 2, 1, 0, 5, 2, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(panel, addressField, 	1, 3, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(panel, phoneNoField, 	1, 4, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(panel, emailField, 	1, 5, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
 		
-		createConstraint(panel, IDLabel, 			1, 1, 1, 1, 0, 0, 20, 2, 2, 2, 0.4, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, nameLabel, 		1, 2, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, addressLabel, 	1, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, phoneNoLabel, 	1, 4, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, emailLabel, 		1, 5, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(buttonPanel, customerAddButton, 		1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(buttonPanel, customerDeleteButton, 	2, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(buttonPanel, customerCancelButton, 	3, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(buttonPanel, customerEditSaveButton,	4, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 
-		createConstraint(panel, IDField, 			2, 1, 1, 1, 200, 0, 20, 2, 2, 2, 0.4, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, nameField, 		2, 2, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, addressField, 	2, 3, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, phoneNoField, 	2, 4, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, emailField, 		2, 5, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-
-		createConstraint(buttonPanel, customerAddButton, 		0, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(buttonPanel, customerDeleteButton, 	1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(buttonPanel, customerCancelButton, 	1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(buttonPanel, customerEditSaveButton,	2, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-
-		createConstraint(panel, buttonPanel, 	1, 6, 2, 1, 0, 0, 20, 0, 0, 0, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE);		
+		createConstraint(panel, buttonPanel, 	0, 6, 3, 1, 0, 0, 20, 100, 0, 0, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL);
+		
+		
+		basePanel.add(panel, BorderLayout.PAGE_START);
+		
+		
+	    splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, listScroller, basePanel);
+        splitPane.setDividerLocation(200);
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setContinuousLayout(true);
+		
+	    mainPanel.add(splitPane, BorderLayout.CENTER);
+	    mainPanel.add(customerListLabel, BorderLayout.PAGE_START);
 	}
 	
 	//Create GridBagLayout constraints and add component to a panel using these constraints
@@ -178,7 +204,7 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 	public void updateCustomerLists() {
 		
 		//update the list of names etc
-		updatedCustomerListModel = new DefaultListModel();
+		updatedCustomerListModel = new DefaultListModel<String>();
 		for(Customer customer: database.getCustomers()) {
 			
 			updatedCustomerListModel.addElement(customer.getCustomerName());
@@ -217,14 +243,16 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 				    	
 			//change text fields to editable
 			nameField.setEditable(true);
-	    	IDField.setEditable(true);
-	    	addressField.setEditable(true);
+			//IDField.setEditable(true);	
+			addressField.setEditable(true);
 	    	phoneNoField.setEditable(true);
 	    	emailField.setEditable(true);
 			
 	    	// reset textFields
 	    	resetTextFields();
 	    	
+	    	IDField.setEditable(false);	
+	    	IDField.setText(generateCustomerUniqueId());
 	    	//change editSaveButton label to "Save"
 	    	customerEditSaveButton.setText("Save");
 	    	
@@ -421,5 +449,29 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 	            }
 	        }
 	}
+	
+    public static String generateCustomerUniqueId() {      
+        String uuidChars = "" + UUID.randomUUID().toString();
+        String uid = uuidChars.replaceAll("-", "");    
+        int myuid = uid.hashCode();
+        
+        uid = Integer.toString(myuid);
+        uid = uuidChars.replaceAll("-", "");
+        
+        char[] newUUID = uid.toCharArray();
+        String customerID = "";
+        char  temp;
+        
+        for(int i = 0; i<8;i++){       	
+        	temp = newUUID[i];    	
+        	if(Character.getType(newUUID[i]) == Character.LOWERCASE_LETTER){     		
+        		temp = Character.toUpperCase(newUUID[i]);
+        	} 
+        	 customerID += temp;
+        }       
+        System.out.println(customerID);
+        
+        return customerID;
+    }
 
 }

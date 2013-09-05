@@ -46,14 +46,22 @@ public class AccountingPanel extends JPanel implements ActionListener{
 	private JPanel graphPanel;
 	private JPanel newPanel;
 	
-	private double totalOrderCost=0;
-	private double totalInvoiceCost=0;
+	private double totalOrderCost;
+	private double totalInvoiceCost;
 	private DecimalFormat df = new DecimalFormat("#.##"); 
 		
 	private static final int maxCost = 25000;
 	private static final int border = 50;
 	private static final int yHatchCount = 5;
 	private static final int graphPointWidth = 12;
+	
+//	DefaultTableModel model = new DefaultTableModel() {
+//
+//	    public boolean isCellEditable(int row, int column) {
+//	    	return false;
+//	    }
+//	 
+//	}; 
 	
 	private void createConstraint(JPanel panel, JComponent component,
 			int gridx, int gridy, int width, int height, int ipadx, int ipady,
@@ -78,12 +86,19 @@ public class AccountingPanel extends JPanel implements ActionListener{
 	public void buildPanel(JPanel panel, final Database db){
 		this.database = db;
 
+		
+		
 		tableOfAccounts = new JTable();// JTABLE code
-		model =  new DefaultTableModel();
+		
+		model = new DefaultTableModel();
+		tableOfAccounts.setEnabled(false);
+		
 		tableOfAccounts.setModel(model);
+		
 		JScrollPane scrollPane = new JScrollPane(tableOfAccounts);
 		refreshAccount();
 		
+
 		
 		graphPanel = new JPanel();
  		newPanel = new JPanel();
@@ -348,36 +363,49 @@ class graph extends JPanel{
    }
 
 
+<<<<<<< HEAD
 	public void refreshAccount(){
+=======
+public void refreshAccount(){
+
+	    
+>>>>>>> 5ca03a0fd8ac30b8ee6c3d0b7b147a617957adfd
 	
 	model.setRowCount(0);
+	
+	totalOrderCost = 0;
+	totalInvoiceCost = 0;
 	  
-	  	model.setColumnIdentifiers(new String [] {"Order/Invoice ID", "Supplier/Customer Name","Debit","Credit"});
-	model.addRow(new String[]{"Order ID","Supplier Name","Debit"});
+	model.setColumnIdentifiers(new String [] {"Order/Invoice ID", "Supplier/Customer Name","Debit","Credit"});
+	model.addRow(new String[]{"<html><b>Order ID</html></b>","<html><b>Supplier Name</html></b>",null});
 	
 	for(Order p: database.getOrders()){
 		model.addRow(new String[]{p.getOrderID(),p.getSupplier().getSupplierName(),p.getOrderCost()});
 		
 		totalOrderCost = Double.valueOf(df.format(totalOrderCost+Double.parseDouble(p.getOrderCost())));
-		
 	}
 	String totalOrderCostS = Double.toString(totalOrderCost);
-	model.addRow(new String[]{"Total Order Cost",null,totalOrderCostS});
+	model.addRow(new String[]{"<html><strong>Total Order Cost</strong></html>",null,"<html><b>" + totalOrderCostS+ "</b></html>"});
 	model.addRow(new String[]{});
-	model.addRow(new String[]{"Invoice ID","Customer Name",null,"Credit"});
+	model.addRow(new String[]{"<html><b>Invoice ID</html></b>","<html><b>Customer Name</html></b>",null,null});
 	for(Invoice p: database.getInvoices()){
 		model.addRow(new String[]{p.getInvoiceID(),p.getCustomer().getCustomerName(),null,p.getInvoiceCost()});
 		
 		totalInvoiceCost = Double.valueOf(df.format(totalInvoiceCost+Double.parseDouble(p.getInvoiceCost())));
 	}
 	String totalInvoiceCostS = Double.toString(totalInvoiceCost);
-	model.addRow(new String[]{"Total Invoice Cost",null,null,totalInvoiceCostS});
+	model.addRow(new String[]{"<html><b>Total Invoice Cost</b></html>",null,null,"<html><b>" + totalInvoiceCostS+ "</b></html>"});
 	Double total = Double.valueOf(df.format(totalInvoiceCost - totalOrderCost));
 	String totalS = Double.toString(total);
 	model.addRow(new String[]{});
-
-	model.addRow(new String[]{"Total",null,totalS});
-	  
+	if(total>0){
+		model.addRow(new String[]{"<html><b style=\"color:#00FF00\">Total Profit</b></html>",null,"<html><b style=\"color:#00FF00\">" + totalS + "</b></html>"});
+	}
+	else{
+		model.addRow(new String[]{"<html><b style=\"color:#FF0000\">Total Loss</b></html>",null,"<html><b style=\"color:#FF0000\">" + totalS + "</b></html>"});
+	}
   } 
+
+
 }
 

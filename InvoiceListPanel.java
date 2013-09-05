@@ -84,7 +84,7 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
         this.tabbedPane = tabbedPane; 
     } 
           
-    public void buildPanel(JPanel panel, final Database database, InvoiceListPanel invoicePane) { 
+    public void buildPanel(JPanel panel, final Database database, InvoiceListPanel invoicePane, AccountingPanel accountingPane) { 
           
         this.mainPanel = panel; 
         this.database = database;
@@ -148,6 +148,11 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
 			row++;
 		}
         tableOfInvoices.setVisible(true); 
+        sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel()); 
+        sorter.setSortable(1, false);
+        sorter.setSortable(2, false);
+        sorter.setSortable(3, false);
+        tableOfInvoices.setRowSorter(sorter); 
           
         tableOfInvoices.addMouseListener(new MouseAdapter(){ 
             public void mouseClicked(MouseEvent e){ 
@@ -236,16 +241,25 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
         filterField.getDocument().addDocumentListener(new DocumentListener() { 
                 public void changedUpdate(DocumentEvent e) { 
                         sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel()); 
+                        sorter.setSortable(1, false);
+                        sorter.setSortable(2, false);
+                        sorter.setSortable(3, false);
                         tableOfInvoices.setRowSorter(sorter); 
                         newFilter(); 
                     } 
                     public void insertUpdate(DocumentEvent e) { 
                         sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel()); 
+                        sorter.setSortable(1, false);
+                        sorter.setSortable(2, false);
+                        sorter.setSortable(3, false);
                         tableOfInvoices.setRowSorter(sorter); 
                         newFilter(); 
                     } 
                     public void removeUpdate(DocumentEvent e) { 
                         sorter = new TableRowSorter<TableModel>(tableOfInvoices.getModel()); 
+                        sorter.setSortable(1, false);
+                        sorter.setSortable(2, false);
+                        sorter.setSortable(3, false);
                         tableOfInvoices.setRowSorter(sorter); 
                         newFilter(); 
                     } 
@@ -282,7 +296,7 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
         newInvoicePanel = new JPanel(); 
           
         newInvoicePane = new CreateNewInvoiceUI(); 
-        newInvoicePane.buildPanel(newInvoicePanel, tablePanel, database, tableOfInvoices, invoicePane); 
+        newInvoicePane.buildPanel(newInvoicePanel, tablePanel, database, tableOfInvoices, invoicePane, accountingPane); 
           
         tablePanel.setLayout(new GridBagLayout()); 
         mainPanel.setLayout(new GridBagLayout());

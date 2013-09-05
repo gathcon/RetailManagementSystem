@@ -54,7 +54,7 @@ public class CreateNewOrderUI {
 	private ArrayList<JTextField> priceField = new ArrayList<JTextField>();
 	private ArrayList<Boolean> updateQuantityCombobox = new ArrayList<Boolean>();
 	
-	
+	private AccountingPanel accountingPane;
 	private JLabel orderLabel, unitPriceLabel, priceLabel, totalPriceLabel, commentLabel;
 	private JLabel orderIDLabel, supplierNameLabel, orderDateLabel, productLabel, quantityLabel;
 	private JLabel deliveryDaysLabel, deliveryCostLabel,  deliveryDateLabel;
@@ -142,14 +142,14 @@ public class CreateNewOrderUI {
 
 	
 	public void buildPanel(final JPanel orderPanel, final JPanel tablePanel, final Database database, JTable tableOfOrders,
-			final OrderListPanel orderPane) {
+			final OrderListPanel orderPane, AccountingPanel accountingPane) {
 		
 		this.orderPanel = orderPanel;
 		this.tablePanel = tablePanel;
 		this.database = database;
 		this.tableOfOrders = tableOfOrders;
 		this.orderPane = orderPane;
-		
+		this.accountingPane = accountingPane;
 		//this.splitPane = splitPane;
 
 		
@@ -654,6 +654,7 @@ public class CreateNewOrderUI {
 					
 					//add order to database
 					database.addOrder(orderID, supplier, ft.format(orderDate).toString(), deliveryDate, orderCost, true, orderedproducts, orderDescription);
+					accountingPane.refreshAccount();
 					clearOrderPanel(); 
 					totalPrice = 0;
 					deliveryCost = 0;
@@ -688,9 +689,7 @@ public class CreateNewOrderUI {
 			                }
 					    }
 					};
-					tableOfOrders.setModel(orderTableModel);
-					sorter = new TableRowSorter<TableModel>(tableOfOrders.getModel());
-				    tableOfOrders.setRowSorter(sorter); //
+					
 					//orderScrollPane = new JScrollPane(tableOfOrders);
 				    String [] columnNames = {"Order ID", "Order Date", "Delivery Date","Cost","Outstanding"};
 					orderTableModel.setColumnIdentifiers(columnNames);
@@ -707,6 +706,12 @@ public class CreateNewOrderUI {
 						
 						orderTableModel.addRow(data);
 					}
+					tableOfOrders.setModel(orderTableModel);
+					sorter = new TableRowSorter<TableModel>(tableOfOrders.getModel());
+					sorter.setSortable(1, false);
+                    sorter.setSortable(2, false);
+                    sorter.setSortable(3, false);
+				    tableOfOrders.setRowSorter(sorter); //
 					            
 			         
 					//go back to table view

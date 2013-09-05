@@ -1,6 +1,8 @@
 package retailManagementSystem;
 
+import java.awt.BorderLayout;
 import java.awt.Color; 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -28,6 +30,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane; 
 import javax.swing.JPanel; 
 import javax.swing.JScrollPane; 
+import javax.swing.JSplitPane;
 import javax.swing.JTextField; 
 import javax.swing.ListModel; 
 import javax.swing.ListSelectionModel; 
@@ -72,6 +75,10 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 	private JPanel graphPanel;
 	private JPanel panel;
 	private JPanel newPanel;
+	
+	private JSplitPane splitPane;
+	private JPanel mainPanel;
+
       
     public ProductListPanel() { 
 		System.out.println("ProductListPanel created");
@@ -88,10 +95,13 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
     int [] stockLevels  = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     double [] predictedStockLevels = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
       
-    public void buildPanel(JPanel panel, final Database database) { 
+    public void buildPanel(JPanel mainPanel, final Database database) { 
           
         this.database = database;
-        this.panel = panel;
+        this.mainPanel = mainPanel;
+        
+        panel = new JPanel();
+        panel.setLayout(new BorderLayout());
         productNameList = database.getProductList(); //array of type String[] 
           
         productList = new JList(productNameList);
@@ -100,20 +110,24 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
         productList.setLayoutOrientation(JList.VERTICAL);
         productList.setVisibleRowCount(100);
         productList.addListSelectionListener(this);
+        
+	
           
         listScroller = new JScrollPane(productList);
+		Dimension minimumSize = new Dimension(100, 50);
+        listScroller.setMinimumSize(minimumSize);
         
         typeLabel = new JLabel("Type: ", SwingConstants.RIGHT);
         nameLabel = new JLabel("Name: ", SwingConstants.RIGHT);
         quantityLabel= new JLabel("Quantity: ", SwingConstants.RIGHT);
         priceLabel= new JLabel("Price: ", SwingConstants.RIGHT);
-        IDLabel = new JLabel("Id: ", SwingConstants.RIGHT);
+        IDLabel = new JLabel("ID: ", SwingConstants.RIGHT);
                   
-        nameField = new JTextField();
-        typeField = new JTextField();
-        quantityField = new JTextField(); 
-        priceField = new JTextField(); 
-        IDField = new JTextField(); 
+        nameField = new JTextField("",26);
+        typeField = new JTextField("",26);
+        quantityField = new JTextField("",26); 
+        priceField = new JTextField("",26); 
+        IDField = new JTextField("",26); 
   
         nameField.setEditable(false); 
         nameField.setBackground(new Color(255,255,170)); 
@@ -163,47 +177,60 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
         productListLabel.setBackground(new Color(0,51,102)); 
         productListLabel.setForeground(Color.WHITE);
         productListLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
+        productListLabel.setPreferredSize(new Dimension(150, 35)); 
                   
 		buttonPanel = new JPanel();
 		graphPanel = new JPanel();
 		newPanel = new JPanel();
 		
-        panel.setLayout(new GridBagLayout());
+		
+        mainPanel.setLayout(new GridBagLayout());
 		buttonPanel.setLayout(new GridBagLayout());
 		newPanel.setLayout(new GridBagLayout());
 		
+		JPanel basePanel = new JPanel();
+		basePanel.setLayout(new BorderLayout());
+		
 		//newGraphPane = new CreateStockGraph();
 		//newGraphPane.buildPanel(graphPanel, panel, database);
-		
-		
 		graphPanel = new graph();
 		
 
-		createConstraint(newPanel, productListLabel,	0, 0, 3, 1,	0, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(newPanel, listScroller, 		0, 1, 1, 7,	0, 0, 2, 2, 2, 2, 0.3, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		//createConstraint(newPanel, productListLabel,	0, 0, 3, 1,	0, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		//createConstraint(newPanel, listScroller, 		0, 1, 1, 7,	0, 0, 2, 2, 2, 2, 0.3, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+
+		createConstraint(newPanel, IDLabel, 		0, 1, 1, 1, 0, 0, 20, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(newPanel, nameLabel, 		0, 2, 1, 1, 0, 0, 2, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(newPanel, quantityLabel, 	0, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(newPanel, priceLabel, 		0, 4, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(newPanel, typeLabel, 		0, 5, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+
+		createConstraint(newPanel, IDField, 		1, 1, 2, 1, 0, 5, 20, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(newPanel, nameField, 		1, 2, 2, 1, 0, 5, 2, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(newPanel, quantityField, 	1, 3, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(newPanel, priceField, 		1, 4, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(newPanel, typeField, 		1, 5, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
 		
-		createConstraint(newPanel, IDLabel, 		1, 1, 1, 1, 0, 0, 20, 2, 2, 2, 0.4, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(newPanel, nameLabel, 		1, 2, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(newPanel, quantityLabel, 	1, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(newPanel, priceLabel, 	1, 4, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(newPanel, typeLabel,		1, 5, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-
-		createConstraint(newPanel, IDField, 		2, 1, 1, 1, 200, 0, 20, 2, 2, 2, 0.4, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(newPanel, nameField, 		2, 2, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(newPanel, quantityField, 	2, 3, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(newPanel, priceField, 		2, 4, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(newPanel, typeField,		2, 5, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-
 		createConstraint(buttonPanel, productAddButton, 		0, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(buttonPanel, productDeleteButton, 		1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(buttonPanel, productCancelButton, 		1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(buttonPanel, productEditSaveButton,	2, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(buttonPanel, productStockGraphButton,	3, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(buttonPanel, productCancelButton, 		2, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(buttonPanel, productEditSaveButton,	3, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(buttonPanel, productStockGraphButton,	4, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		
-		createConstraint(newPanel, buttonPanel, 	1, 6, 2, 1, 0, 0, 20, 0, 0, 0, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE); 
+
+		createConstraint(newPanel, buttonPanel, 	0, 6, 3, 1, 0, 0, 20, 55, 0, 0, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL);
+		basePanel.add(newPanel, BorderLayout.PAGE_START);
 		
-		createConstraint(panel, newPanel,		0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(panel, graphPanel,	0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+	    splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, listScroller, basePanel);
+        splitPane.setDividerLocation(200);
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setContinuousLayout(true);
+        
+        panel.add(splitPane, BorderLayout.CENTER);
+	    panel.add(productListLabel, BorderLayout.PAGE_START);
+		
+		createConstraint(mainPanel, panel,		0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(mainPanel, graphPanel,		0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		
 		graphPanel.setBackground(Color.WHITE);
 		graphPanel.setVisible(false);
@@ -443,15 +470,21 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 		}
 		
 		else if(e.getActionCommand().equals("Stock")){
+			System.out.println("i am doing the stock");
+			
 			graphPanel.add(graphBackButton);
 			graphBackButton.setVisible(true);
-			newPanel.setVisible(false);
+			
+			panel.setVisible(false);
+			
 			graphPanel.setVisible(true);
+			graphPanel.repaint();
+			mainPanel.repaint();
 			
 		}
 		
 		else if(e.getActionCommand().equals("Back")) {
-			newPanel.setVisible(true);
+			panel.setVisible(true);
 			graphPanel.setVisible(false);
 		}
 		
