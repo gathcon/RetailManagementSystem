@@ -202,7 +202,7 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
   					  	component3.setBackground(new Color(255,255,220));
   						component3.append(invoice.getComment());
   						component3.setBorder(BorderFactory.createLoweredBevelBorder());
-  					    createConstraint(dynamicPanel, component3, 	0, count1 + 1, 4, 2, 0, 0, 2, 20, 2, 20, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+  					    createConstraint(dynamicPanel, component3, 	0, count1 + 1, 4, 2, 0, 40, 2, 20, 2, 20, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
                        
   						dynamicPanel.setVisible(true);
 						dynamicPanel.validate();
