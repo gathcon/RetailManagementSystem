@@ -46,8 +46,8 @@ public class AccountingPanel extends JPanel implements ActionListener{
 	private JPanel graphPanel;
 	private JPanel newPanel;
 	
-	private double totalOrderCost=0;
-	private double totalInvoiceCost=0;
+	private double totalOrderCost;
+	private double totalInvoiceCost;
 	private DecimalFormat df = new DecimalFormat("#.##"); 
 		
 	private static final int maxCost = 25000;
@@ -368,33 +368,38 @@ public void refreshAccount(){
 	    
 	
 	model.setRowCount(0);
+	
+	totalOrderCost = 0;
+	totalInvoiceCost = 0;
 	  
-	  	model.setColumnIdentifiers(new String [] {"Order/Invoice ID", "Supplier/Customer Name","Debit","Credit"});
-	model.addRow(new String[]{"Order ID","Supplier Name","Debit"});
+	model.setColumnIdentifiers(new String [] {"Order/Invoice ID", "Supplier/Customer Name","Debit","Credit"});
+	model.addRow(new String[]{"<html><b>Order ID</html></b>","<html><b>Supplier Name</html></b>",null});
 	
 	for(Order p: database.getOrders()){
 		model.addRow(new String[]{p.getOrderID(),p.getSupplier().getSupplierName(),p.getOrderCost()});
 		
 		totalOrderCost = Double.valueOf(df.format(totalOrderCost+Double.parseDouble(p.getOrderCost())));
-		
 	}
 	String totalOrderCostS = Double.toString(totalOrderCost);
-	model.addRow(new String[]{"Total Order Cost",null,totalOrderCostS});
+	model.addRow(new String[]{"<html><strong>Total Order Cost</strong></html>",null,"<html><b>" + totalOrderCostS+ "</b></html>"});
 	model.addRow(new String[]{});
-	model.addRow(new String[]{"Invoice ID","Customer Name",null,"Credit"});
+	model.addRow(new String[]{"<html><b>Invoice ID</html></b>","<html><b>Customer Name</html></b>",null,null});
 	for(Invoice p: database.getInvoices()){
 		model.addRow(new String[]{p.getInvoiceID(),p.getCustomer().getCustomerName(),null,p.getInvoiceCost()});
 		
 		totalInvoiceCost = Double.valueOf(df.format(totalInvoiceCost+Double.parseDouble(p.getInvoiceCost())));
 	}
 	String totalInvoiceCostS = Double.toString(totalInvoiceCost);
-	model.addRow(new String[]{"Total Invoice Cost",null,null,totalInvoiceCostS});
+	model.addRow(new String[]{"<html><b>Total Invoice Cost</b></html>",null,null,"<html><b>" + totalInvoiceCostS+ "</b></html>"});
 	Double total = Double.valueOf(df.format(totalInvoiceCost - totalOrderCost));
 	String totalS = Double.toString(total);
 	model.addRow(new String[]{});
-
-	model.addRow(new String[]{"Total",null,totalS});
-	  
+	if(total>0){
+		model.addRow(new String[]{"<html><b style=\"color:#00FF00\">Total Profit</b></html>",null,"<html><b style=\"color:#00FF00\">" + totalS + "</b></html>"});
+	}
+	else{
+		model.addRow(new String[]{"<html><b style=\"color:#FF0000\">Total Loss</b></html>",null,"<html><b style=\"color:#FF0000\">" + totalS + "</b></html>"});
+	}
   } 
 
 
