@@ -85,9 +85,10 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 
     }
     
-    private static final int maxStock = 1000;
-    private static final int border = 50;
-    private static final int yHatchCount = 15;
+    private static final int maxStock = 1200;
+    private static final int border = 65;
+    private static final int yHatchCount = 13;
+
     private static final int graphPointWidth = 12;
     
     
@@ -516,7 +517,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                             priceField.setText(String.valueOf(products.get(i).getProductPrice())); 
                             IDField.setText(products.get(i).getProductID()); 
                     	
-                            	
+                            database.updateStockLevels(products.get(i).getStockLevels(), products.get(i).getProductName());	
                             int stock [] = products.get(i).getStockLevels();  
                             stockLevels = stock;
                            
@@ -599,7 +600,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                  int y1 = y0;
                  g2.drawLine(x0, y0, x1, y1);
                  FontMetrics fm = g2.getFontMetrics();
-                 String [] values = {"", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150"};
+                 String [] values = {"", "100", "200", "300", "400", "500", "600", "700", "800", "900", "1000", "1100", "1200", ""};
                  g2.drawString(values[i], x0 - fm.stringWidth(values[i]), y0 + (fm.getAscent() / 2));
                  
               }
@@ -625,11 +626,12 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
             // Ordinate label.
             String Label = "STOCK";
             float sy = border + ((getHeight() - 2*border) - Label.length()*sh)/2 + lm.getAscent();
+           
             
             for(int i = 0; i < Label.length(); i++) {
                 String letter = String.valueOf(Label.charAt(i));
                 float sw = (float)font.getStringBounds(letter, frc).getWidth();
-                float sx = (border - sw)/4;
+                float sx = (border - sw)/6;
                 g2.drawString(letter, sx, sy);
                 sy += sh;
             }
