@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -205,6 +206,29 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 	
 	}
 	
+	public static String generateUniqueId() {      
+        String uuidChars = "" + UUID.randomUUID().toString();
+        String uid = uuidChars.replaceAll("-", "");    
+        int myuid = uid.hashCode();
+        
+        uid = Integer.toString(myuid);
+        uid = uuidChars.replaceAll("-", "");
+        
+        char[] newUUID = uid.toCharArray();
+        String ID = "";
+        char  temp;
+        
+        for(int i = 0; i < 8; i++){       	
+        	temp = newUUID[i];    	
+        	if(Character.getType(newUUID[i]) == Character.LOWERCASE_LETTER){     		
+        		temp = Character.toUpperCase(newUUID[i]);
+        	} 
+        	 ID += temp;
+        }
+        System.out.println(ID);
+        return ID;
+    }
+	
 	// Button handler
 	public void actionPerformed(ActionEvent e) {
 		
@@ -224,6 +248,9 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 			
 	    	// reset textFields
 	    	resetTextFields();
+	    	
+	    	IDField.setText(generateUniqueId());
+	    	IDField.setEditable(false);
 	    	
 	    	//change editSaveButton label to "Save"
 	    	customerEditSaveButton.setText("Save");

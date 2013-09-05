@@ -19,6 +19,7 @@ import java.awt.font.LineMetrics;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.swing.DefaultListModel; 
 import javax.swing.JButton; 
@@ -255,6 +256,29 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
     	
     }
     
+    public static String generateUniqueId() {      
+        String uuidChars = "" + UUID.randomUUID().toString();
+        String uid = uuidChars.replaceAll("-", "");    
+        int myuid = uid.hashCode();
+        
+        uid = Integer.toString(myuid);
+        uid = uuidChars.replaceAll("-", "");
+        
+        char[] newUUID = uid.toCharArray();
+        String ID = "";
+        char  temp;
+        
+        for(int i = 0; i < 8; i++){       	
+        	temp = newUUID[i];    	
+        	if(Character.getType(newUUID[i]) == Character.LOWERCASE_LETTER){     		
+        		temp = Character.toUpperCase(newUUID[i]);
+        	} 
+        	 ID += temp;
+        }
+        System.out.println(ID);
+        return ID;
+    }
+    
 	// Button handler
 	public void actionPerformed(ActionEvent e) {
 		
@@ -271,6 +295,9 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 			
 	    	// reset textFields
 	    	resetTextFields();
+	    	
+	    	IDField.setText(generateUniqueId());
+	    	IDField.setEditable(false);
 	    	
 	    	//change editSaveButton label to "Save"
 	    	productEditSaveButton.setText("Save");
