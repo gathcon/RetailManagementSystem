@@ -1,13 +1,14 @@
 package retailManagementSystem;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.UUID;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -17,6 +18,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
@@ -54,17 +56,24 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 	private JButton supplierDeleteButton;
 	private JButton supplierEditSaveButton;
 	private JButton supplierCancelButton;
+	
+	private JSplitPane splitPane;
 
 	private JPanel buttonPanel;
+	private JPanel mainPanel;
+	private JPanel panel;
 	
 	public SupplierListPanel() {
 		System.out.println("SupplierListPanel created");
 
 	}
 	
-	public void buildPanel(JPanel panel, final Database database) {
+	public void buildPanel(JPanel mainPanel, final Database database) {
 		
 		this.database = database;
+		this.mainPanel = mainPanel;
+		mainPanel.setLayout(new BorderLayout());
+		panel = new JPanel();
 		suppliers = database.getSupplierList();	//array of type String[]
 		
 		supplierList = new JList(suppliers);
@@ -75,18 +84,20 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 		supplierList.addListSelectionListener(this);
 		
 		listScroller = new JScrollPane(supplierList);
+		Dimension minimumSize = new Dimension(100, 50);
+        listScroller.setMinimumSize(minimumSize);
 		
-		IDLabel = new JLabel("Id: ", SwingConstants.RIGHT);
+		IDLabel = new JLabel("ID: ", SwingConstants.RIGHT);
 		nameLabel = new JLabel("Name: ", SwingConstants.RIGHT);
 		addressLabel= new JLabel("Address: ", SwingConstants.RIGHT);
 		phoneNoLabel= new JLabel("Phone Number: ", SwingConstants.RIGHT);
 		emailLabel = new JLabel("Email: ", SwingConstants.RIGHT);
 		
-		nameField = new JTextField();
-		IDField = new JTextField();
-		addressField = new JTextField();
-		phoneNoField = new JTextField();
-		emailField = new JTextField();
+		nameField = new JTextField("",26);
+		IDField = new JTextField("",26);
+		addressField = new JTextField("",26);
+		phoneNoField = new JTextField("",26);
+		emailField = new JTextField("",26);
 
 		nameField.setEditable(false);
 		nameField.setBackground(new Color(255,255,170));
@@ -127,33 +138,44 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 		supplierListLabel.setBackground(new Color(0,51,102));
 		supplierListLabel.setForeground(Color.WHITE);
 		supplierListLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
+		supplierListLabel.setPreferredSize(new Dimension(150, 35)); 
 
 		buttonPanel = new JPanel();
 		
 		panel.setLayout(new GridBagLayout());
 		buttonPanel.setLayout(new GridBagLayout());
 
-		createConstraint(panel, supplierListLabel,	0, 0, 3, 1, 100, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(panel, listScroller, 		0, 1, 1, 7, 0, 0, 2, 2, 2, 2, 0.3, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		JPanel basePanel = new JPanel();
+		basePanel.setLayout(new BorderLayout());
 		
-		createConstraint(panel, IDLabel, 		1, 1, 1, 1, 0, 0, 20, 2, 2, 2, 0.4, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, nameLabel, 		1, 2, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, addressLabel, 	1, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, phoneNoLabel, 	1, 4, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, emailLabel, 	1, 5, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(panel, IDLabel, 		0, 1, 1, 1, 0, 0, 20, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(panel, nameLabel, 		0, 2, 1, 1, 0, 0, 2, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(panel, addressLabel, 	0, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(panel, phoneNoLabel, 	0, 4, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(panel, emailLabel, 	0, 5, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+	
+		createConstraint(panel, IDField, 		1, 1, 2, 1, 0, 5, 20, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(panel, nameField, 		1, 2, 2, 1, 0, 5, 2, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(panel, addressField, 	1, 3, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(panel, phoneNoField, 	1, 4, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(panel, emailField, 	1, 5, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		
+		createConstraint(buttonPanel, supplierAddButton, 		1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(buttonPanel, supplierDeleteButton, 	2, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(buttonPanel, supplierCancelButton, 	3, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(buttonPanel, supplierEditSaveButton,	4, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 
-		createConstraint(panel, IDField, 		2, 1, 1, 1, 200, 0, 20, 2, 2, 2, 0.4, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, nameField, 		2, 2, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, addressField, 	2, 3, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, phoneNoField, 	2, 4, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, emailField, 	2, 5, 1, 1, 200, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-
-		createConstraint(buttonPanel, supplierAddButton, 		0, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(buttonPanel, supplierDeleteButton, 	1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(buttonPanel, supplierCancelButton, 	1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		createConstraint(buttonPanel, supplierEditSaveButton,	2, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-
-		createConstraint(panel, buttonPanel, 	1, 6, 2, 1, 0, 0, 20, 0, 0, 0, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE);		
+		createConstraint(panel, buttonPanel, 	0, 6, 3, 1, 0, 0, 20, 100, 0, 0, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL);
+		
+		basePanel.add(panel, BorderLayout.PAGE_START);
+		
+	    splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, listScroller, basePanel);
+        splitPane.setDividerLocation(200);
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setContinuousLayout(true);
+		
+	    mainPanel.add(splitPane, BorderLayout.CENTER);
+	    mainPanel.add(supplierListLabel, BorderLayout.PAGE_START);
 	}
 	
 	private void createConstraint(JPanel panel, JComponent component, int gridx, int gridy, int width, int height, int ipadx, int ipady,
@@ -204,29 +226,6 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 	
 	}
 	
-	public static String generateUniqueId() {      
-        String uuidChars = "" + UUID.randomUUID().toString();
-        String uid = uuidChars.replaceAll("-", "");    
-        int myuid = uid.hashCode();
-        
-        uid = Integer.toString(myuid);
-        uid = uuidChars.replaceAll("-", "");
-        
-        char[] newUUID = uid.toCharArray();
-        String ID = "";
-        char  temp;
-        
-        for(int i = 0; i < 8; i++){       	
-        	temp = newUUID[i];    	
-        	if(Character.getType(newUUID[i]) == Character.LOWERCASE_LETTER){     		
-        		temp = Character.toUpperCase(newUUID[i]);
-        	} 
-        	 ID += temp;
-        }
-        System.out.println(ID);
-        return ID;
-    }
-	
 	// Button handler
 	public void actionPerformed(ActionEvent e) {
 		
@@ -243,9 +242,6 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 	    			
 			// reset textFields
 	    	resetTextFields();
-	    	
-	    	IDField.setText(generateUniqueId());
-	    	IDField.setEditable(false);
 	    	
 	    	//change editSaveButton label to "Save"
 	    	supplierEditSaveButton.setText("Save");
