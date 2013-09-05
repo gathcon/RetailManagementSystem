@@ -144,20 +144,23 @@ class graph extends JPanel{
     		ArrayList<Order> orders = database.getOrders();
     	    int noOfOrders = orders.size();
     	   
-//    	    String cost1 = orders.get(0).getOrderCost();
-//    	    String cost2 = orders.get(1).getOrderCost();
-//    	    String cost3 = orders.get(2).getOrderCost();
-//    	    String cost4 = orders.get(3).getOrderCost();
-//    	    String cost5 = orders.get(4).getOrderCost();
-//    	    String cost6 = orders.get(5).getOrderCost();
-//    	    String cost7 = orders.get(6).getOrderCost();
-//    	    String cost8 = orders.get(7).getOrderCost();
-//    	    String cost9 = orders.get(8).getOrderCost();
-//    	    String cost10 = orders.get(9).getOrderCost();
-//    	    
-//    	    int [] orderCosts  = {Integer.parseInt(cost1), Integer.parseInt(cost2), Integer.parseInt(cost3), Integer.parseInt(cost4),
-//    	    		Integer.parseInt(cost5), Integer.parseInt(cost6), Integer.parseInt(cost7), Integer.parseInt(cost8), Integer.parseInt(cost9),
-//    	    		Integer.parseInt(cost10)};
+    	    
+    	    
+    	    
+    	    String cost1 = orders.get(0).getOrderCost();
+    	    String cost2 = orders.get(1).getOrderCost();
+    	    String cost3 = orders.get(2).getOrderCost();
+    	    String cost4 = orders.get(3).getOrderCost();
+    	    String cost5 = orders.get(4).getOrderCost();
+    	    String cost6 = orders.get(5).getOrderCost();
+    	    String cost7 = orders.get(6).getOrderCost();
+    	    String cost8 = orders.get(7).getOrderCost();
+    	    String cost9 = orders.get(8).getOrderCost();
+    	    String cost10 = orders.get(9).getOrderCost();
+    	    
+    	    int [] orderCosts  = {Integer.parseInt(cost1), Integer.parseInt(cost2), Integer.parseInt(cost3), Integer.parseInt(cost4),
+    	    		Integer.parseInt(cost5), Integer.parseInt(cost6), Integer.parseInt(cost7), Integer.parseInt(cost8), Integer.parseInt(cost9),
+    	    		Integer.parseInt(cost10)};
     		
             super.paintComponent(g);
             Graphics2D g2 = (Graphics2D)g;
@@ -325,9 +328,12 @@ class graph extends JPanel{
     	
     }
 
+<<<<<<< HEAD
+	public int sumOrderCosts(){
+=======
 
 	public double sumOrderCosts(){
-
+>>>>>>> iansbranch
 		ArrayList<Order> orders = database.getOrders();
     
 		double sum = 0;
@@ -337,6 +343,17 @@ class graph extends JPanel{
 		return sum;
    }
 	
+<<<<<<< HEAD
+//	public int sumInvoiceCosts(){
+//		ArrayList<Invoice> invoices = database.getInvoices();
+//    
+//		int sum = 0;
+//		for(int i = 0; i < invoices.size(); i++){
+//			sum = sum + Integer.parseInt(invoices.get(i).getInvoiceCost());
+//		}
+//		return sum;
+//   }
+=======
 	public double sumInvoiceCosts(){
 		ArrayList<Invoice> invoices = database.getInvoices();
     
@@ -346,9 +363,9 @@ class graph extends JPanel{
 		}
 		return sum;
    }
+>>>>>>> iansbranch
 
-
-	public void refreshAccount(){
+public void refreshAccount(){
 	
 	model.setRowCount(0);
 	  
@@ -379,5 +396,9 @@ class graph extends JPanel{
 	model.addRow(new String[]{"Total",null,totalS});
 	  
   } 
+<<<<<<< HEAD
+=======
+
+>>>>>>> iansbranch
 }
 
