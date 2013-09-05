@@ -363,13 +363,13 @@ class graph extends JPanel{
    }
 
 
-<<<<<<< HEAD
-	public void refreshAccount(){
-=======
+
+
+
 public void refreshAccount(){
 
 	    
->>>>>>> 5ca03a0fd8ac30b8ee6c3d0b7b147a617957adfd
+
 	
 	model.setRowCount(0);
 	

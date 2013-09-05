@@ -3,6 +3,7 @@ package retailManagementSystem;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList; 
 import java.util.Arrays; 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -16,6 +17,8 @@ public class Database {
     private ArrayList<Order> orders = new ArrayList<Order>();
 	private ArrayList<Invoice> invoices = new ArrayList<Invoice>();
     private ArrayList<UserAccount> userAccounts = new ArrayList<UserAccount>();
+    
+    private ArrayList<Product> invoiceProducts = new ArrayList<Product>();
     
      
     /*
@@ -52,16 +55,16 @@ public class Database {
         this.addUserAccount("admin", "admin", "1", "1".toCharArray(), 0);
         
 
-        this.addOrder("0001", suppliers.get(0), "02/01/13", "04/01/13", "300", true, products, "comment");
-        this.addOrder("0002", suppliers.get(1), "06/02/13", "08/02/13", "1267", true, products, "comment");
-        this.addOrder("0003", suppliers.get(2), "10/03/13", "12/03/13", "4775", true, products, "comment");
-        this.addOrder("0004", suppliers.get(3), "14/04/13", "16/04/13", "3568", true, products, "comment");
-        this.addOrder("0005", suppliers.get(4), "18/05/13", "20/05/13", "625", true, products, "comment");
-        this.addOrder("0006", suppliers.get(0), "02/06/13", "04/06/13", "300", true, products, "comment");
-        this.addOrder("0007", suppliers.get(1), "06/08/13", "08/08/13", "1267", true, products, "comment");
-        this.addOrder("0008", suppliers.get(2), "10/10/13", "12/10/13", "4775", true, products, "comment");
-        this.addOrder("0009", suppliers.get(3), "14/11/13", "16/11/13", "3568", true, products, "comment");
-        this.addOrder("0010", suppliers.get(4), "18/12/13", "20/12/13", "625", true, products, "comment");
+        this.addOrder("0001", suppliers.get(0), "02/01/13", "04/01/13", "300", false, products, "comment");
+        this.addOrder("0002", suppliers.get(1), "06/02/13", "08/02/13", "1267", false, products, "comment");
+        this.addOrder("0003", suppliers.get(2), "10/03/13", "12/03/13", "4775", false, products, "comment");
+        this.addOrder("0004", suppliers.get(3), "14/04/13", "16/04/13", "3568", false, products, "comment");
+        this.addOrder("0005", suppliers.get(4), "18/05/13", "20/05/13", "625", false, products, "comment");
+        this.addOrder("0006", suppliers.get(0), "02/06/13", "04/06/13", "300", false, products, "comment");
+        this.addOrder("0007", suppliers.get(1), "06/08/13", "08/08/13", "1267", false, products, "comment");
+        this.addOrder("0008", suppliers.get(2), "10/03/13", "12/03/13", "4775", true, products, "comment");
+        this.addOrder("0009", suppliers.get(3), "14/04/13", "16/04/13", "3568", true, products, "comment");
+        this.addOrder("0010", suppliers.get(4), "18/02/13", "20/02/13", "625", true, products, "comment");
 //        this.addOrder("0011", suppliers.get(0), "2/8/13", "4/8/13", "300", true, products, "comment");
 //        this.addOrder("0012", suppliers.get(1), "6/8/13", "8/8/13", "1267", true, products, "comment");
 //        this.addOrder("0013", suppliers.get(2), "10/8/13", "12/8/13", "4775", true, products, "comment");
@@ -73,11 +76,16 @@ public class Database {
 //        this.addOrder("0019", suppliers.get(3), "14/8/13", "16/8/13", "3568", true, products, "comment");
 //        this.addOrder("0020", suppliers.get(4), "18/8/13", "20/8/13", "625", true, products, "comment");
         
-//        this.addInvoice("INV01", customers.get(0), "05/08/13", "09/08/13", "10", true, products, "comment");
+//        this.addInvoice("INV01", customers.get(0), "05/01/13", "09/01/13", "600", false, products, "comment");
+//        this.addInvoice("INV02", customers.get(1), "07/02/13", "10/02/13", "400", false, products, "comment");
+//        this.addInvoice("INV03", customers.get(2), "14/03/13", "16/03/13", "1000", false, products, "comment");
+        
                 
         updateStockLevels(stockLevelsIpod, "iPod");
         updateStockLevels(stockLevelsEnvy, "HP Envy");
         updateStockLevels(stockLevelsGalaxy, "Samsung Galaxy");
+        
+        
     }
 
     public void updateStockLevels(int [] arrayToBeUpdated, String productName) {
@@ -90,7 +98,6 @@ public class Database {
         		
         		String date = order.getOrderDeliveryDate();
         		int month = Integer.parseInt(date.substring(3, 5));
-        		System.out.println(month);
         		if(month == j) {
         			
         			//inspect all products in order
@@ -134,53 +141,6 @@ public class Database {
         }
     }
     
-    public void updateStockLevels(int [] arrayToBeUpdated) {
-    	
-    	for(int i = 0; i < 12; i++) {
-        	int j = i + 1;
-        	
-        	// inspect each order
-        	for(Order order : orders) {
-        		
-        		String date = order.getOrderDate();
-        		int month = Integer.parseInt(date.substring(3, 5));
-        		
-        		if(month == j) {
-        			
-        			//inspect all products in order
-        			for(Product product : order.getProducts()) {
-        				
-        				arrayToBeUpdated[i] = arrayToBeUpdated[i] + Integer.parseInt(product.getProductQuantity());
-        			}
-        		}
-        	}
-        	
-        	//inspect each invoice
-        	for(Invoice invoice : invoices) {
-        		
-        		String date = invoice.getInvoiceDate();
-        		int month = Integer.parseInt(date.substring(3, 5));
-        		
-        		if(month == j) {
-        			
-        			//inspect all products in order
-        			for(Product product : invoice.getProducts()) {
-        				
-        				arrayToBeUpdated[i] = arrayToBeUpdated[i] - Integer.parseInt(product.getProductQuantity());
-        			}
-        		}
-        	}
-        	
-        	//add on previous month stock
-    		int k = i - 1;
-    		if(k >= 0){
-    				
-    			arrayToBeUpdated[i] = arrayToBeUpdated[i] + arrayToBeUpdated[k];
-    		}
-        	
-        	System.out.println("Stock level for month " + j + ": " + arrayToBeUpdated[i]);
-        }
-    }
     
       
     /*
@@ -360,7 +320,14 @@ public class Database {
         
     	Product product = new Product(productName, productType, productQuantity, productPrice, productID, stockLevels);
     	products.add(product);
-    } 
+    }
+    
+    public void addInvoiceProduct(String productName, String productType, String productQuantity, double productPrice,
+    		String productID, int [] stockLevels) { 
+        
+    	Product product = new Product(productName, productType, productQuantity, productPrice, productID, stockLevels);
+    	products.add(product);
+    }
       
     public void deleteProduct(Product product) { 
     	

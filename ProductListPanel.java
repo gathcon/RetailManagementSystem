@@ -21,6 +21,8 @@ import java.awt.font.LineMetrics;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.DefaultListModel; 
 import javax.swing.JButton; 
@@ -509,7 +511,9 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                           
                         if (productList.getSelectedIndex() == i) { 
                           
-                            System.out.println("product selected: " + productNameList[i]); 
+                            System.out.println("product selected: " + productNameList[i]);
+                            
+                            database.updateStockLevels(products.get(i).getStockLevels(), products.get(i).getProductName());
                               
                             nameField.setText(products.get(i).getProductName()); 
                             typeField.setText(products.get(i).getProductType()); 
@@ -545,7 +549,12 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
     
     class graph extends JPanel{
         
-    	protected void paintComponent(Graphics g) { 
+    	protected void paintComponent(Graphics g) {
+    		
+    		Date currentDate = new Date();
+        	Calendar cal = Calendar.getInstance();
+        	cal.setTime(currentDate);
+        	int currentMonth = cal.get(Calendar.MONTH) + 1;
     		
             super.paintComponent(g);
             Graphics2D g2 = (Graphics2D)g;
@@ -662,7 +671,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
             double xInc = (double)(getWidth() - 2*border)/(12-1);
             double scale = (double)(getHeight() - 2*border)/maxStock;
             g2.setPaint(Color.green.darker());
-            for(int i = 0; i < stockLevels.length-1; i++) {
+            for(int i = 0; i < currentMonth-1; i++) {
             double x1 = border + i*xInc;
             double y1 = getHeight() - border - scale*stockLevels[i];
             double x2 = border + (i+1)*xInc;
@@ -684,7 +693,8 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
              
             // Mark data points.
             g2.setPaint(Color.blue);
-            for(int i = 0; i < stockLevels.length; i++) {
+            
+            for(int i = 0; i < currentMonth; i++) {
                 double x = border + i*xInc;
                 double y = getHeight() - border - scale*stockLevels[i];
                 g2.fill(new Ellipse2D.Double(x-2, y-2, 4, 4));
