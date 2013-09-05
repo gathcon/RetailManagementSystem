@@ -55,7 +55,7 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 	private JTextField userNameField;
 	private JPasswordField passwordField1;
 	private JPasswordField passwordField2;
-	private JComboBox<String> userLevelField;
+	private JComboBox userLevelField;
 	
 	private JButton userAccountAddButton;
 	private JButton userAccountDeleteButton;
@@ -103,7 +103,7 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 		userNameField = new JTextField("",26);
 		passwordField1 = new JPasswordField("",26);
 		passwordField2 = new JPasswordField("",26);
-		userLevelField = new JComboBox<String>();
+		userLevelField = new JComboBox();
 		
 		userLevelField.addItem("Administrator");
 		userLevelField.addItem("level 2");

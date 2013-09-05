@@ -365,7 +365,7 @@ class graph extends JPanel{
    }
 
 
-
+	
 	public void refreshAccount(){
 	
 		model.setRowCount(0);
