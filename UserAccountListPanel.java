@@ -111,6 +111,7 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 		userLevelField.addItem("Stock check");
 		userLevelField.addItem("Please select");
 		userLevelField.setSelectedItem("Please select");
+		userLevelField.setPreferredSize(new Dimension(290,20));
 
 		firstNameField.setEditable(false);
 		firstNameField.setBackground(new Color(255,255,170));
@@ -165,8 +166,6 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 		JPanel basePanel = new JPanel();
 		basePanel.setLayout(new BorderLayout());
 
-		//createConstraint(panel, userAccountListLabel,	0, 0, 3, 1, 0, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		//createConstraint(panel, listScroller, 		0, 1, 1, 8, 0, 0, 2, 2, 2, 2, 0.3, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 
 		createConstraint(panel, firstNameLabel, 		0, 1, 1, 1, 0, 0, 20, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
 		createConstraint(panel, lastNameLabel, 			0, 2, 1, 1, 0, 0, 2, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
@@ -181,7 +180,7 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 		createConstraint(panel, userNameField, 		1, 3, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
 		createConstraint(panel, passwordField1, 	1, 4, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
 		createConstraint(panel, passwordField2, 	1, 5, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, userLevelField, 	1, 6, 2, 1, 184, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(panel, userLevelField, 	1, 6, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
 		
 		createConstraint(buttonPanel, userAccountAddButton, 		1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(buttonPanel, userAccountDeleteButton, 		2, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);

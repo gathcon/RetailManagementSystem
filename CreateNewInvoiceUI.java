@@ -186,7 +186,7 @@ public class CreateNewInvoiceUI {
 		invoiceDateLabel = new JLabel("Invoice Date:", SwingConstants.RIGHT);
 		
 		invoiceDate = new Date();
-		SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yyyy");
+		SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yy");
 		invoiceDateField = new JTextField(ft.format(invoiceDate));
 		invoiceDateField.setBackground(Color.WHITE);
 		invoiceDateField.setEditable(false);
@@ -196,6 +196,9 @@ public class CreateNewInvoiceUI {
 		commentTextArea = new JTextArea();
 		commentTextArea.setBackground(new Color(255,255,200));
 		commentTextArea.setBorder(BorderFactory.createLoweredBevelBorder());
+		commentTextArea.setLineWrap(true);
+		JScrollPane scrollTextPane = new JScrollPane(commentTextArea);
+		scrollTextPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		
 		productListNames = database.getProductList();
 		
@@ -522,7 +525,7 @@ public class CreateNewInvoiceUI {
 				
 				Object option = deliveryDaysComboBox.getSelectedItem();
 
-				SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yyyy");
+				SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yy");
 				Calendar c = Calendar.getInstance();
 				 String tempDate = ft.format(invoiceDate).toString();
 				try {
@@ -571,6 +574,7 @@ public class CreateNewInvoiceUI {
 		invoiceIDField.setText("");
 		customerNameComboBox.setSelectedIndex(0);
 		customerNameComboBox.setSelectedItem("Please Select");
+		commentTextArea.setText(null);
 		
 		for(JTextField temp:priceField){
 			temp.setText("0.00");
@@ -649,7 +653,7 @@ public class CreateNewInvoiceUI {
 						}
 					 }
 					 
-					 SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yyyy");
+					 SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yy");
 					//add invoice to database
 					 
 					database.addInvoice(invoiceID, customer, ft.format(invoiceDate).toString(), deliveryDate, invoiceCost, true, invoiceproducts, comment);

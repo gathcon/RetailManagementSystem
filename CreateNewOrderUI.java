@@ -187,7 +187,7 @@ public class CreateNewOrderUI {
 		orderDateLabel = new JLabel("Order Date:", SwingConstants.RIGHT);
 		
 		orderDate = new Date();
-		SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yyyy");
+		SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yy");
 		orderDateField = new JTextField(ft.format(orderDate));
 		orderDateField.setBackground(Color.WHITE);
 		orderDateField.setEditable(false);
@@ -197,6 +197,10 @@ public class CreateNewOrderUI {
 		commentTextArea = new JTextArea();
 		commentTextArea.setBackground(new Color(255,255,200));
 		commentTextArea.setBorder(BorderFactory.createLoweredBevelBorder());
+		commentTextArea.setLineWrap(true);
+		JScrollPane scrollTextPane = new JScrollPane(commentTextArea);
+		scrollTextPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		
 		
 		productListNames = database.getProductList();
 		
@@ -242,7 +246,6 @@ public class CreateNewOrderUI {
 				if(e.getSource() == orderCancelButton){
 					
 					//go back to table view
-					
 
 					orderPanel.setVisible(false);
 					orderPanel.invalidate();
@@ -395,7 +398,7 @@ public class CreateNewOrderUI {
 		createConstraint(orderPanel, orderSaveButton,	    5, 10 + count3, 1, 1, 30, 0, 20, 2, 2, 20, 0, 0);
 		
 		createConstraint(orderPanel, commentLabel,	 		0, 11 + count3, 1, 1, 0, 0, 20, 20, 2, 2, 0, 0);
-		createConstraint(orderPanel, commentTextArea,	 	0, 12 + count3, 6, 2, 0, 0, 2, 20, 20, 20, 0, 1);
+		createConstraint(orderPanel, scrollTextPane,	 	0, 12 + count3, 6, 2, 0, 0, 2, 20, 20, 20, 0, 1);
 		
 
 		orderPanel.setAutoscrolls(true);
@@ -523,7 +526,7 @@ public class CreateNewOrderUI {
 				
 				Object option = deliveryDaysComboBox.getSelectedItem();
 
-				SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yyyy");
+				SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yy");
 				Calendar c = Calendar.getInstance();
 				 String tempDate = ft.format(orderDate).toString();
 				try {
@@ -572,7 +575,7 @@ public class CreateNewOrderUI {
 		orderIDField.setText("");
 		supplierNameComboBox.setSelectedIndex(0);
 		supplierNameComboBox.setSelectedItem("Please Select");
-		
+		commentTextArea.setText(null);
 		for(JTextField temp:priceField){
 			temp.setText("0.00");
 		}
@@ -650,7 +653,7 @@ public class CreateNewOrderUI {
 						}
 					 }
 					 
-					 SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yyyy");
+					 SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yy");
 					
 					//add order to database
 					database.addOrder(orderID, supplier, ft.format(orderDate).toString(), deliveryDate, orderCost, true, orderedproducts, orderDescription);
