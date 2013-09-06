@@ -32,9 +32,9 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 		
 	private String[] suppliers;
 		
-	private JList supplierList;
-	private ListModel supplierListModel;
-	private DefaultListModel updatedSupplierListModel;
+	private JList<String> supplierList;
+	private ListModel<String> supplierListModel;
+	private DefaultListModel<String> updatedSupplierListModel;
 	
 	private JScrollPane listScroller;
 	
@@ -60,8 +60,7 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 	private JSplitPane splitPane;
 
 	private JPanel buttonPanel;
-	private JPanel mainPanel;
-	private JPanel panel;
+	private JPanel infoPanel;
 	
 	public SupplierListPanel() {
 		System.out.println("SupplierListPanel created");
@@ -71,12 +70,11 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 	public void buildPanel(JPanel mainPanel, final Database database) {
 		
 		this.database = database;
-		this.mainPanel = mainPanel;
 		mainPanel.setLayout(new BorderLayout());
-		panel = new JPanel();
+		
 		suppliers = database.getSupplierList();	//array of type String[]
 		
-		supplierList = new JList(suppliers);
+		supplierList = new JList<String>(suppliers);
 		supplierListModel = supplierList.getModel();
 		supplierList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		supplierList.setLayoutOrientation(JList.VERTICAL);
@@ -140,34 +138,35 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 		supplierListLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
 		supplierListLabel.setPreferredSize(new Dimension(150, 35)); 
 
+		infoPanel = new JPanel();
 		buttonPanel = new JPanel();
 		
-		panel.setLayout(new GridBagLayout());
+		infoPanel.setLayout(new GridBagLayout());
 		buttonPanel.setLayout(new GridBagLayout());
 
 		JPanel basePanel = new JPanel();
 		basePanel.setLayout(new BorderLayout());
 		
-		createConstraint(panel, IDLabel, 		0, 1, 1, 1, 0, 0, 20, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, nameLabel, 		0, 2, 1, 1, 0, 0, 2, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, addressLabel, 	0, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, phoneNoLabel, 	0, 4, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, emailLabel, 	0, 5, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, IDLabel, 		0, 1, 1, 1, 0, 0, 20, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, nameLabel, 		0, 2, 1, 1, 0, 0, 2, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, addressLabel, 	0, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, phoneNoLabel, 	0, 4, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, emailLabel, 	0, 5, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
 	
-		createConstraint(panel, IDField, 		1, 1, 2, 1, 0, 5, 20, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, nameField, 		1, 2, 2, 1, 0, 5, 2, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, addressField, 	1, 3, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, phoneNoField, 	1, 4, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, emailField, 	1, 5, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, IDField, 		1, 1, 2, 1, 0, 5, 20, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, nameField, 		1, 2, 2, 1, 0, 5, 2, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, addressField, 	1, 3, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, phoneNoField, 	1, 4, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, emailField, 	1, 5, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
 		
 		createConstraint(buttonPanel, supplierAddButton, 		1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(buttonPanel, supplierDeleteButton, 	2, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(buttonPanel, supplierCancelButton, 	3, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(buttonPanel, supplierEditSaveButton,	4, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 
-		createConstraint(panel, buttonPanel, 	0, 6, 3, 1, 0, 0, 20, 100, 0, 0, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, buttonPanel, 	0, 6, 3, 1, 0, 0, 20, 100, 0, 0, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL);
 		
-		basePanel.add(panel, BorderLayout.PAGE_START);
+		basePanel.add(infoPanel, BorderLayout.PAGE_START);
 		
 	    splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, listScroller, basePanel);
         splitPane.setDividerLocation(200);
@@ -198,7 +197,7 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 	public void updateSupplierLists() {
 		
 		//update the list of names etc
-		updatedSupplierListModel = new DefaultListModel();
+		updatedSupplierListModel = new DefaultListModel<String>();
 		
 		for(Supplier supplier: database.getSuppliers()) {
 			

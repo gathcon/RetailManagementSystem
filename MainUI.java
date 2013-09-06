@@ -19,7 +19,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class MainUI extends JFrame implements ActionListener{
+public class MainUI implements ActionListener{
+	
+	private JFrame frame;
 	
 	private Database database;
 	
@@ -57,6 +59,8 @@ public class MainUI extends JFrame implements ActionListener{
 		
 	public MainUI() {
 		
+		frame = new JFrame();
+		
 		database = new Database();
 				
 		customerPanel = new JPanel();
@@ -87,24 +91,24 @@ public class MainUI extends JFrame implements ActionListener{
 		
 		buildLoginPanel();
 		
-		setTitle("Retail Management System | User Login");
-		setBackground(new Color(0,51,102));
+		frame.setTitle("Retail Management System | User Login");
+		frame.setBackground(new Color(0,51,102));
 
-		setSize(300, 200);
-		setPreferredSize(new Dimension(800, 600));
-		setResizable(true);
+		frame.setSize(300, 200);
+		frame.setPreferredSize(new Dimension(800, 600));
+		frame.setResizable(true);
 		
-		setDefaultLookAndFeelDecorated(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JFrame.setDefaultLookAndFeelDecorated(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		getContentPane().add(loginPanel);
-		this.getRootPane().setDefaultButton(loginButton);
+		frame.getContentPane().add(loginPanel);
+		frame.getRootPane().setDefaultButton(loginButton);
 	   
-		validate(); 
-	    repaint();
-		setVisible(true);
-		pack();
-		setLocationRelativeTo(null);
+		frame.validate(); 
+		frame.repaint();
+		frame.setVisible(true);
+		frame.pack();
+		frame.setLocationRelativeTo(null);
 		
 	}
 	
@@ -191,13 +195,13 @@ public class MainUI extends JFrame implements ActionListener{
             	     orderPane.setTabbedPane(tabbedPane);
             	     invoicePane.setTabbedPane(tabbedPane);
 
-            	     setTitle("Retail Management System");
+            	     frame.setTitle("Retail Management System");
             	     System.out.println("Set content pane to tabs view");
-            	     setPreferredSize(new Dimension(800, 600));
-            	     getContentPane().removeAll();
-            	     getContentPane().add(tabbedPane);
-            	     validate();
-            	     repaint();
+            	     frame.setPreferredSize(new Dimension(800, 600));
+            	     frame.getContentPane().removeAll();
+            	     frame.getContentPane().add(tabbedPane);
+            	     frame.validate();
+            	     frame.repaint();
             	   
             	 }
             	 
@@ -210,38 +214,38 @@ public class MainUI extends JFrame implements ActionListener{
             	     tabbedPane.add("Invoices", invoicePanel);
             	     tabbedPane.add("Accounting", accountingPanel);
 
-            	     setTitle("Retail Management System");
+            	     frame.setTitle("Retail Management System");
             	     System.out.println("Set content pane to tabs view");
-            	     setPreferredSize(new Dimension(800, 600));
-            	     getContentPane().removeAll();
-            	     getContentPane().add(tabbedPane);
-            	     validate();
-            	     repaint();
+            	     frame.setPreferredSize(new Dimension(800, 600));
+            	     frame.getContentPane().removeAll();
+            	     frame.getContentPane().add(tabbedPane);
+            	     frame.validate();
+            	     frame.repaint();
             	 }
             	 
             	 else if(userLevel == 2){
             	
             		 tabbedPane.add("Invoices", invoicePanel);
 
-            	     setTitle("Retail Management System");
+            		 frame.setTitle("Retail Management System");
             	     System.out.println("Set content pane to tabs view");
-            	     setPreferredSize(new Dimension(800, 600));
-            	     getContentPane().removeAll();
-            	     getContentPane().add(tabbedPane);
-            	     validate();
-            	     repaint();
+            	     frame.setPreferredSize(new Dimension(800, 600));
+            	     frame.getContentPane().removeAll();
+            	     frame.getContentPane().add(tabbedPane);
+            	     frame.validate();
+            	     frame.repaint();
                 }
             	else if(userLevel == 3) {
 
            	     	tabbedPane.add("Products", productPanel);
 
-           	     	setTitle("Retail Management System");
+           	     	frame.setTitle("Retail Management System");
            	     	System.out.println("Set content pane to tabs view");
-           	     	setPreferredSize(new Dimension(800, 600));
-           	     	getContentPane().removeAll();
-           	     	getContentPane().add(tabbedPane);
-           	     	validate();
-           	     	repaint();
+           	     	frame.setPreferredSize(new Dimension(800, 600));
+           	     	frame.getContentPane().removeAll();
+           	     	frame.getContentPane().add(tabbedPane);
+           	     	frame.validate();
+           	     	frame.repaint();
             	}
             }
 			else {

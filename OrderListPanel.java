@@ -105,12 +105,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
 
 		    @Override
 		    public boolean isCellEditable(int row, int column) {
-		    	if (column<4) {
-		    		return false;
-		    	}
-		    	else {
-		    		return true;
-		    	}
+		    	return false;
 		    }
 		    
 		    @Override

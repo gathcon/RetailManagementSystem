@@ -1,5 +1,6 @@
 package retailManagementSystem; 
   
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList; 
 import java.util.Arrays; 
@@ -50,6 +51,7 @@ public class Database {
         this.addProduct("HP Envy", "Laptop", "40", 550, "HP0001", stockLevelsEnvy);
         this.addProduct("Samsung Galaxy", "Phone", "75", 400, "SM0001", stockLevelsGalaxy);
         
+
         this.addUserAccount("Test", "Test", "1", "1".toCharArray(), 0);
         this.addUserAccount("admin", "admin", "Administrator", "admin".toCharArray(), 0);
         this.addUserAccount("General", "Manager", "Manager", "1234".toCharArray(), 1);
@@ -57,6 +59,19 @@ public class Database {
         this.addUserAccount("Stock", "Checker", "Stock Checker", "1234".toCharArray(), 3);
         
 
+        this.addOrder("0001", suppliers.get(0), "02/01/13", "04/01/13", calculateOrderCost(products), isDateOutstanding("04/01/13"), products, "comment");
+        this.addOrder("0002", suppliers.get(1), "06/02/13", "08/02/13", calculateOrderCost(products), isDateOutstanding("08/02/13"), products, "comment");
+        this.addOrder("0003", suppliers.get(2), "10/03/13", "12/03/13", calculateOrderCost(products), isDateOutstanding("12/03/13"), products, "comment");
+        this.addOrder("0004", suppliers.get(3), "14/04/13", "16/04/13", calculateOrderCost(products), isDateOutstanding("16/04/13"), products, "comment");
+        this.addOrder("0005", suppliers.get(4), "18/05/13", "20/05/13", calculateOrderCost(products), isDateOutstanding("20/05/13"), products, "comment");
+        this.addOrder("0006", suppliers.get(0), "02/06/13", "04/06/13", calculateOrderCost(products), isDateOutstanding("04/06/13"), products, "comment");
+        this.addOrder("0007", suppliers.get(1), "06/08/13", "12/09/13", calculateOrderCost(products), isDateOutstanding("12/09/13"), products, "comment");
+        this.addOrder("0008", suppliers.get(2), "10/03/13", "12/03/13", calculateOrderCost(products), isDateOutstanding("12/03/13"), products, "comment");
+        this.addOrder("0009", suppliers.get(3), "14/04/13", "16/04/13", calculateOrderCost(products), isDateOutstanding("16/04/13"), products, "comment");
+        this.addOrder("0010", suppliers.get(4), "18/02/13", "20/02/13", calculateOrderCost(products), isDateOutstanding("20/02/13"), products, "comment");
+
+        this.addInvoiceProduct();
+        
         this.addOrder("0001", suppliers.get(0), "02/01/13", "04/01/13", calculateOrderCost(products), false, products, "comment");
         this.addOrder("0002", suppliers.get(1), "06/02/13", "08/02/13", calculateOrderCost(products), false, products, "comment");
         this.addOrder("0003", suppliers.get(2), "10/03/13", "12/03/13", calculateOrderCost(products), false, products, "comment");
@@ -67,22 +82,17 @@ public class Database {
         this.addOrder("0008", suppliers.get(2), "10/03/13", "12/03/13", calculateOrderCost(products), true, products, "comment");
         this.addOrder("0009", suppliers.get(3), "14/04/13", "16/04/13", calculateOrderCost(products), true, products, "comment");
         this.addOrder("0010", suppliers.get(4), "18/02/13", "20/02/13", calculateOrderCost(products), true, products, "comment");
-//        this.addOrder("0011", suppliers.get(0), "2/8/13", "4/8/13", "300", true, products, "comment");
-//        this.addOrder("0012", suppliers.get(1), "6/8/13", "8/8/13", "1267", true, products, "comment");
-//        this.addOrder("0013", suppliers.get(2), "10/8/13", "12/8/13", "4775", true, products, "comment");
-//        this.addOrder("0014", suppliers.get(3), "14/8/13", "16/8/13", "3568", true, products, "comment");
-//        this.addOrder("0015", suppliers.get(4), "18/8/13", "20/8/13", "625", true, products, "comment");
-//        this.addOrder("0016", suppliers.get(0), "2/8/13", "4/8/13", "300", true, products, "comment");
-//        this.addOrder("0017", suppliers.get(1), "6/8/13", "8/8/13", "1267", true, products, "comment");
-//        this.addOrder("0018", suppliers.get(2), "10/8/13", "12/8/13", "4775", true, products, "comment");
-//        this.addOrder("0019", suppliers.get(3), "14/8/13", "16/8/13", "3568", true, products, "comment");
-//        this.addOrder("0020", suppliers.get(4), "18/8/13", "20/8/13", "625", true, products, "comment");
         
-//        this.addInvoice("INV01", customers.get(0), "05/01/13", "09/01/13", "600", false, products, "comment");
-//        this.addInvoice("INV02", customers.get(1), "07/02/13", "10/02/13", "400", false, products, "comment");
-//        this.addInvoice("INV03", customers.get(2), "14/03/13", "16/03/13", "1000", false, products, "comment");
-        
-                
+        this.addInvoice("INV01", customers.get(0), "05/01/13", "09/01/13", "990", isDateOutstanding("09/01/13"), invoiceProducts, "comment");
+        this.addInvoice("INV02", customers.get(1), "07/02/13", "10/02/13", "1100", isDateOutstanding("10/02/13"), invoiceProducts, "comment");
+        this.addInvoice("INV03", customers.get(2), "14/03/13", "16/03/13", "1200", isDateOutstanding("16/03/13"), invoiceProducts, "comment");
+        this.addInvoice("INV04", customers.get(3), "09/04/13", "17/04/13", "1100", isDateOutstanding("17/04/13"), invoiceProducts, "comment");
+        this.addInvoice("INV05", customers.get(4), "19/05/13", "21/05/13", "1200", isDateOutstanding("21/05/13"), invoiceProducts, "comment");
+        this.addInvoice("INV06", customers.get(1), "10/06/13", "15/06/13", "1650", isDateOutstanding( "15/06/13"), invoiceProducts, "comment");
+        this.addInvoice("INV07", customers.get(2), "13/07/13", "15/07/13", "1600", isDateOutstanding( "15/07/13"), invoiceProducts, "comment");
+        this.addInvoice("INV08", customers.get(1), "24/08/13", "28/09/13", "800", isDateOutstanding( "28/09/13"), invoiceProducts, "comment");
+       
+               
         updateStockLevels(stockLevelsIpod, "iPod");
         updateStockLevels(stockLevelsEnvy, "HP Envy");
         updateStockLevels(stockLevelsGalaxy, "Samsung Galaxy");
@@ -107,7 +117,7 @@ public class Database {
         				
         				if (productName.equals(product.getProductName())) {
         					
-            				arrayToBeUpdated[i] = arrayToBeUpdated[i] + Integer.parseInt(product.getProductQuantity());
+            				arrayToBeUpdated[i] += Integer.parseInt(product.getProductQuantity());
         				}
         			}
         		}
@@ -126,8 +136,9 @@ public class Database {
         				
         				if (productName.equals(product.getProductName())) {
         					
-        					arrayToBeUpdated[i] = arrayToBeUpdated[i] - Integer.parseInt(product.getProductQuantity());
+        					arrayToBeUpdated[i] -= Integer.parseInt(product.getProductQuantity());
         				}
+        				
         			}
         		}
         	}
@@ -135,8 +146,8 @@ public class Database {
         	//add on previous month stock
     		int k = i - 1;
     		if(k >= 0){
-    				
-    			arrayToBeUpdated[i] = arrayToBeUpdated[i] + arrayToBeUpdated[k];
+
+    			arrayToBeUpdated[i] += arrayToBeUpdated[k];
     		}
         	
         	System.out.println("Stock level for month " + j + ": " + arrayToBeUpdated[i]);
@@ -324,12 +335,22 @@ public class Database {
     	products.add(product);
     }
     
+<<<<<<< HEAD
+
+    public void addInvoiceProduct() { 
+        
+    	Product product = new Product();
+    	products.add(product);
+    }
+
+=======
 //    public void addInvoiceProduct(String productName, String productType, String productQuantity, double productPrice,
 //    		String productID, int [] stockLevels) { 
 //        
 //    	Product product = new Product(productName, productType, productQuantity, productPrice, productID, stockLevels);
 //    	products.add(product);
 //    }
+>>>>>>> origin/MuirsBranch
       
     public void deleteProduct(Product product) { 
     	
@@ -346,9 +367,11 @@ public class Database {
         int noOfProducts = products.size(); 
         String[] arrayOfNames = new String[noOfProducts]; 
         int i = 0; 
-        for (Product product : products) { 
-            arrayOfNames[i] = product.getProductName(); 
-            i++; 
+        for (Product product : products) {
+        	
+        		arrayOfNames[i] = product.getProductName(); 
+                i++; 
+        
         } 
         return arrayOfNames; 
   
@@ -549,4 +572,25 @@ public class Database {
           
         return isAuthenticated; 
     } 
+    
+    public boolean isDateOutstanding(String orderDeliveryDate){
+		Date todaysDate = new Date();
+		Date deliveryDate = null;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+		try {
+			deliveryDate = sdf.parse(orderDeliveryDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(deliveryDate.after(todaysDate)){
+			return true;
+		}
+		if(deliveryDate.equals(todaysDate)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 }

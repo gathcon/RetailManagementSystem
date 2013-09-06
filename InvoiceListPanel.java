@@ -103,14 +103,9 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
                   
         DefaultTableModel invoiceTableModel = new DefaultTableModel() {
 
-		    @Override
+        	@Override
 		    public boolean isCellEditable(int row, int column) {
-		    	if (column<4) {
-		    		return false;
-		    	}
-		    	else {
-		    		return true;
-		    	}
+		    	return false;
 		    }
 		    
 		    @Override
