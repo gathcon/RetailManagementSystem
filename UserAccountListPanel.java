@@ -106,8 +106,8 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 		userLevelField = new JComboBox();
 		
 		userLevelField.addItem("Administrator");
-		userLevelField.addItem("level 2");
-		userLevelField.addItem("level 3");
+		userLevelField.addItem("Manager");
+		userLevelField.addItem("Teller");
 		userLevelField.addItem("Stock check");
 		userLevelField.addItem("Please select");
 		userLevelField.setSelectedItem("Please select");
@@ -387,10 +387,10 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 	        if(userLevel.equals("Administrator")) {
 	        	accessLevel = 0;
 	        }
-	        else if(userLevel.equals("level 1")) {
+	        else if(userLevel.equals("Manager")) {
 	        	accessLevel = 1;
 	        }
-	        else if(userLevel.equals("level 2")) {
+	        else if(userLevel.equals("Teller")) {
 	        	accessLevel = 2;
 	        }
 	        else if(userLevel.equals("Stock check")) {

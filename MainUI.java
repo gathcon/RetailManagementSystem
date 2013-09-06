@@ -206,6 +206,9 @@ public class MainUI extends JFrame implements ActionListener{
             		 tabbedPane.add("Customers", customerPanel);
             	     tabbedPane.add("Suppliers", supplierPanel);
             	     tabbedPane.add("Products", productPanel);
+            	     tabbedPane.add("Orders", orderPanel);
+            	     tabbedPane.add("Invoices", invoicePanel);
+            	     tabbedPane.add("Accounting", accountingPanel);
 
             	     setTitle("Retail Management System");
             	     System.out.println("Set content pane to tabs view");
@@ -218,8 +221,7 @@ public class MainUI extends JFrame implements ActionListener{
             	 
             	 else if(userLevel == 2){
             	
-            		 tabbedPane.add("Customers", customerPanel);
-            	     tabbedPane.add("Suppliers", supplierPanel);
+            		 tabbedPane.add("Invoices", invoicePanel);
 
             	     setTitle("Retail Management System");
             	     System.out.println("Set content pane to tabs view");

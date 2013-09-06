@@ -308,7 +308,7 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
         splitPane.setDividerLocation(300);
         
         createConstraint(tablePanel, invoiceListLabel,    0, 0, 3, 1, 0, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-        createConstraint(tablePanel, newInvoiceButton,    0, 1, 1, 1, 50, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE); 
+        createConstraint(tablePanel, newInvoiceButton,    0, 1, 1, 1, 41, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE); 
         createConstraint(tablePanel, invoiceScrollPane,   0, 2, 3, 1, 0, 0, 2, 20, 2, 20, 1, 0.5, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
         createConstraint(tablePanel, filterLabel,       1, 1, 1, 4, 0, 0, 7, 45, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE); 
         createConstraint(tablePanel, filteredSelection, 1, 1, 1, 1, 0, 0, 2, 100, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.NONE); 

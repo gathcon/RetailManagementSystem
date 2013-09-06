@@ -50,9 +50,11 @@ public class Database {
         this.addProduct("HP Envy", "Laptop", "40", 550, "HP0001", stockLevelsEnvy);
         this.addProduct("Samsung Galaxy", "Phone", "75", 400, "SM0001", stockLevelsGalaxy);
         
-        this.addUserAccount("Stock", "Checker", "stock", "1234".toCharArray(), 3);
-        this.addUserAccount("General", "Manager", "manager", "1234".toCharArray(), 1);
-        this.addUserAccount("admin", "admin", "1", "1".toCharArray(), 0);
+        this.addUserAccount("Test", "Test", "1", "1".toCharArray(), 0);
+        this.addUserAccount("admin", "admin", "Administrator", "admin".toCharArray(), 0);
+        this.addUserAccount("General", "Manager", "Manager", "1234".toCharArray(), 1);
+        this.addUserAccount("Teller", "Teller", "Teller", "1234".toCharArray(), 2);
+        this.addUserAccount("Stock", "Checker", "Stock Checker", "1234".toCharArray(), 3);
         
 
         this.addOrder("0001", suppliers.get(0), "02/01/13", "04/01/13", "300", false, products, "comment");
