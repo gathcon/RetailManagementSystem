@@ -310,7 +310,7 @@ class graph extends JPanel{
 			
 			totalOrderCost = Double.valueOf(df.format(totalOrderCost+Double.parseDouble(p.getOrderCost())));
 		}
-		String totalOrderCostS = Double.toString(totalOrderCost);
+		String totalOrderCostS = String.format("%.2f", totalOrderCost);
 		model.addRow(new String[]{"<html><strong>Total Order Cost</strong></html>",null,"<html><b>" + totalOrderCostS+ "</b></html>"});
 		model.addRow(new String[]{});
 		model.addRow(new String[]{"<html><b>Invoice ID</html></b>","<html><b>Customer Name</html></b>",null,null});
@@ -319,10 +319,10 @@ class graph extends JPanel{
 			
 			totalInvoiceCost = Double.valueOf(df.format(totalInvoiceCost+Double.parseDouble(p.getInvoiceCost())));
 		}
-		String totalInvoiceCostS = Double.toString(totalInvoiceCost);
+		String totalInvoiceCostS = String.format("%.2f", totalInvoiceCost);
 		model.addRow(new String[]{"<html><b>Total Invoice Cost</b></html>",null,null,"<html><b>" + totalInvoiceCostS+ "</b></html>"});
 		Double total = Double.valueOf(df.format(totalInvoiceCost - totalOrderCost));
-		String totalS = Double.toString(total);
+		String totalS = String.format("%.2f", total);
 		model.addRow(new String[]{});
 		if(total>0){
 			model.addRow(new String[]{"<html><b style=\"color:#00FF00\">Total Profit</b></html>",null,"<html><b style=\"color:#00FF00\">" + totalS + "</b></html>"});
