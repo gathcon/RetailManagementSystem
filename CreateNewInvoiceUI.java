@@ -471,7 +471,7 @@ public class CreateNewInvoiceUI {
 					 
 					 for(Product product: database.getProducts()){
 						 if(productComboBox.get(position).getSelectedItem().equals(product.getProductName())){
-							 unitPriceField.get(position).setText(Double.toString(product.getProductPrice()));
+							 unitPriceField.get(position).setText(Double.toString(1.5*product.getProductPrice()));
 							 priceField.get(position).setText(String.valueOf(df.format(0)));
 							 
 							 for(int i = 0; i <= Integer.parseInt(product.getProductQuantity());i++){
