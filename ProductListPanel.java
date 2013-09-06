@@ -84,12 +84,11 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
       
     public ProductListPanel() { 
 		System.out.println("ProductListPanel created");
-
     }
     
-    private static final int maxStock = 1500;
+    private static final int maxStock = 1600;
     private static final int border = 65;
-    private static final int yHatchCount = 13;
+    private static final int yHatchCount = 16;
 
     private static final int graphPointWidth = 12;
     
@@ -193,14 +192,8 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 		JPanel basePanel = new JPanel();
 		basePanel.setLayout(new BorderLayout());
 		
-		//newGraphPane = new CreateStockGraph();
-		//newGraphPane.buildPanel(graphPanel, panel, database);
 		graphPanel = new graph();
 		
-
-		//createConstraint(newPanel, productListLabel,	0, 0, 3, 1,	0, 10, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-		//createConstraint(newPanel, listScroller, 		0, 1, 1, 7,	0, 0, 2, 2, 2, 2, 0.3, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
-
 		createConstraint(newPanel, IDLabel, 		0, 1, 1, 1, 0, 0, 20, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
 		createConstraint(newPanel, nameLabel, 		0, 2, 1, 1, 0, 0, 2, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
 		createConstraint(newPanel, quantityLabel, 	0, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
@@ -231,7 +224,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
         panel.add(splitPane, BorderLayout.CENTER);
 	    panel.add(productListLabel, BorderLayout.PAGE_START);
 		
-		createConstraint(mainPanel, panel,		0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(mainPanel, panel,			0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(mainPanel, graphPanel,		0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		
 		graphPanel.setBackground(Color.WHITE);
@@ -622,7 +615,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                  int y1 = y0;
                  g2.drawLine(x0, y0, x1, y1);
                  FontMetrics fm = g2.getFontMetrics();
-                 String [] values = {"", "100", "200", "300", "400", "500", "600", "700", "800", "900", "1000", "1100", "1200", ""};
+                 String [] values = {"", "100", "200", "300", "400", "500", "600", "700", "800", "900", "1000", "1100", "1200", "1300", "1400", "1500", ""};
                  g2.drawString(values[i], x0 - fm.stringWidth(values[i]), y0 + (fm.getAscent() / 2));
                  
               }
