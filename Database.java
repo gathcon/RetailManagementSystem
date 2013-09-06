@@ -72,10 +72,6 @@ public class Database {
 
         this.addInvoiceProduct();
         
-        
-
-<<<<<<< HEAD
-=======
         this.addOrder("0001", suppliers.get(0), "02/01/13", "04/01/13", calculateOrderCost(products), false, products, "comment");
         this.addOrder("0002", suppliers.get(1), "06/02/13", "08/02/13", calculateOrderCost(products), false, products, "comment");
         this.addOrder("0003", suppliers.get(2), "10/03/13", "12/03/13", calculateOrderCost(products), false, products, "comment");
@@ -86,17 +82,6 @@ public class Database {
         this.addOrder("0008", suppliers.get(2), "10/03/13", "12/03/13", calculateOrderCost(products), true, products, "comment");
         this.addOrder("0009", suppliers.get(3), "14/04/13", "16/04/13", calculateOrderCost(products), true, products, "comment");
         this.addOrder("0010", suppliers.get(4), "18/02/13", "20/02/13", calculateOrderCost(products), true, products, "comment");
->>>>>>> origin/MuirsBranch
-//        this.addOrder("0011", suppliers.get(0), "2/8/13", "4/8/13", "300", true, products, "comment");
-//        this.addOrder("0012", suppliers.get(1), "6/8/13", "8/8/13", "1267", true, products, "comment");
-//        this.addOrder("0013", suppliers.get(2), "10/8/13", "12/8/13", "4775", true, products, "comment");
-//        this.addOrder("0014", suppliers.get(3), "14/8/13", "16/8/13", "3568", true, products, "comment");
-//        this.addOrder("0015", suppliers.get(4), "18/8/13", "20/8/13", "625", true, products, "comment");
-//        this.addOrder("0016", suppliers.get(0), "2/8/13", "4/8/13", "300", true, products, "comment");
-//        this.addOrder("0017", suppliers.get(1), "6/8/13", "8/8/13", "1267", true, products, "comment");
-//        this.addOrder("0018", suppliers.get(2), "10/8/13", "12/8/13", "4775", true, products, "comment");
-//        this.addOrder("0019", suppliers.get(3), "14/8/13", "16/8/13", "3568", true, products, "comment");
-//        this.addOrder("0020", suppliers.get(4), "18/8/13", "20/8/13", "625", true, products, "comment");
         
         this.addInvoice("INV01", customers.get(0), "05/01/13", "09/01/13", "990", isDateOutstanding("09/01/13"), invoiceProducts, "comment");
         this.addInvoice("INV02", customers.get(1), "07/02/13", "10/02/13", "1100", isDateOutstanding("10/02/13"), invoiceProducts, "comment");
