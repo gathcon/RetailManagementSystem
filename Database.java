@@ -74,6 +74,19 @@ public class Database {
         
         
 
+<<<<<<< HEAD
+=======
+        this.addOrder("0001", suppliers.get(0), "02/01/13", "04/01/13", calculateOrderCost(products), false, products, "comment");
+        this.addOrder("0002", suppliers.get(1), "06/02/13", "08/02/13", calculateOrderCost(products), false, products, "comment");
+        this.addOrder("0003", suppliers.get(2), "10/03/13", "12/03/13", calculateOrderCost(products), false, products, "comment");
+        this.addOrder("0004", suppliers.get(3), "14/04/13", "16/04/13", calculateOrderCost(products), false, products, "comment");
+        this.addOrder("0005", suppliers.get(4), "18/05/13", "20/05/13", calculateOrderCost(products), false, products, "comment");
+        this.addOrder("0006", suppliers.get(0), "02/06/13", "04/06/13", calculateOrderCost(products), false, products, "comment");
+        this.addOrder("0007", suppliers.get(1), "06/08/13", "08/08/13", calculateOrderCost(products), false, products, "comment");
+        this.addOrder("0008", suppliers.get(2), "10/03/13", "12/03/13", calculateOrderCost(products), true, products, "comment");
+        this.addOrder("0009", suppliers.get(3), "14/04/13", "16/04/13", calculateOrderCost(products), true, products, "comment");
+        this.addOrder("0010", suppliers.get(4), "18/02/13", "20/02/13", calculateOrderCost(products), true, products, "comment");
+>>>>>>> origin/MuirsBranch
 //        this.addOrder("0011", suppliers.get(0), "2/8/13", "4/8/13", "300", true, products, "comment");
 //        this.addOrder("0012", suppliers.get(1), "6/8/13", "8/8/13", "1267", true, products, "comment");
 //        this.addOrder("0013", suppliers.get(2), "10/8/13", "12/8/13", "4775", true, products, "comment");
@@ -337,6 +350,7 @@ public class Database {
     	products.add(product);
     }
     
+<<<<<<< HEAD
 
     public void addInvoiceProduct() { 
         
@@ -344,6 +358,14 @@ public class Database {
     	products.add(product);
     }
 
+=======
+//    public void addInvoiceProduct(String productName, String productType, String productQuantity, double productPrice,
+//    		String productID, int [] stockLevels) { 
+//        
+//    	Product product = new Product(productName, productType, productQuantity, productPrice, productID, stockLevels);
+//    	products.add(product);
+//    }
+>>>>>>> origin/MuirsBranch
       
     public void deleteProduct(Product product) { 
     	
