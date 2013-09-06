@@ -34,9 +34,9 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 		
 	private String[] customerNameList;
 		
-	private JList customerList;
-	private ListModel customerListModel;
-	private DefaultListModel updatedCustomerListModel;
+	private JList<String> customerList;
+	private ListModel<String> customerListModel;
+	private DefaultListModel<String> updatedCustomerListModel;
 	
 	private JScrollPane listScroller;
 	private JSplitPane splitPane;
@@ -61,8 +61,7 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 	private JButton customerCancelButton;
 	
 	private JPanel buttonPanel;
-	private JPanel mainPanel;
-	private JPanel panel;
+	private JPanel infoPanel;
 	
 	public CustomerListPanel() {
 		System.out.println("CustomerListPanel created");
@@ -72,13 +71,11 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 	public void buildPanel(JPanel mainPanel, final Database database) {
 		
 		this.database = database;
-		this.mainPanel = mainPanel;
 		mainPanel.setLayout(new BorderLayout());
-		panel = new JPanel();
 		
 		customerNameList = database.getCustomerList();	//array of type String[]
 		
-		customerList = new JList(customerNameList);
+		customerList = new JList<String>(customerNameList);
 		customerListModel = customerList.getModel();
 		customerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		customerList.setLayoutOrientation(JList.VERTICAL);
@@ -143,41 +140,41 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 		customerListLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
 		customerListLabel.setPreferredSize(new Dimension(150, 35)); 
 		
+		infoPanel = new JPanel();
 		buttonPanel = new JPanel();
 		
-		panel.setLayout(new GridBagLayout());
+		infoPanel.setLayout(new GridBagLayout());
 		buttonPanel.setLayout(new GridBagLayout());
+		
 		JPanel basePanel = new JPanel();
 		basePanel.setLayout(new BorderLayout());
 	
-		createConstraint(panel, IDLabel, 		0, 1, 1, 1, 0, 0, 20, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, nameLabel, 		0, 2, 1, 1, 0, 0, 2, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, addressLabel, 	0, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, phoneNoLabel, 	0, 4, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
-		createConstraint(panel, emailLabel, 	0, 5, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, IDLabel, 		0, 1, 1, 1, 0, 0, 20, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, nameLabel, 		0, 2, 1, 1, 0, 0, 2, 2, 2, 2, 1, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, addressLabel, 	0, 3, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, phoneNoLabel, 	0, 4, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, emailLabel, 	0, 5, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_END, GridBagConstraints.VERTICAL);
 	
-		createConstraint(panel, IDField, 		1, 1, 2, 1, 0, 5, 20, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, nameField, 		1, 2, 2, 1, 0, 5, 2, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, addressField, 	1, 3, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, phoneNoField, 	1, 4, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
-		createConstraint(panel, emailField, 	1, 5, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, IDField, 		1, 1, 2, 1, 0, 5, 20, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, nameField, 		1, 2, 2, 1, 0, 5, 2, 2, 0, 2, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, addressField, 	1, 3, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, phoneNoField, 	1, 4, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, emailField, 	1, 5, 2, 1, 0, 5, 2, 2, 0, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.VERTICAL);
 		
 		createConstraint(buttonPanel, customerAddButton, 		1, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(buttonPanel, customerDeleteButton, 	2, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(buttonPanel, customerCancelButton, 	3, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		createConstraint(buttonPanel, customerEditSaveButton,	4, 0, 1, 1, 50, 0, 2, 2, 2, 2, 0.3, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 
-		createConstraint(panel, buttonPanel, 	0, 6, 3, 1, 0, 0, 20, 100, 0, 0, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL);
+		createConstraint(infoPanel, buttonPanel, 	0, 6, 3, 1, 0, 0, 20, 100, 0, 0, 1, 0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL);
 		
-		
-		basePanel.add(panel, BorderLayout.PAGE_START);
-		
+		basePanel.add(infoPanel, BorderLayout.PAGE_START);
 		
 	    splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, listScroller, basePanel);
         splitPane.setDividerLocation(200);
         splitPane.setOneTouchExpandable(true);
         splitPane.setContinuousLayout(true);
-		
+		        
 	    mainPanel.add(splitPane, BorderLayout.CENTER);
 	    mainPanel.add(customerListLabel, BorderLayout.PAGE_START);
 	}
@@ -204,7 +201,7 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 	public void updateCustomerLists() {
 		
 		//update the list of names etc
-		updatedCustomerListModel = new DefaultListModel();
+		updatedCustomerListModel = new DefaultListModel<String>();
 		for(Customer customer: database.getCustomers()) {
 			
 			updatedCustomerListModel.addElement(customer.getCustomerName());

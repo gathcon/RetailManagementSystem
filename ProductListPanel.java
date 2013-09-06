@@ -46,9 +46,9 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
           
     private String[] productNameList; 
     // check      
-    private JList productList; 
-    private ListModel productListModel; 
-    private DefaultListModel updatedProductListModel; 
+    private JList<String> productList; 
+    private ListModel<String> productListModel; 
+    private DefaultListModel<String> updatedProductListModel; 
       
     private JScrollPane listScroller; 
     
@@ -105,7 +105,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
         panel.setLayout(new BorderLayout());
         productNameList = database.getProductList(); //array of type String[] 
           
-        productList = new JList(productNameList);
+        productList = new JList<String>(productNameList);
         productListModel = productList.getModel();
         productList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         productList.setLayoutOrientation(JList.VERTICAL);
@@ -251,7 +251,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
     public void updateproductLists() { 
         
         //update the list of names etc 
-        updatedProductListModel = new DefaultListModel(); 
+        updatedProductListModel = new DefaultListModel<String>(); 
           
         for(Product product: database.getProducts()) { 
               
@@ -528,21 +528,9 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                             double slope = (sumxy - (sumx*sumy)/9)/(sumxsquared - (sumx*sumx)/9);
                             double yIntercept = sumy/9 - (slope * (sumx/9));
                             System.out.println(sumx + "  " + sumy + "  " + sumxy + "  " + sumxsquared + "  " + slope + "  " + yIntercept);
+                            
+                            double changeInY = slope*12;
                            
-                           double changeInY = slope*12;
-                           
-//                            double average1 = stock[0];
-//                        	double average2 = (stock[0]*0.9+stock[1])/2;
-//                        	double average3 = (stock[0]*0.8+stock[1]*0.9+stock[2])/3;
-//                            double average4 = (stock[0]*0.7+stock[1]*0.8+stock[2]*0.9+stock[3])/4;
-//                            double average5 = (stock[0]*0.6+stock[1]*0.7+stock[2]*0.8+stock[3]*0.9+stock[4])/5;
-//                            double average6 = (stock[0]*0.5+stock[1]*0.6+stock[2]*0.7+stock[3]*0.8+stock[4]*0.9+stock[5])/6;
-//                            double average7 = (stock[0]*0.4+stock[1]*0.5+stock[2]*0.6+stock[3]*0.7+stock[4]*0.8+stock[5]*0.9+stock[6])/7;
-//                            double average8 = (stock[0]*0.3+stock[1]*0.4+stock[2]*0.5+stock[3]*0.6+stock[4]*0.7+stock[5]*0.8+stock[6]*0.9+stock[7])/8;
-//                            double average9 = (stock[0]*0.2+stock[1]*0.3+stock[2]*0.4+stock[3]*0.5+stock[4]*0.6+stock[5]*0.7+stock[6]*0.8+stock[7]*0.9+stock[8])/9;
-//                            double average10 = (stock[0]*0.1+stock[1]*0.2+stock[2]*0.3+stock[3]*0.4+stock[4]*0.5+stock[5]*0.6+stock[6]*0.7+stock[7]*0.8+stock[8]*0.9+stock[9])/10;
-//                            double average11 = (stock[1]*0.1+stock[2]*0.2+stock[3]*0.3+stock[4]*0.4+stock[5]*0.5+stock[6]*0.6+stock[7]*0.7+stock[8]*0.8+stock[9]*0.9+stock[10])/11;
-//                            double average12 = (stock[2]*0.1+stock[3]*0.2+stock[4]*0.3+stock[5]*0.4+stock[6]*0.5+stock[7]*0.6+stock[8]*0.7+stock[8]*0.8+stock[8]*0.9+stock[8])/12;
                         	double [] stockPredictedData = {yIntercept, (changeInY + yIntercept)}; 
                             predictedStockLevels = stockPredictedData;
                               
@@ -553,7 +541,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
             } 
     }
     
-    class graph extends JPanel{
+    private class graph extends JPanel{
         
     	protected void paintComponent(Graphics g) {
     		
