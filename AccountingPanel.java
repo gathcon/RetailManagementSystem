@@ -56,7 +56,7 @@ public class AccountingPanel extends JPanel implements ActionListener{
 	private DecimalFormat df = new DecimalFormat("#.##"); 
 		
 	private static final int maxCost = 25000;
-	private static final int border = 50;
+	private static final int border = 65;
 	private static final int yHatchCount = 5;
 	private static final int graphPointWidth = 12;
 	
@@ -75,6 +75,7 @@ public class AccountingPanel extends JPanel implements ActionListener{
 			constraints.anchor = anchor;
 			constraints.fill = fill;
 			panel.add(component, constraints);
+
 	}
 	
 	
@@ -144,12 +145,16 @@ public class AccountingPanel extends JPanel implements ActionListener{
 		
 	}
 	
+	
+	
 class graph extends JPanel{
         
     	protected void paintComponent(Graphics g) { 
     		
-    		double sumInvoices = sumInvoiceCosts();
-    		double sumOrders = sumOrderCosts();
+    		
+    		
+    		int sumInvoices = (int) Math.round(sumInvoiceCosts());
+    		int sumOrders = (int) Math.round(sumOrderCosts());
     		int height = getHeight() - border*2;
     		int width = getWidth() - border*2;
     		
@@ -211,19 +216,19 @@ class graph extends JPanel{
             g2.setPaint(Color.black);
             
             
-             
-            for (int i = 0; i < yHatchCount; i++) {
-                 int x0 = border;
-                 int x1 = graphPointWidth + border;
-                 int y0 = getHeight() - (((i) * (getHeight() - border * 2)) / yHatchCount + border);
-                 int y1 = y0;
-                 g2.drawLine(x0, y0, x1, y1);
-                 FontMetrics fm = g2.getFontMetrics();
-                 String [] values = {"", "5000", "10000", "15000", "20000", ""};
-                 g2.drawString(values[i], x0 - fm.stringWidth(values[i]), y0 + (fm.getAscent() / 2));
-                 
-              }
-             
+          // for y axis  
+//            for (int i = 0; i < yHatchCount; i++) {
+//                 int x0 = border;
+//                 int x1 = graphPointWidth + border;
+//                 int y0 = getHeight() - (((i) * (getHeight() - border * 2)) / yHatchCount + border);
+//                 int y1 = y0;
+//                 g2.drawLine(x0, y0, x1, y1);
+//                 FontMetrics fm = g2.getFontMetrics();
+//                 String [] values = {"", "5000", "10000", "15000", "20000", ""};
+//                 g2.drawString(values[i], x0 - fm.stringWidth(values[i]), y0 + (fm.getAscent() / 2));
+//                 
+//              }
+//             
          // and for x axis
               for (int i = 0; i < 4; i++) { 
                  int x0 = (i) * (getWidth() - border * 2) / (4 - 1) + border;
@@ -254,22 +259,69 @@ class graph extends JPanel{
                 sy += sh;
             }
             
+            
             // Draw Invoice bar
+            if(sumOrderCosts() > sumInvoiceCosts()){
+    		double maxCost = sumOrderCosts() + 5000;
             double scale = (double)(getHeight() - 2*border)/maxCost;
             g2.setPaint(Color.green.darker());
             double a1 = border + (width/3 - 50);
-            double b1 = getHeight() - border - scale*sumInvoices;
-            double a2 = 100;
+            double b1 = getHeight() - border  - scale*sumInvoices;
+            int a2 = 100;
             double b2 = scale*sumInvoices;
             g2.fill(new Rectangle2D.Double(a1, b1, a2, b2));
+            
+            g2.setPaint(Color.black);
+            g2.fill(new Rectangle2D.Double(border, getHeight() - border  - scale*sumInvoices, graphPointWidth, 1));
+            g2.fill(new Rectangle2D.Double(border, getHeight() - border  - scale*sumOrders, graphPointWidth, 1));
+            
+            String invoiceValue = String.valueOf(sumInvoices);
+            FontMetrics fm = g2.getFontMetrics();
+            g2.drawString(invoiceValue, border - fm.stringWidth(invoiceValue), (int) (getHeight() - border  - scale*sumInvoices));
+            
+            String orderValue = String.valueOf(sumOrders);
+            g2.drawString(orderValue, border - fm.stringWidth(orderValue), (int) (getHeight() - border  - scale*sumOrders));
+            
             
             // Draw Order bar
             g2.setPaint(Color.red.darker());
             double x1 = border + (width*2/3 - 50);
             double y1 = getHeight() - border - scale*sumOrders;
-            double x2 = 100;
+            int x2 = 100;
             double y2 = scale*sumOrders;
             g2.fill(new Rectangle2D.Double(x1, y1, x2, y2));
+
+            }
+            
+            else if(sumOrderCosts() < sumInvoiceCosts()){
+            	double maxCost = sumInvoiceCosts() + 5000;
+                double scale = (double)(getHeight() - 2*border)/maxCost;
+                g2.setPaint(Color.green.darker());
+                double a1 = border + (width/3 - 50);
+                double b1 = getHeight() - border  - scale*sumInvoices;
+                int a2 = 100;
+                double b2 = scale*sumInvoices;
+                g2.fill(new Rectangle2D.Double(a1, b1, a2, b2));
+                
+                g2.setPaint(Color.black);
+                g2.fill(new Rectangle2D.Double(border, getHeight() - border  - scale*sumInvoices, graphPointWidth, 1));
+                g2.fill(new Rectangle2D.Double(border, getHeight() - border  - scale*sumOrders, graphPointWidth, 1));
+                
+                String invoiceValue = String.valueOf(sumInvoices);
+                FontMetrics fm = g2.getFontMetrics();
+                g2.drawString(invoiceValue, border - fm.stringWidth(invoiceValue), (int) (getHeight() - border  - scale*sumInvoices));
+                
+                String orderValue = String.valueOf(sumOrders);
+                g2.drawString(orderValue, border - fm.stringWidth(orderValue), (int) (getHeight() - border  - scale*sumOrders));
+                
+                // Draw Order bar
+                g2.setPaint(Color.red.darker());
+                double x1 = border + (width*2/3 - 50);
+                double y1 = getHeight() - border - scale*sumOrders;
+                int x2 = 100;
+                double y2 = scale*sumOrders;
+                g2.fill(new Rectangle2D.Double(x1, y1, x2, y2));	
+            }
            
         }
     }

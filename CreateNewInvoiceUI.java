@@ -474,12 +474,20 @@ public class CreateNewInvoiceUI {
 							 unitPriceField.get(position).setText(Double.toString(1.5*product.getProductPrice()));
 							 priceField.get(position).setText(String.valueOf(df.format(0)));
 							 
+						
+								
+							 
+							 
 							 for(int i = 0; i <= Integer.parseInt(product.getProductQuantity());i++){
 								 tempquantityComboBox.addItem(Integer.toString(i));
 							 }
 							
 							 tempquantityComboBox.setSelectedIndex(0);
-						 } 
+						 }
+						 
+						 else if(productComboBox.get(position).getSelectedItem().equals(null)){
+							 // Do nothing
+						 }
 					 }
 					 
 					 updateQuantityCombobox.set(position,true);
