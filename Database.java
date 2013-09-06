@@ -335,7 +335,6 @@ public class Database {
     	products.add(product);
     }
     
-<<<<<<< HEAD
 
     public void addInvoiceProduct() { 
         
@@ -343,14 +342,12 @@ public class Database {
     	products.add(product);
     }
 
-=======
 //    public void addInvoiceProduct(String productName, String productType, String productQuantity, double productPrice,
 //    		String productID, int [] stockLevels) { 
 //        
 //    	Product product = new Product(productName, productType, productQuantity, productPrice, productID, stockLevels);
 //    	products.add(product);
 //    }
->>>>>>> origin/MuirsBranch
       
     public void deleteProduct(Product product) { 
     	
@@ -580,7 +577,6 @@ public class Database {
 		try {
 			deliveryDate = sdf.parse(orderDeliveryDate);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(deliveryDate.after(todaysDate)){
