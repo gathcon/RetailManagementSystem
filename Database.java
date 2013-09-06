@@ -55,16 +55,16 @@ public class Database {
         this.addUserAccount("admin", "admin", "1", "1".toCharArray(), 0);
         
 
-        this.addOrder("0001", suppliers.get(0), "02/01/13", "04/01/13", "300", false, products, "comment");
-        this.addOrder("0002", suppliers.get(1), "06/02/13", "08/02/13", "1267", false, products, "comment");
-        this.addOrder("0003", suppliers.get(2), "10/03/13", "12/03/13", "4775", false, products, "comment");
-        this.addOrder("0004", suppliers.get(3), "14/04/13", "16/04/13", "3568", false, products, "comment");
-        this.addOrder("0005", suppliers.get(4), "18/05/13", "20/05/13", "625", false, products, "comment");
-        this.addOrder("0006", suppliers.get(0), "02/06/13", "04/06/13", "300", false, products, "comment");
-        this.addOrder("0007", suppliers.get(1), "06/08/13", "08/08/13", "1267", false, products, "comment");
-        this.addOrder("0008", suppliers.get(2), "10/03/13", "12/03/13", "4775", true, products, "comment");
-        this.addOrder("0009", suppliers.get(3), "14/04/13", "16/04/13", "3568", true, products, "comment");
-        this.addOrder("0010", suppliers.get(4), "18/02/13", "20/02/13", "625", true, products, "comment");
+        this.addOrder("0001", suppliers.get(0), "02/01/13", "04/01/13", calculateOrderCost(products), false, products, "comment");
+        this.addOrder("0002", suppliers.get(1), "06/02/13", "08/02/13", calculateOrderCost(products), false, products, "comment");
+        this.addOrder("0003", suppliers.get(2), "10/03/13", "12/03/13", calculateOrderCost(products), false, products, "comment");
+        this.addOrder("0004", suppliers.get(3), "14/04/13", "16/04/13", calculateOrderCost(products), false, products, "comment");
+        this.addOrder("0005", suppliers.get(4), "18/05/13", "20/05/13", calculateOrderCost(products), false, products, "comment");
+        this.addOrder("0006", suppliers.get(0), "02/06/13", "04/06/13", calculateOrderCost(products), false, products, "comment");
+        this.addOrder("0007", suppliers.get(1), "06/08/13", "08/08/13", calculateOrderCost(products), false, products, "comment");
+        this.addOrder("0008", suppliers.get(2), "10/03/13", "12/03/13", calculateOrderCost(products), true, products, "comment");
+        this.addOrder("0009", suppliers.get(3), "14/04/13", "16/04/13", calculateOrderCost(products), true, products, "comment");
+        this.addOrder("0010", suppliers.get(4), "18/02/13", "20/02/13", calculateOrderCost(products), true, products, "comment");
 //        this.addOrder("0011", suppliers.get(0), "2/8/13", "4/8/13", "300", true, products, "comment");
 //        this.addOrder("0012", suppliers.get(1), "6/8/13", "8/8/13", "1267", true, products, "comment");
 //        this.addOrder("0013", suppliers.get(2), "10/8/13", "12/8/13", "4775", true, products, "comment");
@@ -322,12 +322,12 @@ public class Database {
     	products.add(product);
     }
     
-    public void addInvoiceProduct(String productName, String productType, String productQuantity, double productPrice,
-    		String productID, int [] stockLevels) { 
-        
-    	Product product = new Product(productName, productType, productQuantity, productPrice, productID, stockLevels);
-    	products.add(product);
-    }
+//    public void addInvoiceProduct(String productName, String productType, String productQuantity, double productPrice,
+//    		String productID, int [] stockLevels) { 
+//        
+//    	Product product = new Product(productName, productType, productQuantity, productPrice, productID, stockLevels);
+//    	products.add(product);
+//    }
       
     public void deleteProduct(Product product) { 
     	
@@ -421,125 +421,14 @@ public class Database {
 		return orders;
 	}
 	
-	public Order getOrderByID(String ID) { 
-    	
-        int i = 0; 
-        for(Order order: orders) { 
-        	
-            if(order.getOrderID().equals(ID)) { 
-                  
-                break; 
-            } 
-            
-            i++; 
-        } 
-        
-        return orders.get(i); 
-    }
-
-	public void setOrders(ArrayList<Order> orders) {
-		
-		this.orders = orders;
-	}
-	
-	public DefaultTableModel getOrdersData() {
-		
-		int rows = orders.size();
-		//int columns = 4;
-		//String[][] data = new String[rows][columns];
-		Object[] columnNames = {"ID", "Date", "Cost", "Supplier"};
-		DefaultTableModel ordersData = new DefaultTableModel(columnNames, rows);
-
-		for(int i = 0; i < rows; i++) {
-			
-//			for(int j = 0; j < columns; j++) {
-//				
-//				if(j == 0) { data[i][j] = orders.get(i).getOrderID(); }
-//				else if (j == 1) { data[i][j] = orders.get(i).getOrderDate(); }
-//				else if (j == 2) { data[i][j] = orders.get(i).getOrderCost(); }
-//				else if (j == 3) { data[i][j] = orders.get(i).getSupplier().getSupplierName(); }
-//				
-//			}
-			
-			ordersData.setValueAt(orders.get(i).getOrderID(), i, 0);
-			ordersData.setValueAt(orders.get(i).getOrderDate(), i, 1);
-			ordersData.setValueAt(orders.get(i).getOrderCost(), i, 2);
-			ordersData.setValueAt(orders.get(i).getSupplier().getSupplierName(), i, 3);
-			
-//			Object[] orderData = {
-//					orders.get(i).getOrderID(),
-//					orders.get(i).getOrderDate(), 
-//					orders.get(i).getOrderCost(),
-//					orders.get(i).getSupplier().getSupplierName()
-//			};
-//				
-			//add row
-//			ordersTableModel.addRow(orderData);
-				
+	public String calculateOrderCost(ArrayList<Product> products){
+		double cost = 0;
+		for(Product product : products){
+			cost = cost + product.getProductPrice();
 		}
-		//System.out.println(ordersTableModel.getValueAt(0, 0));
-		return ordersData;
-		//return data;
+		return String.format("%.2f", cost); 
 	}
 	
-    public String[] getOrderIDList(){
-    	
-		int noOfOrders = orders.size();
-		String[] arrayOfIDs = new String[noOfOrders];
-		int i = 0;
-		for(Order order: orders){
-			
-			arrayOfIDs[i] = order.getOrderID();
-			i++;
-		}
-		
-		return arrayOfIDs;
-	}
-	
-	public String[] getOrderDateList(){
-		
-		int noOfOrders = orders.size();
-		String[] arrayOfDates = new String[noOfOrders];
-		int i = 0;
-		for(Order order: orders){
-			
-			arrayOfDates[i] = order.getOrderDeliveryDate();
-			i++;
-		}
-		
-		return arrayOfDates;
-	}
-	
-	public String[] getOrderCostList(){
-		
-		int noOfOrders = orders.size();
-		String[] arrayOfCosts = new String[noOfOrders];
-		int i = 0;
-		for(Order order: orders){
-			
-			arrayOfCosts[i] = order.getOrderCost();
-			i++;
-		}
-		
-		return arrayOfCosts;
-	}
-	
-	public String[] getOrderSupplierList(){
-		
-		int noOfOrders = orders.size();
-		String[] arrayOfIDs = new String[noOfOrders];
-		int i = 0;
-		for(Order order: orders){
-			
-			String supplier = order.getSupplier().toString();
-			arrayOfIDs[i] = supplier;
-			i++;
-		}
-		
-		return arrayOfIDs;
-	}
-	
-    
     
     /*
      * invoice methods
@@ -561,7 +450,7 @@ public class Database {
 		for(Product product : products){
 			cost = cost + product.getProductPrice();
 		}
-		cost = cost*1.2;
+		cost = cost*1.5;
 		return String.format("%.2f", cost); //Double.toString(cost);
 	}
     
