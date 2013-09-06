@@ -1,6 +1,7 @@
 package retailManagementSystem;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -28,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -37,16 +39,17 @@ public class AccountingPanel extends JPanel implements ActionListener{
 
 	private Database database;
 	
-	//comment
-
-	//testing git hub here
-	
 	private JTable tableOfAccounts;
+	
 	private DefaultTableModel model;
-	private JButton accountGraphButton;
-	private JButton graphBackButton;
+	
+	private JButton graphButton;
+	
+	private JPanel panel;	
 	private JPanel graphPanel;
 	private JPanel newPanel;
+	
+	private JLabel accountListLabel;
 	
 	private double totalOrderCost;
 	private double totalInvoiceCost;
@@ -57,35 +60,27 @@ public class AccountingPanel extends JPanel implements ActionListener{
 	private static final int yHatchCount = 5;
 	private static final int graphPointWidth = 12;
 	
-//	DefaultTableModel model = new DefaultTableModel() {
-//
-//	    public boolean isCellEditable(int row, int column) {
-//	    	return false;
-//	    }
-//	 
-//	}; 
-	
-	private void createConstraint(JPanel panel, JComponent component,
-			int gridx, int gridy, int width, int height, int ipadx, int ipady,
-			int top, int left, int bottom, int right, double weightx,
-			double weighty) {
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.gridx = gridx;
-		constraints.gridy = gridy;
-		constraints.gridwidth = width;
-		constraints.gridheight = height;
-		constraints.ipadx = ipadx;
-		constraints.ipady = ipady;
-		constraints.weightx = weightx;
-		constraints.weighty = weighty;
-		constraints.insets = new Insets(top, left, bottom, right);
-		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
-		constraints.fill = GridBagConstraints.BOTH;
-		panel.add(component, constraints);
+	private void createConstraint(JPanel panel, JComponent component, int gridx, int gridy, int width, int height, int ipadx, int ipady,
+			int top, int left, int bottom, int right, double weightx, double weighty, int anchor, int fill){
+			GridBagConstraints constraints = new GridBagConstraints();
+			constraints.gridx = gridx;
+			constraints.gridy = gridy;
+			constraints.gridwidth = width;
+			constraints.gridheight = height;
+			constraints.ipadx = ipadx;
+			constraints.ipady = ipady;
+			constraints.weightx = weightx;
+			constraints.weighty = weighty;
+			constraints.insets = new Insets(top, left, bottom, right);
+			constraints.anchor = anchor;
+			constraints.fill = fill;
+			panel.add(component, constraints);
 	}
 	
 	
 	public void buildPanel(JPanel panel, final Database db){
+		
+		this.panel = panel;
 		this.database = db;
 
 		
@@ -99,50 +94,52 @@ public class AccountingPanel extends JPanel implements ActionListener{
 		
 		JScrollPane scrollPane = new JScrollPane(tableOfAccounts);
 		refreshAccount();
-		
-
-		
-		graphPanel = new JPanel();
- 		newPanel = new JPanel();
-						
+ 		
+ 		graphButton = new JButton("Show Graph");
+ 		graphButton.setVisible(true);
+ 		graphButton.addActionListener(this);
+ 		
+ 		graphPanel = new JPanel();				
  		graphPanel = new graph();
- 		panel.add(graphPanel);
  		graphPanel.setVisible(false);
  		graphPanel.setBackground(Color.WHITE);
- 					
- 		accountGraphButton = new JButton("Graph");
- 		graphBackButton = new JButton("Back");
- 		accountGraphButton.setVisible(true);
- 		graphBackButton.setVisible(true);
- 		accountGraphButton.addActionListener(this);
- 		graphBackButton.addActionListener(this);
- 					
- 		newPanel.add(accountGraphButton);
- 		graphPanel.add(graphBackButton);
- 		panel.setLayout(new GridBagLayout());	
+ 		 		
+ 		newPanel = new JPanel();
+ 		
  		panel.setLayout(new GridBagLayout());
+ 		
  		newPanel.setLayout(new GridBagLayout());
+ 		
+ 		accountListLabel = new JLabel("Account Control", SwingConstants.CENTER); 
+ 		accountListLabel.setOpaque(true);
+ 		accountListLabel.setBackground(new Color(0,51,102)); 
+ 		accountListLabel.setForeground(Color.WHITE);
+ 		accountListLabel.setFont(new Font("Helvetica", Font.BOLD, 20));
+ 		accountListLabel.setPreferredSize(new Dimension(150, 35)); 
 
-		createConstraint(newPanel, tableOfAccounts.getTableHeader(),	0, 0, 5, 1, 0, 0, 2, 2, 2, 2, 1, 1);
-		createConstraint(newPanel, scrollPane, 						0, 1, 5, 1, 0, 0, 2, 2, 2, 2, 1, 7);
+ 		createConstraint(newPanel, accountListLabel,					0, 0, 5, 1, 0, 0, 0, 0, 0, 0, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(newPanel, tableOfAccounts.getTableHeader(),	0, 1, 5, 1, 0, 0, 2, 20, 2, 20, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(newPanel, scrollPane, 							0, 2, 5, 1, 0, 0, 2, 20, 2, 20, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
 		
-		createConstraint(panel, newPanel,		0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1);
-		createConstraint(panel, graphPanel,	0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1);
+		createConstraint(panel, newPanel,		0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(panel, graphPanel,		0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+		createConstraint(panel, graphButton,	0, 1, 1, 1, 0, 0, 0, 0, 20, 0, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE);
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("Graph")) {
+		
+		if(e.getActionCommand().equals("Show Graph")) {
 			newPanel.setVisible(false);
 			graphPanel.setVisible(true);
-			System.out.println("works");
-			
+			panel.setBackground(Color.WHITE);
+			graphButton.setText("Return to List");
 		}
 		
-		else if(e.getActionCommand().equals("Back")) {
+		else if (e.getActionCommand().equals("Return to List")) {
 			newPanel.setVisible(true);
 			graphPanel.setVisible(false);
-			System.out.println("works");
-			
+			panel.setBackground(new Color(238, 238, 238));
+			graphButton.setText("Show Graph");
 		}
 		
 	}
@@ -160,21 +157,6 @@ class graph extends JPanel{
     		
     		ArrayList<Order> orders = database.getOrders();
     	    int noOfOrders = orders.size();
-    	   
-//    	    String cost1 = orders.get(0).getOrderCost();
-//    	    String cost2 = orders.get(1).getOrderCost();
-//    	    String cost3 = orders.get(2).getOrderCost();
-//    	    String cost4 = orders.get(3).getOrderCost();
-//    	    String cost5 = orders.get(4).getOrderCost();
-//    	    String cost6 = orders.get(5).getOrderCost();
-//    	    String cost7 = orders.get(6).getOrderCost();
-//    	    String cost8 = orders.get(7).getOrderCost();
-//    	    String cost9 = orders.get(8).getOrderCost();
-//    	    String cost10 = orders.get(9).getOrderCost();
-//    	    
-//    	    int [] orderCosts  = {Integer.parseInt(cost1), Integer.parseInt(cost2), Integer.parseInt(cost3), Integer.parseInt(cost4),
-//    	    		Integer.parseInt(cost5), Integer.parseInt(cost6), Integer.parseInt(cost7), Integer.parseInt(cost8), Integer.parseInt(cost9),
-//    	    		Integer.parseInt(cost10)};
     		
             super.paintComponent(g);
             Graphics2D g2 = (Graphics2D)g;
@@ -271,21 +253,6 @@ class graph extends JPanel{
                 g2.drawString(letter, sx, sy);
                 sy += sh;
             }
-             
-            // Abcissa label.
-//            Label = "Number of Orders";
-//            sy = getHeight() - border + (border - sh)/2 + lm.getAscent();
-//            float sw = (float)font.getStringBounds(Label, frc).getWidth();
-//            float sx = (getWidth() - sw)/2;
-//            g2.drawString(Label, sx, sy);
-            
-            
-            // legend predicted stock levels
-//            Label = "Predicted Stock Levels";
-//            g2.setPaint(Color.red.darker());
-//            sy = getHeight() - (getHeight() - border/2);
-//            float sx2 = getWidth() - (border*3);
-//            g2.drawString(Label, sx1, sy);
             
             // Draw Invoice bar
             double scale = (double)(getHeight() - 2*border)/maxCost;
@@ -303,45 +270,9 @@ class graph extends JPanel{
             double x2 = 100;
             double y2 = scale*sumOrders;
             g2.fill(new Rectangle2D.Double(x1, y1, x2, y2));
-             
-            // Draw predicted stock level lines.
-//            double xInc2 = (double)(getWidth() - 2*border)/(12-1);
-//            double scale2 = (double)(getHeight() - 2*border)/maxStock;
-//            g2.setPaint(Color.red.darker());
-//            for(int i = 0; i < 11; i++) {
-//                double a1 = border + i*xInc2;
-//                double b1 = getHeight() - border - scale*predictedStockLevels[i];
-//                double a2 = border + (i+1)*xInc2;
-//                double b2 = getHeight() - border - scale2*predictedStockLevels[i+1];
-//                g2.draw(new Line2D.Double(a1, b1, a2, b2));
-//            }
-            
-            
-            
-             
-            // Mark data points.
-//            g2.setPaint(Color.blue);
-//            for(int i = 0; i < orderCosts.length; i++) {
-//                double x = border + i*xInc;
-//                double y = getHeight() - border - scale*orderCosts[i];
-//                g2.fill(new Ellipse2D.Double(x-2, y-2, 4, 4));
-//            }
-             
-            // Mark predicted data points.
-//            g2.setPaint(Color.black);
-//            for(int i = 0; i < 12; i++) {
-//                double x = border + i*xInc2;
-//                double y = getHeight() - border - scale2*predictedStockLevels[i];
-//                g2.fill(new Ellipse2D.Double(x-2, y-2, 4, 4));
-//            }
            
         }
-    	
-    	
-    	
-    	
     }
-
 
 	public double sumOrderCosts(){
 
@@ -363,8 +294,6 @@ class graph extends JPanel{
 		}
 		return sum;
    }
-
-
 	
 	public void refreshAccount(){
 	
