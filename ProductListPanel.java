@@ -87,7 +87,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 
     }
     
-    private static final int maxStock = 1200;
+    private static final int maxStock = 1500;
     private static final int border = 65;
     private static final int yHatchCount = 13;
 
@@ -521,24 +521,37 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                             priceField.setText(String.valueOf(products.get(i).getProductPrice())); 
                             IDField.setText(products.get(i).getProductID()); 
                     	
-                            database.updateStockLevels(products.get(i).getStockLevels(), products.get(i).getProductName());	
+                            	
                             int stock [] = products.get(i).getStockLevels();  
                             stockLevels = stock;
+                            
+                            
+                            int sumx = 45;
+                            double sumy = stock[0] + stock[1] + stock[2] + stock[3] + stock[4] + stock[5] + stock[6] +stock[7] + stock[8];
+                            double sumxy = stock[0]*1+stock[1]*2+stock[2]*3+stock[3]*4+stock[4]*5+stock[5]*6+stock[6]*7+stock[7]*8+stock[8]*9;
+                            int sumxsquared = 285;
+                            
+                            
+                            double slope = (sumxy - (sumx*sumy)/9)/(sumxsquared - (sumx*sumx)/9);
+                            double yIntercept = sumy/9 - (slope * (sumx/9));
+                            System.out.println(sumx + "  " + sumy + "  " + sumxy + "  " + sumxsquared + "  " + slope + "  " + yIntercept);
                            
-                            	int average1 = stock[0];
-                            	int average2 = (stock[0]+stock[1])/2;
-                            	int average3 = (stock[0]+stock[1]+stock[2])/3;
-                                int average4 = (stock[0]+stock[1]+stock[2]+stock[3])/4;
-                                int average5 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4])/5;
-                                int average6 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4]+stock[5])/6;
-                                int average7 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4]+stock[5]+stock[6])/7;
-                                int average8 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4]+stock[5]+stock[6]+stock[7])/8;
-                                int average9 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4]+stock[5]+stock[6]+stock[7]+stock[8])/9;
-                                int average10 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4]+stock[5]+stock[6]+stock[7]+stock[8]+stock[9])/10;
-                                int average11 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4]+stock[5]+stock[6]+stock[7]+stock[8]+stock[9]+stock[10])/11;
-                                int average12 = (stock[0]+stock[1]+stock[2]+stock[3]+stock[4]+stock[5]+stock[6]+stock[7]+stock[8]+stock[9]+stock[10]+stock[11])/12;
-                            	double [] stockPredictedData = {average1, average2, average3, average4, average5, average6, average7, average8, average9, average10, average11, average12}; 
-                                predictedStockLevels = stockPredictedData;
+                           double changeInY = slope*12;
+                           
+//                            double average1 = stock[0];
+//                        	double average2 = (stock[0]*0.9+stock[1])/2;
+//                        	double average3 = (stock[0]*0.8+stock[1]*0.9+stock[2])/3;
+//                            double average4 = (stock[0]*0.7+stock[1]*0.8+stock[2]*0.9+stock[3])/4;
+//                            double average5 = (stock[0]*0.6+stock[1]*0.7+stock[2]*0.8+stock[3]*0.9+stock[4])/5;
+//                            double average6 = (stock[0]*0.5+stock[1]*0.6+stock[2]*0.7+stock[3]*0.8+stock[4]*0.9+stock[5])/6;
+//                            double average7 = (stock[0]*0.4+stock[1]*0.5+stock[2]*0.6+stock[3]*0.7+stock[4]*0.8+stock[5]*0.9+stock[6])/7;
+//                            double average8 = (stock[0]*0.3+stock[1]*0.4+stock[2]*0.5+stock[3]*0.6+stock[4]*0.7+stock[5]*0.8+stock[6]*0.9+stock[7])/8;
+//                            double average9 = (stock[0]*0.2+stock[1]*0.3+stock[2]*0.4+stock[3]*0.5+stock[4]*0.6+stock[5]*0.7+stock[6]*0.8+stock[7]*0.9+stock[8])/9;
+//                            double average10 = (stock[0]*0.1+stock[1]*0.2+stock[2]*0.3+stock[3]*0.4+stock[4]*0.5+stock[5]*0.6+stock[6]*0.7+stock[7]*0.8+stock[8]*0.9+stock[9])/10;
+//                            double average11 = (stock[1]*0.1+stock[2]*0.2+stock[3]*0.3+stock[4]*0.4+stock[5]*0.5+stock[6]*0.6+stock[7]*0.7+stock[8]*0.8+stock[9]*0.9+stock[10])/11;
+//                            double average12 = (stock[2]*0.1+stock[3]*0.2+stock[4]*0.3+stock[5]*0.4+stock[6]*0.5+stock[7]*0.6+stock[8]*0.7+stock[8]*0.8+stock[8]*0.9+stock[8])/12;
+                        	double [] stockPredictedData = {yIntercept, (changeInY + yIntercept)}; 
+                            predictedStockLevels = stockPredictedData;
                               
                         } 
   
@@ -680,10 +693,10 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
             }
              
             // Draw predicted stock level lines.
-            double xInc2 = (double)(getWidth() - 2*border)/(12-1);
+            double xInc2 = (double)(getWidth() - 2*border)/(2-1);
             double scale2 = (double)(getHeight() - 2*border)/maxStock;
             g2.setPaint(Color.red.darker());
-            for(int i = 0; i < 11; i++) {
+            for(int i = 0; i < 1; i++) {
                 double a1 = border + i*xInc2;
                 double b1 = getHeight() - border - scale*predictedStockLevels[i];
                 double a2 = border + (i+1)*xInc2;
@@ -702,7 +715,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
              
             // Mark predicted data points.
             g2.setPaint(Color.black);
-            for(int i = 0; i < 12; i++) {
+            for(int i = 0; i < 2; i++) {
                 double x = border + i*xInc2;
                 double y = getHeight() - border - scale2*predictedStockLevels[i];
                 g2.fill(new Ellipse2D.Double(x-2, y-2, 4, 4));

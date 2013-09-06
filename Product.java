@@ -26,6 +26,10 @@ public class Product {
         this.productID = productBarcode;
         this.stockLevels = stockLevels;
     }
+    
+    public Product(){
+    
+    }
  
     public String getProductName() {
         return productName;
