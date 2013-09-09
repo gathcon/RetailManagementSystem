@@ -285,6 +285,9 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 		System.out.println(e.paramString());
 		
 		if(e.getActionCommand().equals("Add")) {
+			
+			//remove listSelectionListener
+			productList.removeListSelectionListener(this);
 				    	
 			//change text fields to editable
 			nameField.setEditable(true);
@@ -308,7 +311,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 	    	productDeleteButton.setVisible(false);
 	    	productCancelButton.setVisible(true);
 	    	productEditSaveButton.setVisible(true);
-	    	productStockGraphButton.setVisible(true);
+	    	productStockGraphButton.setVisible(false);
 	    	
 		}
 		
@@ -359,6 +362,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 			productDeleteButton.setVisible(false);
 			productCancelButton.setVisible(false);
 			productEditSaveButton.setVisible(false);
+			productStockGraphButton.setVisible(false);
 	    	
 			//make text fields non-editable
 			nameField.setEditable(false);
@@ -366,9 +370,15 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 			quantityField.setEditable(false);
 			priceField.setEditable(false);
 			IDField.setEditable(false);
+			
+			//add listSelectionListener
+			productList.addListSelectionListener(this);
 		}
 		
 		else if(e.getActionCommand().equals("Edit")) {
+			
+			//remove listSelectionListener
+			productList.removeListSelectionListener(this);
 			
 	    	//make text fields editable
 	    	nameField.setEditable(true);
@@ -384,6 +394,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 	    	productAddButton.setVisible(false);
 	    	productDeleteButton.setVisible(false);
 	    	productCancelButton.setVisible(true);
+	    	productStockGraphButton.setVisible(false);
 			
 		}
 		
@@ -456,6 +467,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
     		    	productDeleteButton.setVisible(true);
     		    	productCancelButton.setVisible(false);
     		    	productEditSaveButton.setVisible(false);
+    		    	productStockGraphButton.setVisible(false);
     		    	
     		    	//make text fields non-editable
     		    	nameField.setEditable(false);
@@ -467,6 +479,9 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
         		}
         	}
         	}
+        	
+        	//add listSelectionListener
+			productList.addListSelectionListener(this);
 		}
 		
 		else if(e.getActionCommand().equals("Stock")){

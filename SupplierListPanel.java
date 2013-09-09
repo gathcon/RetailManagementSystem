@@ -232,6 +232,9 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 		System.out.println(e.paramString());
 		
 		if(e.getActionCommand().equals("Add")) {
+			
+			//remove listSelectionListener
+			supplierList.removeListSelectionListener(this);
 				    	
 			//change text fields to editable
 			nameField.setEditable(true);
@@ -311,9 +314,15 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 			addressField.setEditable(false);
 			phoneNoField.setEditable(false);
 			emailField.setEditable(false);
+			
+			//add listSelectionListener
+			supplierList.addListSelectionListener(this);
 		}
 		
 		else if(e.getActionCommand().equals("Edit")) {
+			
+			//remove listSelectionListener
+			supplierList.removeListSelectionListener(this);
 			
 	    	//make text fields editable
 	    	nameField.setEditable(true);
@@ -397,6 +406,9 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
     		    	
         		}
         	}
+        	
+        	//add listSelectionListener
+			supplierList.addListSelectionListener(this);
 		}
    }
 	
