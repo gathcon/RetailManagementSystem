@@ -348,7 +348,7 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
     } 
       
     private void newFilter() { 
-           // RowFilter<? super TableModel, ? super Integer> rf = null; 
+    	
             RowFilter<TableModel, Object> rf = null; 
             //If current expression doesn't parse, don't update. 
             try { 

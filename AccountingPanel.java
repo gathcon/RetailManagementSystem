@@ -214,21 +214,7 @@ class graph extends JPanel{
             
             
             g2.setPaint(Color.black);
-            
-            
-          // for y axis  
-//            for (int i = 0; i < yHatchCount; i++) {
-//                 int x0 = border;
-//                 int x1 = graphPointWidth + border;
-//                 int y0 = getHeight() - (((i) * (getHeight() - border * 2)) / yHatchCount + border);
-//                 int y1 = y0;
-//                 g2.drawLine(x0, y0, x1, y1);
-//                 FontMetrics fm = g2.getFontMetrics();
-//                 String [] values = {"", "5000", "10000", "15000", "20000", ""};
-//                 g2.drawString(values[i], x0 - fm.stringWidth(values[i]), y0 + (fm.getAscent() / 2));
-//                 
-//              }
-//             
+                      
          // and for x axis
               for (int i = 0; i < 4; i++) { 
                  int x0 = (i) * (getWidth() - border * 2) / (4 - 1) + border;

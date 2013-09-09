@@ -52,7 +52,6 @@ public class Customer {
 		this.customerEmail = customerEmail;
 	}
 
-
 	public String getCustomerAddress() {
 		return customerAddress;
 	}

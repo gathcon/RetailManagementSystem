@@ -45,7 +45,6 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
     private Database database; 
           
     private String[] productNameList; 
-    // check      
     private JList<String> productList; 
     private ListModel<String> productListModel; 
     private DefaultListModel<String> updatedProductListModel; 
@@ -181,9 +180,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
         productListLabel.setPreferredSize(new Dimension(150, 35)); 
                   
 		buttonPanel = new JPanel();
-		graphPanel = new JPanel();
 		newPanel = new JPanel();
-		
 		
         mainPanel.setLayout(new GridBagLayout());
 		buttonPanel.setLayout(new GridBagLayout());
@@ -703,7 +700,5 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
             }
            
         }
-    	
-    	
     }
 }

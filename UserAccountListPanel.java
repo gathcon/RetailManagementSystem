@@ -35,9 +35,9 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 		
 	private String[] userAccounts;
 		
-	private JList userAccountList;
-	private ListModel userAccountListModel;
-	private DefaultListModel updatedUserAccountListModel;
+	private JList<String> userAccountList;
+	private ListModel<String> userAccountListModel;
+	private DefaultListModel<String> updatedUserAccountListModel;
 	
 	private JScrollPane listScroller;
 	
