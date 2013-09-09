@@ -20,6 +20,7 @@ import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.swing.DefaultListModel; 
 import javax.swing.JButton; 
@@ -294,6 +295,10 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 			
 	    	// reset textFields
 	    	resetTextFields();
+	    	
+	    	//generate ID
+	    	IDField.setEditable(false);	
+	    	IDField.setText(generateCustomerUniqueId());
 	    	
 	    	//change editSaveButton label to "Save"
 	    	productEditSaveButton.setText("Save");
@@ -711,5 +716,29 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
             }
            
         }
+    }
+    
+    public static String generateCustomerUniqueId() {      
+        String uuidChars = "" + UUID.randomUUID().toString();
+        String uid = uuidChars.replaceAll("-", "");    
+        int myuid = uid.hashCode();
+        
+        uid = Integer.toString(myuid);
+        uid = uuidChars.replaceAll("-", "");
+        
+        char[] newUUID = uid.toCharArray();
+        String customerID = "";
+        char  temp;
+        
+        for(int i = 0; i<8;i++){       	
+        	temp = newUUID[i];    	
+        	if(Character.getType(newUUID[i]) == Character.LOWERCASE_LETTER){     		
+        		temp = Character.toUpperCase(newUUID[i]);
+        	} 
+        	 customerID += temp;
+        }       
+        System.out.println(customerID);
+        
+        return customerID;
     }
 }

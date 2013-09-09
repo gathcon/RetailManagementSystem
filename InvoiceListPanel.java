@@ -155,9 +155,9 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
                     if(invoice.getInvoiceID().equals(tableOfInvoices.getValueAt(tableOfInvoices.getSelectedRow(), 0).toString())){
                     	resetTextFields(); 
                         
-                    	createConstraint(dynamicPanel, productLabel,      0, 0, 1, 1, 0, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-                        createConstraint(dynamicPanel, quantityLabel,     1, 0, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
-                        createConstraint(dynamicPanel, priceLabel,        2, 0, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
+                    	createConstraint(dynamicPanel, productLabel,      0, 0, 2, 1, 0, 0, 2, 20, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
+                        createConstraint(dynamicPanel, quantityLabel,     2, 0, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH); 
+                        createConstraint(dynamicPanel, priceLabel,        3, 0, 1, 1, 0, 0, 2, 2, 2, 2, 0, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.BOTH);
                         
                     	for(int productInInvoice=0; productInInvoice < invoice.getProducts().size() ; productInInvoice++){ 
 

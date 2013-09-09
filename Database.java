@@ -78,9 +78,9 @@ public class Database {
         Product orderProductA = new Product("iPod"          , "mp3"   , "2",  1000.00);
         Product orderProductB = new Product("HP Envy"       , "Laptop", "5",  1500.00);
         Product orderProductC = new Product("Samsung Galaxy", "Phone" , "11", 4300.00);
-        invoiceProduct.add(orderProductA);
-        invoiceProduct.add(orderProductB);
-        invoiceProduct.add(orderProductC);
+        invoiceProduct2.add(orderProductA);
+        invoiceProduct2.add(orderProductB);
+        invoiceProduct2.add(orderProductC);
         
         this.addInvoice("INV01", customers.get(0), "05/01/13", "09/01/13", "990", false, invoiceProduct2, "comment");
         this.addInvoice("INV02", customers.get(1), "07/02/13", "10/02/13", "1100", false, invoiceProduct, "comment");

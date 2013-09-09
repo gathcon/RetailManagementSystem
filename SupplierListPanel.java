@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.UUID;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -242,6 +243,10 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 			// reset textFields
 	    	resetTextFields();
 	    	
+	    	//generate ID
+	    	IDField.setEditable(false);	
+	    	IDField.setText(generateCustomerUniqueId());
+	    	
 	    	//change editSaveButton label to "Save"
 	    	supplierEditSaveButton.setText("Save");
 	    	
@@ -425,4 +430,28 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 	            }
 	        }
 	}
+	
+	public static String generateCustomerUniqueId() {      
+        String uuidChars = "" + UUID.randomUUID().toString();
+        String uid = uuidChars.replaceAll("-", "");    
+        int myuid = uid.hashCode();
+        
+        uid = Integer.toString(myuid);
+        uid = uuidChars.replaceAll("-", "");
+        
+        char[] newUUID = uid.toCharArray();
+        String customerID = "";
+        char  temp;
+        
+        for(int i = 0; i<8;i++){       	
+        	temp = newUUID[i];    	
+        	if(Character.getType(newUUID[i]) == Character.LOWERCASE_LETTER){     		
+        		temp = Character.toUpperCase(newUUID[i]);
+        	} 
+        	 customerID += temp;
+        }       
+        System.out.println(customerID);
+        
+        return customerID;
+    }
 }

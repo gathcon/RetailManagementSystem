@@ -248,8 +248,10 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 	    	// reset textFields
 	    	resetTextFields();
 	    	
+	    	//generate ID
 	    	IDField.setEditable(false);	
 	    	IDField.setText(generateCustomerUniqueId());
+	    	
 	    	//change editSaveButton label to "Save"
 	    	customerEditSaveButton.setText("Save");
 	    	
