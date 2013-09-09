@@ -79,23 +79,11 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 	private JPanel mainPanel;
 	
 	private JTabbedPane tabbedPane;
-      
-<<<<<<< HEAD
-	private static final int maxStock = 1600;
-    private static final int border = 65;
-    private static final int yHatchCount = 16;
-    
-=======
-    public ProductListPanel() { 
-		System.out.println("ProductListPanel created");
-
-    }
     
     private static final int maxStock = 1600;
     private static final int border = 65;
     private static final int yHatchCount = 16;
 
->>>>>>> branch
     private static final int graphPointWidth = 12;
     
     
