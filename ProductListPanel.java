@@ -87,9 +87,9 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 
     }
     
-    private static final int maxStock = 1500;
+    private static final int maxStock = 1600;
     private static final int border = 65;
-    private static final int yHatchCount = 13;
+    private static final int yHatchCount = 16;
 
     private static final int graphPointWidth = 12;
     
@@ -622,7 +622,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                  int y1 = y0;
                  g2.drawLine(x0, y0, x1, y1);
                  FontMetrics fm = g2.getFontMetrics();
-                 String [] values = {"", "100", "200", "300", "400", "500", "600", "700", "800", "900", "1000", "1100", "1200", ""};
+                 String [] values = {"", "100", "200", "300", "400", "500", "600", "700", "800", "900", "1000", "1100", "1200", "1300", "1400", "1500", ""};
                  g2.drawString(values[i], x0 - fm.stringWidth(values[i]), y0 + (fm.getAscent() / 2));
                  
               }

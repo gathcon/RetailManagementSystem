@@ -147,14 +147,14 @@ public class AccountingPanel extends JPanel implements ActionListener{
 	
 	
 	
-class graph extends JPanel{
+	class graph extends JPanel{
         
     	protected void paintComponent(Graphics g) { 
     		
     		
     		
-    		int sumInvoices = (int) Math.round(sumInvoiceCosts());
-    		int sumOrders = (int) Math.round(sumOrderCosts());
+    		int sumInvoices = (int) Math.round(database.sumInvoiceCosts());
+    		int sumOrders = (int) Math.round(database.sumOrderCosts());
     		int height = getHeight() - border*2;
     		int width = getWidth() - border*2;
     		
@@ -261,8 +261,8 @@ class graph extends JPanel{
             
             
             // Draw Invoice bar
-            if(sumOrderCosts() > sumInvoiceCosts()){
-    		double maxCost = sumOrderCosts() + 5000;
+            if(sumOrders > sumInvoices){
+    		double maxCost = sumOrders + 5000;
             double scale = (double)(getHeight() - 2*border)/maxCost;
             g2.setPaint(Color.green.darker());
             double a1 = border + (width/3 - 50);
@@ -293,8 +293,8 @@ class graph extends JPanel{
 
             }
             
-            else if(sumOrderCosts() < sumInvoiceCosts()){
-            	double maxCost = sumInvoiceCosts() + 5000;
+            else if(sumOrders < sumInvoices){
+            	double maxCost = sumInvoices + 5000;
                 double scale = (double)(getHeight() - 2*border)/maxCost;
                 g2.setPaint(Color.green.darker());
                 double a1 = border + (width/3 - 50);
@@ -326,26 +326,7 @@ class graph extends JPanel{
         }
     }
 
-	public double sumOrderCosts(){
-
-		ArrayList<Order> orders = database.getOrders();
-    
-		double sum = 0;
-		for(int i = 0; i < orders.size(); i++){
-			sum = sum + Double.parseDouble(orders.get(i).getOrderCost());
-		}
-		return sum;
-   }
 	
-	public double sumInvoiceCosts(){
-		ArrayList<Invoice> invoices = database.getInvoices();
-    
-		double sum = 0;
-		for(int i = 0; i < invoices.size(); i++){
-			sum = sum + Double.parseDouble(invoices.get(i).getInvoiceCost());
-		}
-		return sum;
-   }
 	
 	public void refreshAccount(){
 	

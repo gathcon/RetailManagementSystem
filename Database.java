@@ -18,7 +18,7 @@ public class Database {
 	private ArrayList<Invoice> invoices = new ArrayList<Invoice>();
     private ArrayList<UserAccount> userAccounts = new ArrayList<UserAccount>();
     
-    private ArrayList<Product> invoiceProducts = new ArrayList<Product>();
+//    private ArrayList<Product> invoiceProducts = new ArrayList<Product>();
     
      
     /*
@@ -69,29 +69,23 @@ public class Database {
         this.addOrder("0009", suppliers.get(3), "14/04/13", "16/04/13", calculateOrderCost(products), true, products, "comment");
         this.addOrder("0010", suppliers.get(4), "18/02/13", "20/02/13", calculateOrderCost(products), true, products, "comment");
 
-        this.addInvoiceProduct();
-        
-        
 
-//        this.addOrder("0011", suppliers.get(0), "2/8/13", "4/8/13", "300", true, products, "comment");
-//        this.addOrder("0012", suppliers.get(1), "6/8/13", "8/8/13", "1267", true, products, "comment");
-//        this.addOrder("0013", suppliers.get(2), "10/8/13", "12/8/13", "4775", true, products, "comment");
-//        this.addOrder("0014", suppliers.get(3), "14/8/13", "16/8/13", "3568", true, products, "comment");
-//        this.addOrder("0015", suppliers.get(4), "18/8/13", "20/8/13", "625", true, products, "comment");
-//        this.addOrder("0016", suppliers.get(0), "2/8/13", "4/8/13", "300", true, products, "comment");
-//        this.addOrder("0017", suppliers.get(1), "6/8/13", "8/8/13", "1267", true, products, "comment");
-//        this.addOrder("0018", suppliers.get(2), "10/8/13", "12/8/13", "4775", true, products, "comment");
-//        this.addOrder("0019", suppliers.get(3), "14/8/13", "16/8/13", "3568", true, products, "comment");
-//        this.addOrder("0020", suppliers.get(4), "18/8/13", "20/8/13", "625", true, products, "comment");
+        ArrayList<Product> invoiceProduct = new ArrayList<Product>();
+        Product orderProduct1 = new Product("HP Envy"       , "Laptop", "4",  1320.00);
+        Product orderProduct2 = new Product("iPod"          , "mp3"   , "6",  2400.00);
+        Product orderProduct3 = new Product("Samsung Galaxy", "Phone" , "10", 4000.00);
+        invoiceProduct.add(orderProduct1);
+        invoiceProduct.add(orderProduct2);
+        invoiceProduct.add(orderProduct3);
         
-        this.addInvoice("INV01", customers.get(0), "05/01/13", "09/01/13", "990", false, invoiceProducts, "comment");
-        this.addInvoice("INV02", customers.get(1), "07/02/13", "10/02/13", "1100", false, invoiceProducts, "comment");
-        this.addInvoice("INV03", customers.get(2), "14/03/13", "16/03/13", "1200", false, invoiceProducts, "comment");
-        this.addInvoice("INV04", customers.get(3), "09/04/13", "17/04/13", "1100", false, invoiceProducts, "comment");
-        this.addInvoice("INV05", customers.get(4), "19/05/13", "21/05/13", "1200", false, invoiceProducts, "comment");
-        this.addInvoice("INV06", customers.get(1), "10/06/13", "15/06/13", "1650", false, invoiceProducts, "comment");
-        this.addInvoice("INV07", customers.get(2), "13/07/13", "15/07/13", "1600", false, invoiceProducts, "comment");
-        this.addInvoice("INV08", customers.get(1), "24/08/13", "28/08/13", "800", false, invoiceProducts, "comment");
+        this.addInvoice("INV01", customers.get(0), "05/01/13", "09/01/13", "990", false, invoiceProduct, "comment");
+        this.addInvoice("INV02", customers.get(1), "07/02/13", "10/02/13", "1100", false, invoiceProduct, "comment");
+        this.addInvoice("INV03", customers.get(2), "14/03/13", "16/03/13", "1200", false, invoiceProduct, "comment");
+        this.addInvoice("INV04", customers.get(3), "09/04/13", "17/04/13", "1100", false, invoiceProduct, "comment");
+        this.addInvoice("INV05", customers.get(4), "19/05/13", "21/05/13", "1200", false, invoiceProduct, "comment");
+        this.addInvoice("INV06", customers.get(1), "10/06/13", "15/06/13", "1650", false, invoiceProduct, "comment");
+        this.addInvoice("INV07", customers.get(2), "13/07/13", "15/07/13", "1600", false, invoiceProduct, "comment");
+        this.addInvoice("INV08", customers.get(1), "24/08/13", "28/08/13", "800", false, invoiceProduct, "comment");
        
                
         updateStockLevels(stockLevelsIpod, "iPod");
@@ -365,7 +359,8 @@ public class Database {
                 i++; 
         
         } 
-        return arrayOfNames; 
+        return arrayOfNames;
+       
   
     }
     
@@ -446,6 +441,17 @@ public class Database {
 		return String.format("%.2f", cost); 
 	}
 	
+	public double sumOrderCosts(){
+
+		ArrayList<Order> orders = getOrders();
+    
+		double sum = 0;
+		for(int i = 0; i < orders.size(); i++){
+			sum = sum + Double.parseDouble(orders.get(i).getOrderCost());
+		}
+		return sum;
+   }
+	
     
     /*
      * invoice methods
@@ -470,6 +476,16 @@ public class Database {
 		cost = cost*1.5;
 		return String.format("%.2f", cost); //Double.toString(cost);
 	}
+	
+	public double sumInvoiceCosts(){
+		ArrayList<Invoice> invoices = getInvoices();
+    
+		double sum = 0;
+		for(int i = 0; i < invoices.size(); i++){
+			sum = sum + Double.parseDouble(invoices.get(i).getInvoiceCost());
+		}
+		return sum;
+   }
     
     
     /*

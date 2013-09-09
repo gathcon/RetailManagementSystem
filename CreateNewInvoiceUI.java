@@ -202,6 +202,7 @@ public class CreateNewInvoiceUI {
 		
 		productListNames = database.getProductList();
 		
+		
 		productLabel = new JLabel("Product:");
 		quantityLabel = new JLabel("Quantity:");
 		unitPriceLabel = new JLabel("Unit Price:", SwingConstants.CENTER);
@@ -460,6 +461,7 @@ public class CreateNewInvoiceUI {
 			DecimalFormat df = new DecimalFormat("####0.00");
 			 
 			 for(JComboBox  tempComboBox: productComboBox){
+				 
 				  int position = productComboBox.indexOf(e.getSource());
 				 if (e.getSource().equals(productComboBox.get(position))){
 					 totalPrice = 0;
@@ -470,6 +472,7 @@ public class CreateNewInvoiceUI {
 					 tempquantityComboBox.removeAllItems();
 					 
 					 for(Product product: database.getProducts()){
+						 
 						 if(productComboBox.get(position).getSelectedItem().equals(product.getProductName())){
 							 unitPriceField.get(position).setText(Double.toString(1.5*product.getProductPrice()));
 							 priceField.get(position).setText(String.valueOf(df.format(0)));
