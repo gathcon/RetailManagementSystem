@@ -147,8 +147,6 @@ public class Database {
 
     			arrayToBeUpdated[i] += arrayToBeUpdated[k];
     		}
-        	
-        	System.out.println("Stock level for month " + j + ": " + arrayToBeUpdated[i]);
         }
     }
     

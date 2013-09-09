@@ -77,7 +77,6 @@ public class OrderListPanel extends JPanel implements ActionListener{
 	
       
     public OrderListPanel() { 
-        System.out.println("OrderListPanel created"); 
     } 
       
     public void setTabbedPane(JTabbedPane tabbedPane) { 
@@ -350,7 +349,6 @@ public class OrderListPanel extends JPanel implements ActionListener{
             try { 
                  resetTextFields(); 
                 rf = RowFilter.regexFilter(filterField.getText(), filterIndex ); 
-                System.out.println("filtering   " + filterIndex + filterField.getText()); 
             } catch (java.util.regex.PatternSyntaxException e) { 
                 return; 
             } 
@@ -358,9 +356,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
    } 
       
     public void actionPerformed(ActionEvent e) { 
-          
-        System.out.println(e.paramString()); 
-          
+                    
         if(e.getActionCommand().equals("Create new order")) { 
               
             //go to create order view 
@@ -374,7 +370,6 @@ public class OrderListPanel extends JPanel implements ActionListener{
             newOrderPanel.setVisible(true);
             newOrderPanel.validate();
             mainPanel.repaint();
-            System.out.println("order panel invisible"); 
               
             //update the comboBox lists 
             newOrderPane.updateComboBoxData(); 
@@ -382,7 +377,6 @@ public class OrderListPanel extends JPanel implements ActionListener{
             //disable tabs 
             tabbedPane.setEnabled(false); 
             newOrderPane.setTabbedPane(tabbedPane); 
-            System.out.println("tabs disabled"); 
         } 
           
     }

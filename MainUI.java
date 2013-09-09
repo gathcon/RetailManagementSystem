@@ -171,7 +171,6 @@ public class MainUI implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent e){
-		 System.out.println(e.paramString());
 		 if(e.getActionCommand() == "Log in") {
 			 
 			 //take in values
@@ -197,7 +196,6 @@ public class MainUI implements ActionListener{
             	     productPane.setTabbedPane(tabbedPane);
 
             	     frame.setTitle("Retail Management System");
-            	     System.out.println("Set content pane to tabs view");
             	     frame.setPreferredSize(new Dimension(800, 600));
             	     frame.getContentPane().removeAll();
             	     frame.getContentPane().add(tabbedPane);
@@ -220,7 +218,6 @@ public class MainUI implements ActionListener{
             	     productPane.setTabbedPane(tabbedPane);
 
             	     frame.setTitle("Retail Management System");
-            	     System.out.println("Set content pane to tabs view");
             	     frame.setPreferredSize(new Dimension(800, 600));
             	     frame.getContentPane().removeAll();
             	     frame.getContentPane().add(tabbedPane);
@@ -235,7 +232,6 @@ public class MainUI implements ActionListener{
             	     invoicePane.setTabbedPane(tabbedPane);
 
             		 frame.setTitle("Retail Management System");
-            	     System.out.println("Set content pane to tabs view");
             	     frame.setPreferredSize(new Dimension(800, 600));
             	     frame.getContentPane().removeAll();
             	     frame.getContentPane().add(tabbedPane);
@@ -247,7 +243,6 @@ public class MainUI implements ActionListener{
            	     	tabbedPane.add("Products", productPanel);
 
            	     	frame.setTitle("Retail Management System");
-           	     	System.out.println("Set content pane to tabs view");
            	     	frame.setPreferredSize(new Dimension(800, 600));
            	     	frame.getContentPane().removeAll();
            	     	frame.getContentPane().add(tabbedPane);

@@ -64,7 +64,6 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 	private JPanel infoPanel;
 	
 	public CustomerListPanel() {
-		System.out.println("CustomerListPanel created");
 		
 	}
 	
@@ -212,9 +211,7 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 		customerList.setModel(updatedCustomerListModel);
 		
 		// update String[] arrays
-		customerNameList = database.getCustomerList();
-		System.out.println("Customer list updated");
-		
+		customerNameList = database.getCustomerList();		
 	}
 	
 	// Reset text fields to empty
@@ -230,9 +227,7 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 	
 	// Button handler
 	public void actionPerformed(ActionEvent e) {
-		
-		System.out.println(e.paramString());
-		
+				
 		if(e.getActionCommand().equals("Add")) {
 			
 			//remove listSelectionListener
@@ -291,9 +286,7 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 		    	addressField.setEditable(false);
 		    	phoneNoField.setEditable(false);
 		    	emailField.setEditable(false);
-		    	
-		    	System.out.println("Customer " + id + " removed from database");
-		    	
+		    			    	
 			}
 		}
 		
@@ -352,9 +345,7 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
         	String address = addressField.getText();
         	String phoneNumber = phoneNoField.getText();
         	String email = emailField.getText();
-        	
-        	System.out.println(id);
-        					        			
+        	        					        			
         	if(name.equals("") || id.equals("") || address.equals("") || phoneNumber.equals("") || email.equals("")){
         		
         		JOptionPane.showMessageDialog(null, "Please fill all fields", "Input Warning", JOptionPane.WARNING_MESSAGE);
@@ -369,8 +360,6 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
         			if(database.checkCustomerID(id) == true) {
             			
             			// overwrite customer details
-            			System.out.println("Customer " + id + " already exists. Updating details.");
-
             			Customer customer = database.getCustomerByID(id);
             			customer.setCustomerName(name);
             			customer.setCustomerAddress(address);
@@ -383,8 +372,6 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 
     		        	// add new customer to database
     		        	database.addCustomer(id, name, email, phoneNumber, address);
-    		        		
-    			    	System.out.println("New customer created.");
             		}
             		
             		// update lists
@@ -433,9 +420,7 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
 	            	for(int i = 0; i < noOfCustomers; i++) {		//loop through customers
 	            		
 	                    if (customerList.getSelectedIndex() == i) {
-	                    
-	                    	System.out.println("customer selected: " + customerNameList[i]);
-	                    	
+	                    	                    	
 	                    	nameField.setText(customers.get(i).getCustomerName());
 	                    	IDField.setText(customers.get(i).getCustomerID());
 	                    	addressField.setText(customers.get(i).getCustomerAddress());
@@ -468,7 +453,6 @@ public class CustomerListPanel extends JPanel implements ActionListener, ListSel
         	} 
         	 customerID += temp;
         }       
-        System.out.println(customerID);
         
         return customerID;
     }

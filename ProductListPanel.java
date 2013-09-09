@@ -92,7 +92,6 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
     double [] predictedStockLevels = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     
     public ProductListPanel() { 
-		System.out.println("ProductListPanel created");
     }
     
     public void setTabbedPane(JTabbedPane tabbedPane) { 
@@ -265,8 +264,6 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
           
         // update String[] arrays 
         productNameList = database.getProductList(); 
-          
-        System.out.println("Product list updated"); 
     } 
   
     public void resetTextFields() { 
@@ -281,9 +278,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
     
 	// Button handler
 	public void actionPerformed(ActionEvent e) {
-		
-		System.out.println(e.paramString());
-		
+				
 		if(e.getActionCommand().equals("Add")) {
 			
 			//remove listSelectionListener
@@ -434,8 +429,6 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
             			if(database.checkProductID(ID) == true) {
                 			
                 			// overwrite product details
-                			System.out.println("product " + ID + " already exists. Updating details.");
-
                 			Product product = database.getProductByID(ID);
                 			product.setProductName(name);
                 			product.setProductType(type);
@@ -449,8 +442,6 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 
     		        	// add new product to database
     		        	database.addProduct(name, type, quantity, Double.parseDouble(price), ID, null);
-    		        		
-    			    	System.out.println("New product created.");  			
             		}
             		
             		// update lists
@@ -485,7 +476,6 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 		}
 		
 		else if(e.getActionCommand().equals("Stock")){
-			System.out.println("i am doing the stock");
 			
 			graphPanel.add(graphBackButton);
 			graphBackButton.setVisible(true);
@@ -497,9 +487,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 			mainPanel.repaint();
 			
 			//disable tabs 
-            tabbedPane.setEnabled(false); 
-            System.out.println("tabs disabled");
-			
+            tabbedPane.setEnabled(false); 			
 		}
 		
 		else if(e.getActionCommand().equals("Back")) {
@@ -508,7 +496,6 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 			
 			//enable tabs 
             tabbedPane.setEnabled(true); 
-            System.out.println("tabs enabled");
 		}
 		
    }
@@ -531,9 +518,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                     for(int i = 0; i < noOfproducts; i++) {     //loop through products 
                           
                         if (productList.getSelectedIndex() == i) { 
-                          
-                            System.out.println("product selected: " + productNameList[i]);
-                            
+                                                      
                             database.updateStockLevels(products.get(i).getStockLevels(), products.get(i).getProductName());
                               
                             nameField.setText(products.get(i).getProductName()); 
@@ -555,7 +540,6 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                             
                             double slope = (sumxy - (sumx*sumy)/9)/(sumxsquared - (sumx*sumx)/9);
                             double yIntercept = sumy/9 - (slope * (sumx/9));
-                            System.out.println(sumx + "  " + sumy + "  " + sumxy + "  " + sumxsquared + "  " + slope + "  " + yIntercept);
                             
                             double changeInY = slope*12;
                            
@@ -752,7 +736,6 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
         	} 
         	 customerID += temp;
         }       
-        System.out.println(customerID);
         
         return customerID;
     }

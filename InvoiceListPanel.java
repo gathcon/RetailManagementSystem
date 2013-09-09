@@ -77,7 +77,6 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
 	
       
     public InvoiceListPanel() { 
-        System.out.println("InvoiceListPanel created"); 
     } 
       
      public void setTabbedPane(JTabbedPane tabbedPane) { 
@@ -354,7 +353,6 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
             try { 
                  resetTextFields(); 
                 rf = RowFilter.regexFilter(filterField.getText(), filterIndex ); 
-                System.out.println("filtering   " + filterIndex + filterField.getText()); 
             } catch (java.util.regex.PatternSyntaxException e) { 
                 return; 
             } 
@@ -396,7 +394,6 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
 	            newInvoicePanel.setVisible(true);
 	            newInvoicePanel.validate();
 	            mainPanel.repaint();
-	            System.out.println("Invoice panel invisible"); 
 	              
 	            //update the comboBox lists 
 	            newInvoicePane.updateComboBoxData(); 
@@ -404,7 +401,6 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
 	            //disable tabs 
 	            tabbedPane.setEnabled(false); 
 	            newInvoicePane.setTabbedPane(tabbedPane); 
-	            System.out.println("tabs disabled"); 
 	        } 
 		
 	}

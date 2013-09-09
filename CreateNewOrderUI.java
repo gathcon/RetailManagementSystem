@@ -136,8 +136,6 @@ public class CreateNewOrderUI {
 		deliveryDaysComboBox.setSelectedIndex(0);
 
 		totalPriceField.setText("0.00");
-
-		System.out.println("Product and supplier list updated.");
 	}
 
 	
@@ -260,12 +258,9 @@ public class CreateNewOrderUI {
 					orderPane.getMainPanel().setVisible(true);
 				
 					orderPane.getMainPanel().repaint();
-					
-					System.out.println("order panel visible");
-					
+										
 					//enable tabs
 					tabbedPane.setEnabled(true);
-					System.out.println("tabs enabled");
 				}
 			}
 		});
@@ -325,8 +320,6 @@ public class CreateNewOrderUI {
 		  addButton.addActionListener(new ActionListener() { 
 	            public void actionPerformed(ActionEvent e) { 
 	            	
-	            	System.out.println("add button was pressed");
-
 	            	productComboBox.add(new JComboBox(productListNames));
 	            	quantityComboBox.add(new JComboBox());
 	            	unitPriceField.add(new JTextField());
@@ -444,7 +437,6 @@ public class CreateNewOrderUI {
         	} 
         	 OrderID += temp;
         }       
-        System.out.println(OrderID);
         
         return OrderID;
     }
@@ -464,7 +456,6 @@ public class CreateNewOrderUI {
 				  int position = productComboBox.indexOf(e.getSource());
 				 if (e.getSource().equals(productComboBox.get(position))){
 					 totalPrice = 0;
-					 System.out.println("i an an event handler " + position);
 					 updateQuantityCombobox.set(position,false);
 					 JComboBox  tempquantityComboBox = quantityComboBox.get(position);
 					 
@@ -504,7 +495,6 @@ public class CreateNewOrderUI {
 		public void actionPerformed(ActionEvent e){
 			 DecimalFormat df = new DecimalFormat("####0.00");
 	
-			 System.out.println( "I am Combo" + quantityComboBox.indexOf(e.getSource()));
 			 if(!e.getSource().equals(deliveryDaysComboBox)){
 			 for(JComboBox  tempComboBox: productComboBox){
 				 
@@ -513,7 +503,6 @@ public class CreateNewOrderUI {
 				 
 				 if (e.getSource().equals(tempquantityComboBox) && updateQuantityCombobox.get(position) == true){
 					 
-					 System.out.println("i an an event quantity handler " + position);
 						double price = Double.parseDouble((String) quantityComboBox.get(position).getSelectedItem())* 
 						Double.parseDouble(unitPriceField.get(position).getText());
 					 
@@ -538,21 +527,18 @@ public class CreateNewOrderUI {
 				if(option.equals(deliveryOption1)){
 					c.add(Calendar.DATE, 10);
 					deliveryDate = ft.format(c.getTime());
-					System.out.println(deliveryDate);
 					deliveryCost = 0;
 					deliveryCostField.setText("0.00");
 					deliveryDateField.setText(deliveryDate);
 				}else if(option.equals(deliveryOption2)){
 					c.add(Calendar.DATE, 3);
 					deliveryDate = ft.format(c.getTime());
-					System.out.println(deliveryDate);
 					deliveryCost = 10.00;
 					deliveryCostField.setText("10.00");
 					deliveryDateField.setText(deliveryDate);
 				}else if(option.equals(deliveryOption3)){
 					c.add(Calendar.DATE, 1);
 					deliveryDate = ft.format(c.getTime());
-					System.out.println(deliveryDate);
 					deliveryCost = 25.00;
 					deliveryCostField.setText("25.00");
 					deliveryDateField.setText(deliveryDate);
@@ -586,9 +572,7 @@ public class CreateNewOrderUI {
 			unitPriceField.remove(i);
 			priceField.remove(i);
 		}	
-		
-		System.out.println("object has been removed");
-		
+				
 		dynamicPanel.removeAll();
 		createProductField();
 		dynamicPanel.setVisible(true);
@@ -624,7 +608,6 @@ public class CreateNewOrderUI {
 					 
 					if (!productComboBox.get(i).getSelectedItem().equals("Please Select") && !((String)quantityComboBox.get(i).getSelectedItem()).equals("0")){
 						itemSelectedFlag = true;
-						System.out.println("an item was selected");
 						break;
 					}
 				}
@@ -633,7 +616,6 @@ public class CreateNewOrderUI {
 					 JOptionPane.showMessageDialog(null,"Choose a Supplier, Delivery Days and a Product to Progress with Order", "Input Warning",JOptionPane.WARNING_MESSAGE);
 				 }else{
 					 
-					 System.out.println("Save button was clicked");
 					 String orderID = orderIDField.getText();
 					 Supplier supplier = database.getSupplierByName((String)supplierNameComboBox.getSelectedItem());
 					 String orderCost = totalPriceField.getText();
@@ -726,13 +708,9 @@ public class CreateNewOrderUI {
 					orderPane.getMainPanel().setVisible(true);
 				
 					orderPane.getMainPanel().repaint();
-			
-					System.out.println("order panel visible");
-					
+								
 					//enable tabs
 					tabbedPane.setEnabled(true);
-					
-					System.out.println("tabs enabled");					
 				} 
 			}
 		}

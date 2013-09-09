@@ -136,7 +136,6 @@ public class CreateNewInvoiceUI {
 
 		totalPriceField.setText("0.00");
 
-		System.out.println("Product and customer list updated.");
 	}
 
 	
@@ -261,12 +260,9 @@ public class CreateNewInvoiceUI {
 					invoicePane.getMainPanel().setVisible(true);
 				
 					invoicePane.getMainPanel().repaint();
-					
-					System.out.println("invoice panel visible");
-					
+										
 					//enable tabs
 					tabbedPane.setEnabled(true);
-					System.out.println("tabs enabled");
 				}
 			}
 		});
@@ -326,8 +322,6 @@ public class CreateNewInvoiceUI {
 		  addButton.addActionListener(new ActionListener() { 
 	            public void actionPerformed(ActionEvent e) { 
 	            	
-	            	System.out.println("add button was pressed");
-
 	            	productComboBox.add(new JComboBox(productListNames));
 	            	quantityComboBox.add(new JComboBox());
 	            	unitPriceField.add(new JTextField());
@@ -444,7 +438,6 @@ public class CreateNewInvoiceUI {
         	} 
         	 invoiceID += temp;
         }       
-        System.out.println(invoiceID);
         
         return invoiceID;
     }
@@ -465,7 +458,6 @@ public class CreateNewInvoiceUI {
 				  int position = productComboBox.indexOf(e.getSource());
 				 if (e.getSource().equals(productComboBox.get(position))){
 					 totalPrice = 0;
-					 System.out.println("i an an event handler " + position);
 					 updateQuantityCombobox.set(position,false);
 					 JComboBox  tempquantityComboBox = quantityComboBox.get(position);
 					 
@@ -514,7 +506,6 @@ public class CreateNewInvoiceUI {
 		public void actionPerformed(ActionEvent e){
 			 DecimalFormat df = new DecimalFormat("####0.00");
 	
-			 System.out.println( "I am Combo" + quantityComboBox.indexOf(e.getSource()));
 			 if(!e.getSource().equals(deliveryDaysComboBox)){
 			 for(JComboBox  tempComboBox: productComboBox){
 				 
@@ -523,7 +514,6 @@ public class CreateNewInvoiceUI {
 				 
 				 if (e.getSource().equals(tempquantityComboBox) && updateQuantityCombobox.get(position) == true){
 					 
-					 System.out.println("i an an event quantity handler " + position);
 						double price = Double.parseDouble((String) quantityComboBox.get(position).getSelectedItem())* 
 						Double.parseDouble(unitPriceField.get(position).getText());
 					 
@@ -548,21 +538,18 @@ public class CreateNewInvoiceUI {
 				if(option.equals(deliveryOption1)){
 					c.add(Calendar.DATE, 10);
 					deliveryDate = ft.format(c.getTime());
-					System.out.println(deliveryDate);
 					deliveryCost = 0;
 					deliveryCostField.setText("0.00");
 					deliveryDateField.setText(deliveryDate);
 				}else if(option.equals(deliveryOption2)){
 					c.add(Calendar.DATE, 3);
 					deliveryDate = ft.format(c.getTime());
-					System.out.println(deliveryDate);
 					deliveryCost = 10.00;
 					deliveryCostField.setText("10.00");
 					deliveryDateField.setText(deliveryDate);
 				}else if(option.equals(deliveryOption3)){
 					c.add(Calendar.DATE, 1);
 					deliveryDate = ft.format(c.getTime());
-					System.out.println(deliveryDate);
 					deliveryCost = 25.00;
 					deliveryCostField.setText("25.00");
 					deliveryDateField.setText(deliveryDate);
@@ -597,9 +584,7 @@ public class CreateNewInvoiceUI {
 			unitPriceField.remove(i);
 			priceField.remove(i);
 		}	
-		
-		System.out.println("object has been removed");
-		
+				
 		dynamicPanel.removeAll();
 		createProductField();
 		dynamicPanel.setVisible(true);
@@ -635,7 +620,6 @@ public class CreateNewInvoiceUI {
 					 
 					if (!productComboBox.get(i).getSelectedItem().equals("Please Select") && !((String)quantityComboBox.get(i).getSelectedItem()).equals("0")){
 						itemSelectedFlag = true;
-						System.out.println("an item was selected");
 						break;
 					}
 				}
@@ -644,7 +628,6 @@ public class CreateNewInvoiceUI {
 					 JOptionPane.showMessageDialog(null,"Choose a Customer, Delivery Days and a Product to Progress with Invoice", "Input Warning",JOptionPane.WARNING_MESSAGE);
 				 }else{
 					 
-					 System.out.println("Save button was clicked");
 					 String invoiceID = invoiceIDField.getText();
 					 Customer customer = database.getCustomerByName((String)customerNameComboBox.getSelectedItem());
 					 String invoiceCost = totalPriceField.getText();
@@ -736,13 +719,9 @@ public class CreateNewInvoiceUI {
 					invoicePane.getMainPanel().setVisible(true);
 				
 					invoicePane.getMainPanel().repaint();
-			
-					System.out.println("invoice panel visible");
-					
+								
 					//enable tabs
 					tabbedPane.setEnabled(true);
-					
-					System.out.println("tabs enabled");					
 				} 
 			}
 		}

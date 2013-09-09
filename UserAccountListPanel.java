@@ -68,7 +68,6 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 	private JPanel panel;
 	
 	public UserAccountListPanel() {
-		System.out.println("UserAccountListPanel created");
 	}
 	
 	public void buildPanel(JPanel mainPanel, final Database database) {
@@ -234,8 +233,6 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 		
 		// update String[] arrays
 		userAccounts = database.getUserAccountList();
-		
-		System.out.println("UserAccount list updated");
 	}
 
 	public void resetTextFields() {
@@ -251,7 +248,6 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 	// Button handler
 	public void actionPerformed(ActionEvent e) {
 		
-		System.out.println(e.paramString());
 		if(e.getActionCommand().equals("Add")) {
 			//remove listSelectionListener
 			userAccountList.removeListSelectionListener(this);
@@ -312,9 +308,7 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 			    passwordField1.setEditable(false);
 			    passwordField2.setEditable(false);
 			    userLevelField.setEnabled(false);
-			    	
-			    System.out.println("userAccount " + userName + " removed from database");
-			    	
+			    				    	
 			}
 		}
 			
@@ -412,7 +406,6 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 		        		if(database.checkUserName(userName) == true) {
 		            				        				
 		        			// overwrite userAccount details
-			            	System.out.println("userAccount " + userName + " already exists. Updating details.");
 			            	UserAccount userAccount = database.getUserAccountByUserName(userName);
 			            	userAccount.setUserAccountFirstName(firstName);
 			            	userAccount.setUserAccountLastName(lastName);
@@ -424,7 +417,6 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 
 		            		// add new userAccount to database
 			    		    database.addUserAccount(firstName, lastName, userName, password1, accessLevel);
-			    			System.out.println("New userAccount created.");
 		            	}
 		            		
 		            	// update lists
@@ -477,9 +469,7 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 	            	for(int i = 0; i < noOfUserAccounts; i++) {		//loop through userAccounts
 	            		
 	                    if (userAccountList.getSelectedIndex() == i) {
-	                    
-	                    	System.out.println("userAccount selected: " + userAccounts[i]);
-	                    	
+	                    	                    	
 	                    	lastNameField.setText(database.getUserAccounts().get(i).getUserAccountLastName());
 	                    	firstNameField.setText(database.getUserAccounts().get(i).getUserAccountFirstName());
 	                    	userNameField.setText(database.getUserAccounts().get(i).getUserAccountUserName());
