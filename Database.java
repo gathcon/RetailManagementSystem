@@ -26,10 +26,6 @@ public class Database {
      * database constructor
      */
     public Database() {
-    	
-//    	int [] stockLevelsIpod = {120,130,110,90,70,110,140,120,95,75,100,100};
-//        int [] stockLevelsEnvy = {40,50,30,70,80,40,50,30,50,60,70,40};
-//        int [] stockLevelsGalaxy = {75,80,60,55,60,40,50,30,75,60,50,75};
         
         int [] stockLevelsIpod = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         int [] stockLevelsEnvy = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -71,17 +67,6 @@ public class Database {
         this.addOrder("0010", suppliers.get(4), "18/02/13", "20/02/13", calculateOrderCost(products), isDateOutstanding("20/02/13"), products, "comment");
 
         this.addInvoiceProduct();
-        
-        this.addOrder("0001", suppliers.get(0), "02/01/13", "04/01/13", calculateOrderCost(products), false, products, "comment");
-        this.addOrder("0002", suppliers.get(1), "06/02/13", "08/02/13", calculateOrderCost(products), false, products, "comment");
-        this.addOrder("0003", suppliers.get(2), "10/03/13", "12/03/13", calculateOrderCost(products), false, products, "comment");
-        this.addOrder("0004", suppliers.get(3), "14/04/13", "16/04/13", calculateOrderCost(products), false, products, "comment");
-        this.addOrder("0005", suppliers.get(4), "18/05/13", "20/05/13", calculateOrderCost(products), false, products, "comment");
-        this.addOrder("0006", suppliers.get(0), "02/06/13", "04/06/13", calculateOrderCost(products), false, products, "comment");
-        this.addOrder("0007", suppliers.get(1), "06/08/13", "08/08/13", calculateOrderCost(products), false, products, "comment");
-        this.addOrder("0008", suppliers.get(2), "10/03/13", "12/03/13", calculateOrderCost(products), true, products, "comment");
-        this.addOrder("0009", suppliers.get(3), "14/04/13", "16/04/13", calculateOrderCost(products), true, products, "comment");
-        this.addOrder("0010", suppliers.get(4), "18/02/13", "20/02/13", calculateOrderCost(products), true, products, "comment");
         
         this.addInvoice("INV01", customers.get(0), "05/01/13", "09/01/13", "990", isDateOutstanding("09/01/13"), invoiceProducts, "comment");
         this.addInvoice("INV02", customers.get(1), "07/02/13", "10/02/13", "1100", isDateOutstanding("10/02/13"), invoiceProducts, "comment");
@@ -341,13 +326,6 @@ public class Database {
     	Product product = new Product();
     	products.add(product);
     }
-
-//    public void addInvoiceProduct(String productName, String productType, String productQuantity, double productPrice,
-//    		String productID, int [] stockLevels) { 
-//        
-//    	Product product = new Product(productName, productType, productQuantity, productPrice, productID, stockLevels);
-//    	products.add(product);
-//    }
       
     public void deleteProduct(Product product) { 
     	

@@ -13,9 +13,6 @@ import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent; 
 import java.awt.event.ActionListener; 
-  
-
-
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineMetrics;
 import java.awt.geom.Ellipse2D;
@@ -33,6 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel; 
 import javax.swing.JScrollPane; 
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField; 
 import javax.swing.ListModel; 
 import javax.swing.ListSelectionModel; 
@@ -79,21 +77,26 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 	
 	private JSplitPane splitPane;
 	private JPanel mainPanel;
-
+	
+	private JTabbedPane tabbedPane;
       
-    public ProductListPanel() { 
-		System.out.println("ProductListPanel created");
-    }
-    
-    private static final int maxStock = 1600;
+	private static final int maxStock = 1600;
     private static final int border = 65;
     private static final int yHatchCount = 16;
-
+    
     private static final int graphPointWidth = 12;
     
     
     int [] stockLevels  = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     double [] predictedStockLevels = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    
+    public ProductListPanel() { 
+		System.out.println("ProductListPanel created");
+    }
+    
+    public void setTabbedPane(JTabbedPane tabbedPane) { 
+        this.tabbedPane = tabbedPane; 
+    } 
       
     public void buildPanel(JPanel mainPanel, final Database database) { 
           
@@ -473,11 +476,19 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 			graphPanel.repaint();
 			mainPanel.repaint();
 			
+			//disable tabs 
+            tabbedPane.setEnabled(false); 
+            System.out.println("tabs disabled");
+			
 		}
 		
 		else if(e.getActionCommand().equals("Back")) {
 			panel.setVisible(true);
 			graphPanel.setVisible(false);
+			
+			//enable tabs 
+            tabbedPane.setEnabled(true); 
+            System.out.println("tabs enabled");
 		}
 		
    }

@@ -194,6 +194,7 @@ public class MainUI implements ActionListener{
             	     
             	     orderPane.setTabbedPane(tabbedPane);
             	     invoicePane.setTabbedPane(tabbedPane);
+            	     productPane.setTabbedPane(tabbedPane);
 
             	     frame.setTitle("Retail Management System");
             	     System.out.println("Set content pane to tabs view");
@@ -213,6 +214,10 @@ public class MainUI implements ActionListener{
             	     tabbedPane.add("Orders", orderPanel);
             	     tabbedPane.add("Invoices", invoicePanel);
             	     tabbedPane.add("Accounting", accountingPanel);
+            	     
+            	     orderPane.setTabbedPane(tabbedPane);
+            	     invoicePane.setTabbedPane(tabbedPane);
+            	     productPane.setTabbedPane(tabbedPane);
 
             	     frame.setTitle("Retail Management System");
             	     System.out.println("Set content pane to tabs view");
@@ -226,6 +231,8 @@ public class MainUI implements ActionListener{
             	 else if(userLevel == 2){
             	
             		 tabbedPane.add("Invoices", invoicePanel);
+            		 
+            	     invoicePane.setTabbedPane(tabbedPane);
 
             		 frame.setTitle("Retail Management System");
             	     System.out.println("Set content pane to tabs view");
