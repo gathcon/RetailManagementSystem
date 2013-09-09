@@ -7,7 +7,7 @@ public class Product {
     private String productQuantity;
     private double productPrice;
     private String productID;
-    private int[] stockLevels;
+    private int[] stockLevels = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     
     public Product(String productName, String productType, String productQuantity, double productPrice){
     	

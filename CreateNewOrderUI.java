@@ -95,6 +95,7 @@ public class CreateNewOrderUI {
 	private Object[] data;
 	private OrderListPanel orderPane;
 	private JTabbedPane tabbedPane;
+	private ProductListPanel productPane;
 	
 	public CreateNewOrderUI(){
 		
@@ -140,7 +141,7 @@ public class CreateNewOrderUI {
 
 	
 	public void buildPanel(final JPanel orderPanel, final JPanel tablePanel, final Database database, JTable tableOfOrders,
-			final OrderListPanel orderPane, AccountingPanel accountingPane) {
+			final OrderListPanel orderPane, AccountingPanel accountingPane, ProductListPanel productPane) {
 		
 		this.orderPanel = orderPanel;
 		this.tablePanel = tablePanel;
@@ -148,6 +149,7 @@ public class CreateNewOrderUI {
 		this.tableOfOrders = tableOfOrders;
 		this.orderPane = orderPane;
 		this.accountingPane = accountingPane;
+		this.productPane = productPane;
 		//this.splitPane = splitPane;
 
 		
@@ -466,8 +468,8 @@ public class CreateNewOrderUI {
 							 unitPriceField.get(position).setText(Double.toString(product.getProductPrice()));
 							 priceField.get(position).setText(String.valueOf(df.format(0)));
 							 
-							 for(int i = 0; i <= Integer.parseInt(product.getProductQuantity());i++){
-								 tempquantityComboBox.addItem(Integer.toString(i));
+							 for(int i = 0; i <= 50;i++){
+								 tempquantityComboBox.addItem(Integer.toString(i*50));
 							 }
 							
 							 tempquantityComboBox.setSelectedIndex(0);
@@ -614,6 +616,7 @@ public class CreateNewOrderUI {
 				 if(itemSelectedFlag == false || supplierNameComboBox.getSelectedItem().equals("Please Select") ||
 					 deliveryDaysComboBox.getSelectedItem().equals("0")){
 					 JOptionPane.showMessageDialog(null,"Choose a Supplier, Delivery Days and a Product to Progress with Order", "Input Warning",JOptionPane.WARNING_MESSAGE);
+				 
 				 }else{
 					 
 					 String orderID = orderIDField.getText();
@@ -621,7 +624,7 @@ public class CreateNewOrderUI {
 					 String orderCost = totalPriceField.getText();
 					 String orderDescription = commentTextArea.getText();
 					 ArrayList<Product> orderedproducts = new ArrayList<Product>();
-					 
+					 int increaseStock = 0;
 					 for(int i = 0; i <= productComboBox.size()-1; i++){
 						 
 						if (!productComboBox.get(i).getSelectedItem().equals("Please Select") && !quantityComboBox.get(i).getSelectedItem().equals(null)
@@ -632,9 +635,15 @@ public class CreateNewOrderUI {
 							Double productPrice = Double.parseDouble(priceField.get(i).getText());
 							Product product = new Product(productName, productType, productQuantity, productPrice);
 							orderedproducts.add(product);
+							increaseStock = Integer.parseInt(database.getProductByName(productName).getProductQuantity()) + Integer.parseInt(productQuantity) ;
+							database.getProductByName(productName).setProductQuantity(Integer.toString(increaseStock));
+							System.out.println("the product increase"+database.getProductByName(productName).getProductQuantity());
 						}
 					 }
 					 
+					 
+					 //update ProductList
+					 productPane.updateproductLists();
 					 SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yy");
 					
 					//add order to database

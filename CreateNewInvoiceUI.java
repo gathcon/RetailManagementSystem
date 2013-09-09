@@ -94,6 +94,7 @@ public class CreateNewInvoiceUI {
 	private Object[] data;
 	private InvoiceListPanel invoicePane;
 	private JTabbedPane tabbedPane;
+	private ProductListPanel productPane;
 	
 	public CreateNewInvoiceUI(){
 		
@@ -140,7 +141,7 @@ public class CreateNewInvoiceUI {
 
 	
 	public void buildPanel(final JPanel invoicePanel, final JPanel tablePanel, final Database database, JTable tableOfInvoices,
-			final InvoiceListPanel invoicePane, AccountingPanel accountingPane) {
+			final InvoiceListPanel invoicePane, AccountingPanel accountingPane, ProductListPanel productPane) {
 		
 		this.invoicePanel = invoicePanel;
 		this.tablePanel = tablePanel;
@@ -148,6 +149,7 @@ public class CreateNewInvoiceUI {
 		this.tableOfInvoices = tableOfInvoices;
 		this.invoicePane = invoicePane;
 		this.accountingPane = accountingPane;
+		this.productPane = productPane;
 		
 		//this.splitPane = splitPane;
 		
@@ -634,6 +636,7 @@ public class CreateNewInvoiceUI {
 					 String comment = commentTextArea.getText();
 					 ArrayList<Product> invoiceproducts = new ArrayList<Product>();
 					 
+					 int decreaseStock = 0;
 					 for(int i = 0; i <= productComboBox.size()-1; i++){
 						 
 						if (!productComboBox.get(i).getSelectedItem().equals("Please Select") && !quantityComboBox.get(i).getSelectedItem().equals(null)
@@ -644,9 +647,13 @@ public class CreateNewInvoiceUI {
 							Double productPrice = Double.parseDouble(priceField.get(i).getText());
 							Product product = new Product(productName, productType, productQuantity, productPrice);
 							invoiceproducts.add(product);
+							decreaseStock = Integer.parseInt(database.getProductByName(productName).getProductQuantity()) - Integer.parseInt(productQuantity) ;
+							database.getProductByName(productName).setProductQuantity(Integer.toString(decreaseStock));
+							System.out.println("the product increase"+database.getProductByName(productName).getProductQuantity());
 						}
 					 }
 					 
+					 productPane.updateproductLists(); //update product list after invoice;					 
 					 SimpleDateFormat ft = new SimpleDateFormat ("dd/MM/yy");
 					//add invoice to database
 					 

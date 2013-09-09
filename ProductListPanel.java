@@ -287,7 +287,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 			//change text fields to editable
 			nameField.setEditable(true);
 	    	typeField.setEditable(true);
-	    	quantityField.setEditable(true);
+	    	quantityField.setEditable(false);
 	    	priceField.setEditable(true);
 	    	IDField.setEditable(true);
 			
@@ -297,6 +297,9 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 	    	//generate ID
 	    	IDField.setEditable(false);	
 	    	IDField.setText(generateCustomerUniqueId());
+	    	
+	    	//set quantity
+	    	quantityField.setText("0");
 	    	
 	    	//change editSaveButton label to "Save"
 	    	productEditSaveButton.setText("Save");
@@ -378,7 +381,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 	    	//make text fields editable
 	    	nameField.setEditable(true);
 	    	typeField.setEditable(true);
-	    	quantityField.setEditable(true);
+	    	quantityField.setEditable(false);
 	    	priceField.setEditable(true);
 	    	IDField.setEditable(false);
 	    	
@@ -410,6 +413,14 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
         	}
         	
         	else {
+        		try {
+        			
+        			int checkQuantity = Integer.parseInt(quantity);
+        		} catch (Exception e2) {
+        			
+        			numberError = true;
+    				JOptionPane.showMessageDialog(null, "Please enter a number for quantity", "Input Warning", JOptionPane.WARNING_MESSAGE);
+        		}
         		
         		try {
             		
@@ -435,13 +446,15 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                 			product.setProductQuantity(quantity);
                 			product.setProductPrice(Double.parseDouble(price));
                 			product.setStockLevels(null);
-            			
             		}
             				
             		else {
+        				
+        				int [] stock = {0,0,0,0,0,0,0,0,0,0,0,0};
 
     		        	// add new product to database
-    		        	database.addProduct(name, type, quantity, Double.parseDouble(price), ID, null);
+    		        	database.addProduct(name, type, quantity, Double.parseDouble(price), ID, stock);
+    		        	
             		}
             		
             		// update lists
@@ -519,6 +532,8 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                           
                         if (productList.getSelectedIndex() == i) { 
                                                       
+                        	System.out.println(products.get(i).getProductName());
+                        	System.out.println(products.get(i).getStockLevels());
                             database.updateStockLevels(products.get(i).getStockLevels(), products.get(i).getProductName());
                               
                             nameField.setText(products.get(i).getProductName()); 

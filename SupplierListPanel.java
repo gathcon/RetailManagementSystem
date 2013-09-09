@@ -64,7 +64,6 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 	private JPanel infoPanel;
 	
 	public SupplierListPanel() {
-		System.out.println("SupplierListPanel created");
 
 	}
 	
@@ -211,9 +210,7 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 		
 		// update String[] arrays
 		suppliers = database.getSupplierList();
-		
-		System.out.println("Supplier list updated");
-		
+				
 	}
 
 	public void resetTextFields() {
@@ -228,9 +225,7 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 	
 	// Button handler
 	public void actionPerformed(ActionEvent e) {
-		
-		System.out.println(e.paramString());
-		
+				
 		if(e.getActionCommand().equals("Add")) {
 			
 			//remove listSelectionListener
@@ -364,8 +359,6 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
         			if(database.checkSupplierID(id) == true) {
             			
             			// overwrite supplier details
-            			System.out.println("supplier " + id + " already exists. Updating details.");
-
             			Supplier supplier = database.getSupplierByID(id);
             			supplier.setSupplierName(name);
             			supplier.setSupplierAddress(address);
@@ -378,8 +371,6 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
     		        			
     		        	// add new supplier to database
     		        	database.addSupplier(id, name, email, phoneNumber, address);
-    		        		
-    			    	System.out.println("New supplier created.");
             		}
             		
             		// update lists
@@ -427,9 +418,7 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 	            	for(int i = 0; i < noOfsuppliers; i++) {		//loop through suppliers
 	            		
 	                    if (supplierList.getSelectedIndex() == i) {
-	                    
-	                    	System.out.println("supplier selected: " + suppliers[i]);
-	                    	
+	                    	                    	
 	                    	nameField.setText(database.getSuppliers().get(i).getSupplierName());
 	                    	IDField.setText(database.getSuppliers().get(i).getSupplierID());
 	                    	addressField.setText(database.getSuppliers().get(i).getSupplierAddress());
@@ -462,7 +451,6 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
         	} 
         	 customerID += temp;
         }       
-        System.out.println(customerID);
         
         return customerID;
     }

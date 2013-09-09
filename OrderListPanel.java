@@ -83,7 +83,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
         this.tabbedPane = tabbedPane; 
     } 
           
-    public void buildPanel(JPanel panel, final Database database, OrderListPanel orderPane, AccountingPanel accountingPane) { 
+    public void buildPanel(JPanel panel, final Database database, OrderListPanel orderPane, AccountingPanel accountingPane, ProductListPanel productPane) { 
           
         this.mainPanel = panel; 
         this.database = database;
@@ -286,7 +286,7 @@ public class OrderListPanel extends JPanel implements ActionListener{
         newOrderPanel = new JPanel(); 
           
         newOrderPane = new CreateNewOrderUI(); 
-        newOrderPane.buildPanel(newOrderPanel, tablePanel, database, tableOfOrders, orderPane, accountingPane); 
+        newOrderPane.buildPanel(newOrderPanel, tablePanel, database, tableOfOrders, orderPane, accountingPane, productPane); 
           
         tablePanel.setLayout(new GridBagLayout()); 
         mainPanel.setLayout(new GridBagLayout());

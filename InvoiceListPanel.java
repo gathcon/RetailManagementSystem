@@ -83,7 +83,7 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
         this.tabbedPane = tabbedPane; 
     } 
           
-    public void buildPanel(JPanel panel, final Database database, InvoiceListPanel invoicePane, AccountingPanel accountingPane) { 
+    public void buildPanel(JPanel panel, final Database database, InvoiceListPanel invoicePane, AccountingPanel accountingPane, ProductListPanel productPane) { 
           
         this.mainPanel = panel; 
         this.database = database;
@@ -290,7 +290,7 @@ public class InvoiceListPanel extends JPanel implements ActionListener{
         newInvoicePanel = new JPanel(); 
           
         newInvoicePane = new CreateNewInvoiceUI(); 
-        newInvoicePane.buildPanel(newInvoicePanel, tablePanel, database, tableOfInvoices, invoicePane, accountingPane); 
+        newInvoicePane.buildPanel(newInvoicePanel, tablePanel, database, tableOfInvoices, invoicePane, accountingPane, productPane); 
           
         tablePanel.setLayout(new GridBagLayout()); 
         mainPanel.setLayout(new GridBagLayout());

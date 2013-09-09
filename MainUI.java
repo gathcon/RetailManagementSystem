@@ -82,8 +82,8 @@ public class MainUI implements ActionListener{
 		customerPane.buildPanel(customerPanel, database);
 		supplierPane.buildPanel(supplierPanel, database);
 		productPane.buildPanel(productPanel, database);
-		orderPane.buildPanel(orderPanel, database, orderPane, accountingPane);
-		invoicePane.buildPanel(invoicePanel, database, invoicePane, accountingPane);
+		orderPane.buildPanel(orderPanel, database, orderPane, accountingPane, productPane);
+		invoicePane.buildPanel(invoicePanel, database, invoicePane, accountingPane, productPane);
 		accountingPane.buildPanel(accountingPanel, database);
 		userAccountPane.buildPanel(userAccountPanel, database);
 		
