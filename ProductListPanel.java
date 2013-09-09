@@ -318,7 +318,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
 		else if(e.getActionCommand().equals("Delete")) {
 	    	
 	    	// pop up dialog to confirm delete
-			if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this customer?",
+			if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this product?",
 					"WARNING", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				
 				//remove product from database

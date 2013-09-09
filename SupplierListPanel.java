@@ -264,7 +264,7 @@ public class SupplierListPanel extends JPanel implements ActionListener, ListSel
 		else if(e.getActionCommand().equals("Delete")) {
 	    	
 	    	// pop up dialog to confirm delete
-			if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this customer?",
+			if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this supplier?",
 					"WARNING", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				
 				//remove supplier from database

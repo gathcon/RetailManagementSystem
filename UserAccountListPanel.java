@@ -285,7 +285,7 @@ public class UserAccountListPanel extends JPanel implements ActionListener, List
 		else if(e.getActionCommand().equals("Delete")) {
 			
 			// pop up dialog to confirm delete			
-			if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this userAccount?",
+			if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this User Account?",
 					"WARNING", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				
 				//remove userAccount from database
