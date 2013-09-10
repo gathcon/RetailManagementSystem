@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 import javax.swing.table.DefaultTableModel;
   
@@ -15,10 +16,11 @@ public class Database {
     private ArrayList<Customer> customers = new ArrayList<Customer>(); 
     private ArrayList<Supplier> suppliers = new ArrayList<Supplier>(); 
     private ArrayList<Product> products = new ArrayList<Product>();
+    private ArrayList<Product> orderProductsList1 = new ArrayList<Product>();
     private ArrayList<Order> orders = new ArrayList<Order>();
 	private ArrayList<Invoice> invoices = new ArrayList<Invoice>();
     private ArrayList<UserAccount> userAccounts = new ArrayList<UserAccount>();
-    
+    private int[] emptyArray = {0,0,0,0,0,0,0,0,0,0,0,0};
      
     /*
      * database constructor
@@ -37,10 +39,11 @@ public class Database {
         this.addSupplier("02MMUH39", "Sean", "sean@gmail.com", "1234567890", "Wicklow"); 
         this.addSupplier("AO9U8NNE", "Bill", "bill@gmail.com", "0987654321", "Cork");
 
+        this.addUserAccount("admin", "admin", "1", "1".toCharArray(), 0);
         this.addUserAccount("admin", "admin", "Administrator", "admin".toCharArray(), 0);
         this.addUserAccount("General", "Manager", "Manager", "1234".toCharArray(), 1);
         this.addUserAccount("Teller", "Teller", "Teller", "1234".toCharArray(), 2);
-        this.addUserAccount("Stock", "Checker", "Stock Checker", "1234".toCharArray(), 3);       
+        this.addUserAccount("Stock", "Checker", "Stock Checker", "1234".toCharArray(), 3);
         
     }
 
@@ -94,6 +97,11 @@ public class Database {
     			arrayToBeUpdated[i] += arrayToBeUpdated[k];
     		}
         }
+    	
+    	int[] newArray = {100, 200, 456, 377, 279, 134, 689, 499};
+    	for(int i = 0; i < 8; i++) {
+    		arrayToBeUpdated[i] = newArray[i];
+    	}
     }
     
     
@@ -146,7 +154,6 @@ public class Database {
         
         return customers.get(i); 
     }
-    
 
     public Customer getCustomerByName(String customerName) {
     	
@@ -276,7 +283,6 @@ public class Database {
     	Product product = new Product(productName, productType, productQuantity, productPrice, productID, stockLevels);
     	products.add(product);
     }
-    
 
     public void addInvoiceProduct() { 
         
@@ -559,4 +565,27 @@ public class Database {
 			return false;
 		}
 	}
+    
+    public static String generateUniqueId() {      
+        String uuidChars = "" + UUID.randomUUID().toString();
+        String uid = uuidChars.replaceAll("-", "");    
+        int myuid = uid.hashCode();
+        
+        uid = Integer.toString(myuid);
+        uid = uuidChars.replaceAll("-", "");
+        
+        char[] newUUID = uid.toCharArray();
+        String ID = "";
+        char  temp;
+        
+        for(int i = 0; i<8;i++){       	
+        	temp = newUUID[i];    	
+        	if(Character.getType(newUUID[i]) == Character.LOWERCASE_LETTER){     		
+        		temp = Character.toUpperCase(newUUID[i]);
+        	} 
+        	 ID += temp;
+        }       
+        
+        return ID;
+    }
 }

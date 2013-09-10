@@ -532,8 +532,6 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                           
                         if (productList.getSelectedIndex() == i) { 
                                                       
-                        	System.out.println(products.get(i).getProductName());
-                        	System.out.println(products.get(i).getStockLevels());
                             database.updateStockLevels(products.get(i).getStockLevels(), products.get(i).getProductName());
                               
                             nameField.setText(products.get(i).getProductName()); 
@@ -554,7 +552,7 @@ public class ProductListPanel extends JPanel implements ActionListener, ListSele
                             
                             
                             double slope = (sumxy - (sumx*sumy)/9)/(sumxsquared - (sumx*sumx)/9);
-                            double yIntercept = sumy/9 - (slope * (sumx/9));
+                            double yIntercept = sumy/9 - (slope * (sumx)/9);
                             
                             double changeInY = slope*12;
                            

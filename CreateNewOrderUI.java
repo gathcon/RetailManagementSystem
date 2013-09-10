@@ -469,7 +469,7 @@ public class CreateNewOrderUI {
 							 priceField.get(position).setText(String.valueOf(df.format(0)));
 							 
 							 for(int i = 0; i <= 50;i++){
-								 tempquantityComboBox.addItem(Integer.toString(i*50));
+								 tempquantityComboBox.addItem(Integer.toString(i*10));
 							 }
 							
 							 tempquantityComboBox.setSelectedIndex(0);
